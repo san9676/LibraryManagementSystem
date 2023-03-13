@@ -34,7 +34,7 @@
     <domainDesc></domainDesc>
     <keystorePassword></keystorePassword>
     <bw.Home>\bw\6.8</bw.Home>
-    <httpPort>200000</httpPort>
+    <httpPort>20000</httpPort>
     <profile>default.substvar</profile>
     <restartAppNode>true</restartAppNode>
     <appNode>CatalogModule-AppNode</appNode>
