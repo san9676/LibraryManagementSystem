@@ -1,0 +1,5 @@
+{"records": [{
+    "jsonSchemaLocation": "/CatalogModule/Service Descriptors/MainProcesses.Catalog-Catalog.json",
+    "conversionType": "linked",
+    "xsdSchemaTargetNamespace": "http://tns.tibco.com/bw/json/1678168908908"
+}]}

@@ -1,0 +1,13 @@
+{
+    "records": [],
+    "resources": [
+        {
+            "location": "Service Descriptors/MainProcessess.Catalog-Catalog.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/MainProcesses.Catalog-Catalog.json",
+            "type": "generated"
+        }
+    ]
+}

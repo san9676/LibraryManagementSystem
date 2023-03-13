@@ -1,0 +1,221 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Catalog",
+    "description" : "Catalog service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/catalog/removebook" : {
+      "post" : {
+        "summary" : "postCatalog",
+        "description" : "postCatalog",
+        "operationId" : "post-api-v1-catalog-removebook",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/removeBookReq"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a BookRes to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/addbook" : {
+      "post" : {
+        "summary" : "postCatalog",
+        "description" : "postCatalog",
+        "operationId" : "post-api-v1-catalog-addbook",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/AddBookReq"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a BookRes to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/updatebook" : {
+      "post" : {
+        "summary" : "postCatalog",
+        "description" : "postCatalog",
+        "operationId" : "post-api-v1-catalog-updatebook",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/updateBookReq"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a BookRes to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/BookRes"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "BookRes" : {
+      "type" : "object",
+      "properties" : {
+        "BookID" : {
+          "type" : "string"
+        },
+        "ResponseCode" : {
+          "type" : "string"
+        },
+        "ResponseMsg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "updateBookReq" : {
+      "type" : "object",
+      "properties" : {
+        "BookID" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "author" : {
+          "type" : "string"
+        },
+        "isbn" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "publicationYear" : {
+          "type" : "string"
+        },
+        "edition" : {
+          "type" : "string"
+        },
+        "genre" : {
+          "type" : "string"
+        },
+        "language" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AddBookReq" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string"
+        },
+        "author" : {
+          "type" : "string"
+        },
+        "isbn" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "publicationYear" : {
+          "type" : "string"
+        },
+        "edition" : {
+          "type" : "string"
+        },
+        "genre" : {
+          "type" : "string"
+        },
+        "language" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      }
+    },
+    "removeBookReq" : {
+      "type" : "object",
+      "properties" : {
+        "BookID" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
