@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:httpconnector="http://xsd.tns.tibco.com/bw/models/sharedresource/httpconnector" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmi:id="_GnkxIbyhEe2rYLEVm8MjNg" name="common.catalogHttpConn" type="httpconnector:HttpConnectorConfiguration">
+  <jndi:configuration xsi:type="httpconnector:HttpConnectorConfiguration" xmi:id="_GnlYMLyhEe2rYLEVm8MjNg" acceptQueueSize="-1" newAccessLogs="true">
+    <substitutionBindings xmi:id="_GnlYMbyhEe2rYLEVm8MjNg" template="host" propName="/Connections/Http/Host"/>
+    <substitutionBindings xmi:id="_dLK54LyhEe2rYLEVm8MjNg" template="port" propName="/Connections/Http/CatalogPort"/>
+  </jndi:configuration>
+</jndi:namedResource>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" elementFormDefault="qualified" targetNamespace="http://www.eniquesolution.com/ESI_integartion/CommonFramework">
+          
+  
+  
+  <complexType name="LogExceptionHandlerType">
+                	
+    
+    
+    <sequence>
+
+    	<element minOccurs="0" name="ApplictionName" type="string" />
+
+    	<element minOccurs="0" name="ProcessName" type="string" />
+
+    	<element name="LogType" type="string" />
+
+    	<element name="status" type="string" />
+
+    	<element name="CorrelationID" type="string" />
+
+    	<element minOccurs="0" name="MessageType" type="string" />
+
+
+    	<element minOccurs="0" name="Timestamp" type="string" />
+
+
+
+    	<element name="PAYLOAD" type="string" maxOccurs="1" minOccurs="0"></element>
+    </sequence>
+
+  </complexType>
+          
+
+        
+
+    
+
+
+  
+  <element name="LogExceptionHandler" type="tns:LogExceptionHandlerType"/>
+    
+    
+    
+    
+  
+
+
+  <element name="ErrorLogHandler" type="tns:ErrorLogHandlerType"></element>
+  
+    <complexType name="ErrorLogHandlerType">
+    <sequence>
+
+    	<element minOccurs="0" name="ApplictionName" type="string" />
+
+    	<element minOccurs="0" name="ProcessName" type="string" />
+
+    	<element name="LogType" type="string" />
+
+    	<element name="status" type="string" />
+
+    	<element name="CorrelationID" type="string" />
+
+    	<element minOccurs="0" name="MessageType" type="string" />
+
+
+    	<element minOccurs="0" name="Timestamp" type="string" />
+
+
+
+    	<element name="ErrorCode" type="string" maxOccurs="1" minOccurs="0"></element>
+    	<element name="ErrorMsg" type="string" maxOccurs="1" minOccurs="0"></element>
+    </sequence>
+    </complexType>
+</schema>

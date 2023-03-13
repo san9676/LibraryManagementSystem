@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://schemas.xmlsoap.org/soap/envelope/" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns1="http://www.example.org/EmployeeFusion">
+
+    <element name="Envelope">
+    	<complexType>
+    		<sequence>
+    			<element name="Header">
+    				<complexType>
+    				</complexType>
+    			</element>
+    			<element name="Body">
+    				<complexType>
+                        <sequence>
+                        	<any namespace="##any"></any>
+                        </sequence>
+    				</complexType>
+    			</element>
+    		</sequence>
+    	</complexType>
+    </element>
+</schema>
