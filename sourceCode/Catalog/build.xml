@@ -6,21 +6,7 @@
     <property name="app.name" value="Catalog" />
 	<property name="project.bw.application" value="${basedir}/CatalogModule" />
     <!-- Define targets -->
-	<target name="clean">
-        <delete dir="${build.dir}/EAR" />
-    </target>
-
-    <target name="init">
-        <mkdir dir="${build.dir}/EAR" />
-    </target>
-
-    <target name="build" depends="init, clean">
-        <exec executable="C:\tibco\tra\5.7\bin\buildear.exe">
-			<arg value="--propFile"/>
-			<arg value="C:\tibco\tra\5.7\bin\buildear.tra"/>
-            <arg line="-v -ear ${build.dir}/Archives/CatalogModule.archive -o ${build.dir}/EAR/Catalog.ear -p ${project.bw.application}"/>
-        </exec>
-    </target>
+	
     <target name="export-deploy-conf" depends="build">
         <exec executable="${Appmanage}">
             <arg line="-export --propFile C:\tibco\tra\5.7\bin\AppManage.tra -out ${build.dir}/Conf/catalogConfig.xml -ear ${build.dir}/EAR/catalog.ear" />
