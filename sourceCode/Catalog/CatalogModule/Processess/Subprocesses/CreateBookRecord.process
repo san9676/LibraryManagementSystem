@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/json/1678168908908" schemaLocation="/SharedResources/Schemas/catalog.xsd"/>
+    <pd:name>Processess/Subprocesses/CreateBookRecord.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AddBookReq"/>
+    <pd:startX>129</pd:startX>
+    <pd:startY>88</pd:startY>
+    <pd:returnBindings>
+        <pfx:BookRes>
+            <xsl:if test="$GenBookID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='BOOKID']/value">
+                <pfx:BookID>
+                    <xsl:value-of select="$GenBookID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='BOOKID']/value"/>
+                </pfx:BookID>
+            </xsl:if>
+            <pfx:ResponseCode>
+                <xsl:value-of select="200"/>
+            </pfx:ResponseCode>
+            <pfx:ResponseMsg>
+                <xsl:value-of select="'Book Added to the Catalog'"/>
+            </pfx:ResponseMsg>
+        </pfx:BookRes>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookRes"/>
+    <pd:endX>573</pd:endX>
+    <pd:endY>87</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1678953495991</pd:targetNamespace>
+    <pd:activity name="GenBookID">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>251</pd:x>
+        <pd:y>87</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="&quot;select 'B'||BOOKIDSEQ.NEXTVAL as BOOKID from dual&quot;"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="InsertBook">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>384</pd:x>
+        <pd:y>87</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>insert into Lib_Book values(?,?,?,?,?,?,?,?,?,?,?)</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>TITLE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>AUTHOR</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>ISBN</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PUBLISHER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PUBLISH_YEAR</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EDITION</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>CATEGORY</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>LANGUAGE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>DESRIPTION</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>copies</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <BOOKID>
+                    <xsl:copy-of select="$GenBookID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='BOOKID']/value/@xsi:nil"/>
+                    <xsl:value-of select="$GenBookID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='BOOKID']/value"/>
+                </BOOKID>
+                <TITLE>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:title)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:title"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </TITLE>
+                <AUTHOR>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:author)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:author"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </AUTHOR>
+                <ISBN>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:isbn)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:isbn"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ISBN>
+                <PUBLISHER>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:publisher)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:publisher"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </PUBLISHER>
+                <PUBLISH_YEAR>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:publicationYear)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:publicationYear"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </PUBLISH_YEAR>
+                <EDITION>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:edition)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:edition"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EDITION>
+                <CATEGORY>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:genre)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:genre"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </CATEGORY>
+                <LANGUAGE>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:language)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:language"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </LANGUAGE>
+                <DESRIPTION>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:description)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:description"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </DESRIPTION>
+                <copies>
+                    <xsl:value-of select="1"/>
+                </copies>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GenBookID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GenBookID</pd:from>
+        <pd:to>InsertBook</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>InsertBook</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

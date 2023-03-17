@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/json/1678168908908" schemaLocation="/SharedResources/Schemas/catalog.xsd"/>
+    <pd:name>Processess/Subprocesses/AddBookSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AddBookReq"/>
+    <pd:startX>117</pd:startX>
+    <pd:startY>104</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($CreateBookRecord/pfx:BookRes/pfx:BookID)">
+                <xsl:copy-of select="$CreateBookRecord/pfx:BookRes"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy-of select="$AddCopy/pfx:BookRes"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookRes"/>
+    <pd:endX>625</pd:endX>
+    <pd:endY>107</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1678953927510</pd:targetNamespace>
+    <pd:activity name="FetchBookRecord">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>249</pd:x>
+        <pd:y>104</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select bookid,COPIES from LIB_BOOK where ISBN=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>ISBN</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>COPIES</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>2</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>NUMBER</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <ISBN>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:AddBookReq/pfx:isbn)">
+                            <xsl:value-of select="$Start/pfx:AddBookReq/pfx:isbn"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ISBN>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CreateBookRecord">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>443</pd:x>
+        <pd:y>35</pd:y>
+        <config>
+            <processName>/Processess/Subprocesses/CreateBookRecord.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/pfx:AddBookReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AddCopy">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>443</pd:x>
+        <pd:y>188</pd:y>
+        <config>
+            <processName>/Processess/Subprocesses/AddCopy.process</processName>
+        </config>
+        <pd:inputBindings>
+            <pfx:addCopiesReq>
+                <xsl:if test="$FetchBookRecord/resultSet/Record[1]/BOOKID">
+                    <pfx:BookID>
+                        <xsl:value-of select="$FetchBookRecord/resultSet/Record[1]/BOOKID"/>
+                    </pfx:BookID>
+                </xsl:if>
+                <xsl:if test="$FetchBookRecord/resultSet/Record[1]/COPIES">
+                    <pfx:Copies>
+                        <xsl:value-of select="$FetchBookRecord/resultSet/Record[1]/COPIES"/>
+                    </pfx:Copies>
+                </xsl:if>
+            </pfx:addCopiesReq>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>FetchBookRecord</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBookRecord</pd:from>
+        <pd:to>CreateBookRecord</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBookRecord</pd:from>
+        <pd:to>AddCopy</pd:to>
+        <pd:xpathDescription>BookExist</pd:xpathDescription>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($FetchBookRecord/resultSet/Record)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddCopy</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CreateBookRecord</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Multiple Bends</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

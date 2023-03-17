@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:UUID="java://Custom.Custom" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/json/1678168908908" schemaLocation="/SharedResources/Schemas/catalog.xsd"/>
+    <pd:name>Processess/MainProcesses/updateBookMain.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:updateBookReq"/>
+    <pd:startX>95</pd:startX>
+    <pd:startY>141</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns1:ErrorReport)">
+                <pfx:BookRes>
+                    <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                        <pfx:ResponseCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </pfx:ResponseCode>
+                    </xsl:if>
+                    <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                        <pfx:ResponseMsg>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                        </pfx:ResponseMsg>
+                    </xsl:if>
+                </pfx:BookRes>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy-of select="$updateBookSub/pfx:BookRes"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookRes"/>
+    <pd:endX>818</pd:endX>
+    <pd:endY>148</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1678961385068</pd:targetNamespace>
+    <pd:activity name="SetCorrID">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>208</pd:x>
+        <pd:y>142</pd:y>
+        <config>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+            <showResult>true</showResult>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="UUID:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ErrLogHandler">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>650</pd:x>
+        <pd:y>333</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:ErrorLogHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CatalogModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'UpdateBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Failed'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'ErrorDetails'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss',current-dateTime())"/>
+                </ns:Timestamp>
+                <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                    <ns:ErrorCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </ns:ErrorCode>
+                </xsl:if>
+                <xsl:if test="$_error/ns1:ErrorReport/FullClass">
+                    <ns:ErrorMsg>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/FullClass"/>
+                    </ns:ErrorMsg>
+                </xsl:if>
+            </ns:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>504</pd:x>
+        <pd:y>330</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="updatebookReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>328</pd:x>
+        <pd:y>143</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CatalogModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'UpdateBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'RequestPayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss',current-dateTime())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($Start/pfx:updateBookReq, true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="updateBookSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>476</pd:x>
+        <pd:y>146</pd:y>
+        <config>
+            <processName>/Processess/Subprocesses/updateBookSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/pfx:updateBookReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="updatebookResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>612</pd:x>
+        <pd:y>145</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CatalogModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'UpdateBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'ResponsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss',current-dateTime())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($updateBookSub/pfx:BookRes, true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>338</pd:x>
+        <pd:y>255</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput>
+                <message>
+                    <xsl:value-of select="'BookID can not be null'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat('101','-','400')"/>
+                </messageCode>
+            </ns2:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ErrLogHandler</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>ErrLogHandler</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetCorrID</pd:from>
+        <pd:to>updatebookReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>updatebookReqLog</pd:from>
+        <pd:to>updateBookSub</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>string-length($Start/pfx:updateBookReq/pfx:BookID)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>updateBookSub</pd:from>
+        <pd:to>updatebookResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>updatebookResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>updatebookReqLog</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

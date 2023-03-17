@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tns.tibco.com/bw/json/1678168908908" elementFormDefault="qualified" targetNamespace="http://tns.tibco.com/bw/json/1678168908908">
+  <complexType name="addBookReqType">
+    <sequence>
+      <element maxOccurs="1" minOccurs="0" name="title" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="author" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="isbn" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="publisher" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="publicationYear" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="edition" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="genre" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="language" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="description" type="string"/>
+    </sequence>
+  </complexType>
+  <element name="AddBookReq" type="tns:addBookReqType"/>
+
+  <element name="BookRes" type="tns:BookResType"></element>
+
+  <complexType name="BookResType">
+  	<sequence>
+  		<element name="BookID" type="string" maxOccurs="1" minOccurs="0"></element>
+
+  		<element name="ResponseCode" type="string" maxOccurs="1" minOccurs="0"></element>
+  		<element name="ResponseMsg" type="string" maxOccurs="1" minOccurs="0"></element>
+  	</sequence>
+  </complexType>
+
+  <element name="addCopiesReq">
+  	<complexType>
+  		<sequence>
+  			<element name="BookID" type="string" maxOccurs="1" minOccurs="0"></element>
+  			<element name="Copies" type="string" maxOccurs="1" minOccurs="0"></element>
+  		</sequence>
+  	</complexType>
+  </element>
+
+  <element name="updateBookReq">
+  	<complexType>
+  		<sequence>
+  			<element name="BookID" type="string" maxOccurs="1" minOccurs="0"></element>
+<element maxOccurs="1" minOccurs="0" name="title" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="author" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="isbn" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="publisher" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="publicationYear" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="edition" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="genre" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="language" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="description" type="string"/>
+		      
+  		</sequence>
+  	</complexType>
+  </element>
+
+
+  <element name="removeBookReq">
+  	<complexType>
+  		<sequence>
+  			<element name="BookID" type="string" maxOccurs="1" minOccurs="0"></element>
+  		</sequence>
+  	</complexType>
+  </element>
+
+</schema>

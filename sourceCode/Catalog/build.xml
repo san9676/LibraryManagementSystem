@@ -1,0 +1,35 @@
+<project name="MyApplication" default="deploy" basedir=".">
+
+    <!-- Define properties -->
+    <property name="tibco.home" value="/path/to/tibco/home" />
+    <property name="build.dir" value="build" />
+    <property name="app.name" value="MyApplication" />
+
+    <!-- Define targets -->
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="build" depends="init, clean">
+        <exec executable="${tibco.home}/bw/5.14/bin/bwbuild">
+            <arg line="-cleanAll -app ${app.name} -out ${build.dir}/MyApplication.ear" />
+        </exec>
+    </target>
+
+    <target name="export-deploy-conf" depends="build">
+        <exec executable="${tibco.home}/bw/5.14/bin/bwexport">
+            <arg line="-deploymentConfig -app ${app.name} -output ${build.dir}/deployment.xml" />
+        </exec>
+    </target>
+
+    <target name="deploy" depends="export-deploy-conf">
+        <exec executable="${tibco.home}/bw/5.14/bin/appManage">
+            <arg line="-deploy -app ${app.name} -ear ${build.dir}/MyApplication.ear -deployconfig ${build.dir}/deployment.xml" />
+        </exec>
+    </target>
+
+</project>

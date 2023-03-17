@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/json/1678168908908" schemaLocation="/SharedResources/Schemas/catalog.xsd"/>
+    <pd:name>Processess/Subprocesses/updateBookSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:updateBookReq"/>
+    <pd:startX>120</pd:startX>
+    <pd:startY>110</pd:startY>
+    <pd:returnBindings>
+        <pfx:BookRes>
+            <xsl:if test="$Start/pfx:updateBookReq/pfx:BookID">
+                <pfx:BookID>
+                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:BookID"/>
+                </pfx:BookID>
+            </xsl:if>
+            <pfx:ResponseCode>
+                <xsl:value-of select="'200'"/>
+            </pfx:ResponseCode>
+            <pfx:ResponseMsg>
+                <xsl:value-of select="'Book Details Updated Successfully'"/>
+            </pfx:ResponseMsg>
+        </pfx:BookRes>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookRes"/>
+    <pd:endX>709</pd:endX>
+    <pd:endY>113</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1678961679164</pd:targetNamespace>
+    <pd:activity name="FetchBook">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>253</pd:x>
+        <pd:y>112</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT *
+  FROM LIB_BOOK where BOOKID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>TITLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>AUTHOR</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ISBN</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PUBLISHER</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PUBLISH_YEAR</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>EDITION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>CATEGORY</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>LANGUAGE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DESRIPTION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>2005</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>CLOB</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>COPIES</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>2</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>NUMBER</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <BOOKID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:updateBookReq/pfx:BookID)">
+                            <xsl:value-of select="$Start/pfx:updateBookReq/pfx:BookID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </BOOKID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="JDBC Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>488</pd:x>
+        <pd:y>110</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>UPDATE LIB_BOOK
+  SET  TITLE = ?,AUTHOR = ?,ISBN = ?,PUBLISHER = ?,PUBLISH_YEAR = ?,EDITION = ?,CATEGORY = ?,LANGUAGE = ?,DESRIPTION = ? where BOOKID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>TITLE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>AUTHOR</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>ISBN</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PUBLISHER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PUBLISH_YEAR</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EDITION</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>CATEGORY</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>LANGUAGE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>DESRIPTION</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:title)!=0">
+                        <TITLE>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:title)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:title"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </TITLE>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <TITLE>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/TITLE)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/TITLE"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </TITLE>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:author)!=0">
+                        <AUTHOR>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:author)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:author"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </AUTHOR>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <AUTHOR>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/AUTHOR)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/AUTHOR"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </AUTHOR>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:isbn)!=0">
+                        <ISBN>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:isbn)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:isbn"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </ISBN>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <ISBN>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/ISBN)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/ISBN"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </ISBN>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:publisher)!=0">
+                        <PUBLISHER>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:publisher)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:publisher"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </PUBLISHER>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <PUBLISHER>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/PUBLISHER)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/PUBLISHER"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </PUBLISHER>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:publicationYear)!=0">
+                        <PUBLISH_YEAR>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:publicationYear)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:publicationYear"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </PUBLISH_YEAR>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <PUBLISH_YEAR>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/PUBLISH_YEAR)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/PUBLISH_YEAR"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </PUBLISH_YEAR>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:edition)!=0">
+                        <EDITION>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:edition)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:edition"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </EDITION>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <EDITION>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/EDITION)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/EDITION"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </EDITION>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:genre)!=0">
+                        <CATEGORY>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:genre)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:genre"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </CATEGORY>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <CATEGORY>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/CATEGORY)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/CATEGORY"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </CATEGORY>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:language)!=0">
+                        <LANGUAGE>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:language)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:language"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </LANGUAGE>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <LANGUAGE>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/LANGUAGE)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/LANGUAGE"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </LANGUAGE>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateBookReq/pfx:description)!=0">
+                        <DESRIPTION>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateBookReq/pfx:description)">
+                                    <xsl:value-of select="$Start/pfx:updateBookReq/pfx:description"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </DESRIPTION>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <DESRIPTION>
+                            <xsl:choose>
+                                <xsl:when test="exists($FetchBook/resultSet/Record[1]/DESRIPTION)">
+                                    <xsl:value-of select="$FetchBook/resultSet/Record[1]/DESRIPTION"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </DESRIPTION>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <BOOKID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:updateBookReq/pfx:BookID)">
+                            <xsl:value-of select="$Start/pfx:updateBookReq/pfx:BookID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </BOOKID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>253</pd:x>
+        <pd:y>206</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInput>
+                <message>
+                    <xsl:value-of select="'No book Available for the given BookID'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat('102','-', '400')"/>
+                </messageCode>
+            </ns:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>FetchBook</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBook</pd:from>
+        <pd:to>JDBC Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Update</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBook</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/json/1678168908908" schemaLocation="/SharedResources/Schemas/catalog.xsd"/>
+    <pd:name>Processess/Subprocesses/AddCopy.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:addCopiesReq"/>
+    <pd:startX>117</pd:startX>
+    <pd:startY>107</pd:startY>
+    <pd:returnBindings>
+        <pfx:BookRes>
+            <xsl:if test="$Start/pfx:addCopiesReq/pfx:BookID">
+                <pfx:BookID>
+                    <xsl:value-of select="$Start/pfx:addCopiesReq/pfx:BookID"/>
+                </pfx:BookID>
+            </xsl:if>
+            <pfx:ResponseCode>
+                <xsl:value-of select="200"/>
+            </pfx:ResponseCode>
+            <pfx:ResponseMsg>
+                <xsl:value-of select="'Copy of the book added to the catalog'"/>
+            </pfx:ResponseMsg>
+        </pfx:BookRes>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookRes"/>
+    <pd:endX>517</pd:endX>
+    <pd:endY>109</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1678953511239</pd:targetNamespace>
+    <pd:activity name="JDBC Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>295</pd:x>
+        <pd:y>107</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <statement>update LIB_BOOK set COPIES=? where bookid=?</statement>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>COPIES</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>bookid</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <COPIES>
+                    <xsl:value-of select="$Start/pfx:addCopiesReq/pfx:Copies + 1"/>
+                </COPIES>
+                <bookid>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:addCopiesReq/pfx:BookID)">
+                            <xsl:value-of select="$Start/pfx:addCopiesReq/pfx:BookID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </bookid>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>JDBC Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Update</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
