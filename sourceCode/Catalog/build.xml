@@ -9,13 +9,13 @@
    
     <target name="export-deploy-conf">
         <exec executable="${Appmanage}">
-            <arg line="--propFile C:\tibco\tra\5.7\bin\AppManage.tra export -out ${build.dir}/Conf/CatalogConf.xml -ear ${build.dir}/EAR/catalog.ear" />
+            <arg line="export -out ${build.dir}/Conf/CatalogConf.xml -ear ${build.dir}/EAR/catalog.ear" />
         </exec>
     </target>
 
     <target name="deploy" depends="export-deploy-conf">
         <exec executable="${Appmanage}">
-            <arg line="--propFile C:\tibco\tra\5.7\bin\AppManage.tra -deploy -app ${app.name} -ear ${build.dir}/EAR/catalog.ear -deployconfig ${build.dir}/Conf/CatalogConf.xml -user admin -pw admin -domain admin" />
+            <arg line="-deploy -app ${app.name} -ear ${build.dir}/EAR/catalog.ear -deployconfig ${build.dir}/Conf/CatalogConf.xml -user admin -pw admin -domain admin" />
         </exec>
     </target>
 
