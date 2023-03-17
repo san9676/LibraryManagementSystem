@@ -1,34 +1,34 @@
-<project name="MyApplication" default="deploy" basedir=".">
+<project name="Catalog" default="deploy" basedir=".">
 
     <!-- Define properties -->
-    <property name="tibco.home" value="/path/to/tibco/home" />
-    <property name="build.dir" value="build" />
-    <property name="app.name" value="MyApplication" />
-
+    <property name="tibco.home" value="C:\tibco" />
+    <property name="build.dir" value="${basedir}/Deployables" />
+    <property name="app.name" value="Catalog" />
+	<property name="project.bw.application" value="${basedir}/CatalogModule" />
     <!-- Define targets -->
     <target name="clean">
-        <delete dir="${build.dir}" />
+        <delete dir="${build.dir}/EAR" />
     </target>
 
     <target name="init">
-        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.dir}/EAR" />
     </target>
 
     <target name="build" depends="init, clean">
-        <exec executable="${tibco.home}/bw/5.14/bin/bwbuild">
-            <arg line="-cleanAll -app ${app.name} -out ${build.dir}/MyApplication.ear" />
+        <exec executable="${tibco.home}\tra\5.7\bin\buildear.exe">
+            <arg line="-v -o ${build.dir}/EAR/Catalog.ear -p ${project.bw.application}"/>
         </exec>
     </target>
 
     <target name="export-deploy-conf" depends="build">
-        <exec executable="${tibco.home}/bw/5.14/bin/bwexport">
-            <arg line="-deploymentConfig -app ${app.name} -output ${build.dir}/deployment.xml" />
+        <exec executable="${tibco.home}\tra\5.7\bin\appManage.exe">
+            <arg line="export  -out ${build.dir}/Conf/CatalogConf.xml -ear ${build.dir}/EAR/Catalog.ear" />
         </exec>
     </target>
 
     <target name="deploy" depends="export-deploy-conf">
-        <exec executable="${tibco.home}/bw/5.14/bin/appManage">
-            <arg line="-deploy -app ${app.name} -ear ${build.dir}/MyApplication.ear -deployconfig ${build.dir}/deployment.xml" />
+        <exec executable="${tibco.home}\tra\5.7\bin\appManage.exe">
+            <arg line="-deploy -app ${app.name} -ear ${build.dir}/EAR/Catalog.ear -deployconfig $${build.dir}/Conf/CatalogConf.xml -user admin -pw admin -domain admin" />
         </exec>
     </target>
 
