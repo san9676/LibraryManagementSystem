@@ -14,7 +14,11 @@
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>CatalogModule</name>
-        <designer/>
-        <fileLocationProperty>C:\POC\LIbraryManagementSystem\CatalogModule\DeploymentArtifacts\EAR\CatalogModule.ear</fileLocationProperty>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
+        <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\Catalog\CatalogModule\Deployables\EAR\catalog.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>
