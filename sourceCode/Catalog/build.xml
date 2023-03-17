@@ -16,18 +16,24 @@
 
     <target name="build" depends="init, clean">
         <exec executable="${tibco.home}\tra\5.7\bin\buildear.exe">
+			<arg value="--propFile"/>
+			<arg value="C:\tibco\tra\5.7\bin\buildear.tra"/>
             <arg line="-v -o ${build.dir}/EAR/Catalog.ear -p ${project.bw.application}"/>
         </exec>
     </target>
 
     <target name="export-deploy-conf" depends="build">
         <exec executable="${tibco.home}\tra\5.7\bin\appManage.exe">
+			<arg value="--propFile"/>
+			<arg value="‪C:\tibco\tra\5.7\bin\AppManage.tra"/>
             <arg line="export  -out ${build.dir}/Conf/CatalogConf.xml -ear ${build.dir}/EAR/Catalog.ear" />
         </exec>
     </target>
 
     <target name="deploy" depends="export-deploy-conf">
         <exec executable="${tibco.home}\tra\5.7\bin\appManage.exe">
+			<arg value="--propFile"/>
+			<arg value="‪C:\tibco\tra\5.7\bin\AppManage.tra"/>
             <arg line="-deploy -app ${app.name} -ear ${build.dir}/EAR/Catalog.ear -deployconfig $${build.dir}/Conf/CatalogConf.xml -user admin -pw admin -domain admin" />
         </exec>
     </target>
