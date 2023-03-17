@@ -15,7 +15,7 @@
     </target>
 
     <target name="build" depends="init, clean">
-        <exec executable="${tibco.home}\tra\5.7\bin\buildear.exe">
+        <exec executable="C:\tibco\tra\5.7\bin\buildear.exe">
 			<arg value="--propFile"/>
 			<arg value="C:\tibco\tra\5.7\bin\buildear.tra"/>
             <arg line="-v -ear ${build.dir}/Archives/CatalogModule.archive -o ${build.dir}/EAR/Catalog.ear -p ${project.bw.application}"/>
