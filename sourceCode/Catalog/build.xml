@@ -6,16 +6,30 @@
     <property name="app.name" value="Catalog" />
 	<property name="project.bw.application" value="${basedir}/CatalogModule" />
     <!-- Define targets -->
-   
-    <target name="export-deploy-conf">
+	<target name="clean">
+        <delete dir="${build.dir}/EAR" />
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.dir}/EAR" />
+    </target>
+
+    <target name="build" depends="init, clean">
+        <exec executable="${tibco.home}\tra\5.7\bin\buildear.exe">
+			<arg value="--propFile"/>
+			<arg value="C:\tibco\tra\5.7\bin\buildear.tra"/>
+            <arg line="-v -ear ${build.dir}/Archives/CatalogModule.archive -o ${build.dir}/EAR/Catalog.ear -p ${project.bw.application}"/>
+        </exec>
+    </target>
+    <target name="export-deploy-conf" depends="build">
         <exec executable="${Appmanage}">
-            <arg line="-export --propFile C:\tibco\tra\5.7\bin\AppManage.tra -out ${build.dir}/Conf/CatalogConf.xml -ear ${build.dir}/EAR/catalog.ear" />
+            <arg line="-export --propFile C:\tibco\tra\5.7\bin\AppManage.tra -out ${build.dir}/Conf/catalogConfig.xml -ear ${build.dir}/EAR/catalog.ear" />
         </exec>
     </target>
 
     <target name="deploy" depends="export-deploy-conf">
         <exec executable="${Appmanage}">
-            <arg line="-deploy --propFile C:\tibco\tra\5.7\bin\AppManage.tra -app ${app.name} -ear ${build.dir}/EAR/catalog.ear -deployconfig ${build.dir}/Conf/CatalogConf.xml -user admin -pw admin -domain admin" />
+            <arg line="-deploy --propFile C:\tibco\tra\5.7\bin\AppManage.tra -app ${app.name} -ear ${build.dir}/EAR/catalog.ear -deployconfig ${build.dir}/Conf/catalogConfig.xml -user admin -pw admin -domain admin" />
         </exec>
     </target>
 
