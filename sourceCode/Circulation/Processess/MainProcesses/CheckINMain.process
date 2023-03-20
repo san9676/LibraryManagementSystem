@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:cust="java://Custom.Custom">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns="http://www.example.org/Circulation" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:cust="java://Custom.Custom">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/MainProcesses/CheckINMain.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -155,7 +155,7 @@
     <pd:activity name="Generate Error">
         <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
         <pd:resourceType>ae.activities.throw</pd:resourceType>
-        <pd:x>328</pd:x>
+        <pd:x>330</pd:x>
         <pd:y>186</pd:y>
         <config>
             <faultName/>
@@ -178,7 +178,7 @@
                             <xsl:value-of select="'BookID cannot be null'"/>
                         </message>
                         <messageCode>
-                            <xsl:value-of select="concat('101', '-','400')"/>
+                            <xsl:value-of select="concat('102', '-','400')"/>
                         </messageCode>
                     </ns2:ActivityInput>
                 </xsl:otherwise>

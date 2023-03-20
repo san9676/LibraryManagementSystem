@@ -16,7 +16,7 @@
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1679288866169</pd:targetNamespace>
-    <pd:activity name="JDBC Query">
+    <pd:activity name="FetchBorrowing">
         <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
         <pd:x>283</pd:x>
@@ -160,7 +160,7 @@
         </config>
         <pd:inputBindings>
             <xsl:choose>
-                <xsl:when test="count($JDBC-Query/resultSet/Record)=0">
+                <xsl:when test="count($FetchBorrowing/resultSet/Record)=0">
                     <ns:ActivityInput>
                         <message>
                             <xsl:value-of select="'Transaction ID is not valid'"/>
@@ -185,21 +185,21 @@
     </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
-        <pd:to>JDBC Query</pd:to>
+        <pd:to>FetchBorrowing</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>JDBC Query</pd:from>
+        <pd:from>FetchBorrowing</pd:from>
         <pd:to>Map Data</pd:to>
         <pd:xpathDescription>validate</pd:xpathDescription>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>xpath</pd:conditionType>
-        <pd:xpath>count($JDBC-Query/resultSet/Record)&gt;0
+        <pd:xpath>count($FetchBorrowing/resultSet/Record)&gt;0
 and
-$JDBC-Query/resultSet/Record/BOOKID=$Start/pfx:CheckInReq/pfx:book_id</pd:xpath>
+$FetchBorrowing/resultSet/Record/BOOKID=$Start/pfx:CheckInReq/pfx:book_id</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>Map Data</pd:from>
@@ -216,7 +216,7 @@ $JDBC-Query/resultSet/Record/BOOKID=$Start/pfx:CheckInReq/pfx:book_id</pd:xpath>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>JDBC Query</pd:from>
+        <pd:from>FetchBorrowing</pd:from>
         <pd:to>Generate Error</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
