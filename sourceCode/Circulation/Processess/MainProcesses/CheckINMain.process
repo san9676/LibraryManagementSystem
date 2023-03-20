@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:cust="java://Custom.Custom">
+    <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
+    <pd:name>Processess/MainProcesses/CheckINMain.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="ns:CheckInReq"/>
+    <pd:startX>109</pd:startX>
+    <pd:startY>76</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns3:ErrorReport)">
+                <group>
+                    <ns:fault>
+                        <xsl:if test="$_error/ns3:ErrorReport/MsgCode">
+                            <ns:FaultCode>
+                                <xsl:value-of select="$_error/ns3:ErrorReport/MsgCode"/>
+                            </ns:FaultCode>
+                        </xsl:if>
+                        <xsl:if test="$_error/ns3:ErrorReport/Msg">
+                            <ns:FaultMsg>
+                                <xsl:value-of select="$_error/ns3:ErrorReport/Msg"/>
+                            </ns:FaultMsg>
+                        </xsl:if>
+                    </ns:fault>
+                </group>
+            </xsl:when>
+            <xsl:otherwise>
+                <group>
+                    <xsl:copy-of select="$CheckINSub/ns:checkInRes"/>
+                </group>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="group">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="ns:checkInRes" minOccurs="0"/>
+                    <xsd:element ref="ns:fault" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>778</pd:endX>
+    <pd:endY>79</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679289683528</pd:targetNamespace>
+    <pd:activity name="SetVariable">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>212</pd:x>
+        <pd:y>78</pd:y>
+        <config>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+            <showResult>true</showResult>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="cust:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CheckINSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>456</pd:x>
+        <pd:y>78</pd:y>
+        <config>
+            <processName>/Processess/SubProcesses/CheckINSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/ns:CheckInReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CheckInReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>328</pd:x>
+        <pd:y>79</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns1:LogExceptionHandler>
+                <ns1:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns1:ApplictionName>
+                <ns1:ProcessName>
+                    <xsl:value-of select="'CheckInBook'"/>
+                </ns1:ProcessName>
+                <ns1:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns1:LogType>
+                <ns1:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns1:status>
+                <ns1:CorrelationID>
+                    <xsl:value-of select="$SetVariable/root/param"/>
+                </ns1:CorrelationID>
+                <ns1:MessageType>
+                    <xsl:value-of select="'RequestPayload'"/>
+                </ns1:MessageType>
+                <ns1:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns1:Timestamp>
+                <ns1:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($Start/ns:CheckInReq, true())"/>
+                </ns1:PAYLOAD>
+            </ns1:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CheckInResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>600</pd:x>
+        <pd:y>84</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns1:LogExceptionHandler>
+                <ns1:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns1:ApplictionName>
+                <ns1:ProcessName>
+                    <xsl:value-of select="'RegisterPatron'"/>
+                </ns1:ProcessName>
+                <ns1:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns1:LogType>
+                <ns1:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns1:status>
+                <ns1:CorrelationID>
+                    <xsl:value-of select="$SetVariable/root/param"/>
+                </ns1:CorrelationID>
+                <ns1:MessageType>
+                    <xsl:value-of select="'ResponsePayload'"/>
+                </ns1:MessageType>
+                <ns1:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns1:Timestamp>
+                <ns1:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($CheckINSub/ns:checkInRes, true())"/>
+                </ns1:PAYLOAD>
+            </ns1:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>328</pd:x>
+        <pd:y>186</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="string-length($Start/ns:CheckInReq/ns:transaction_id)=0">
+                    <ns2:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Transaction ID cannot be null'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat('101', '-','400')"/>
+                        </messageCode>
+                    </ns2:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns2:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'BookID cannot be null'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat('101', '-','400')"/>
+                        </messageCode>
+                    </ns2:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>475</pd:x>
+        <pd:y>258</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="CheckOutErrLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>613</pd:x>
+        <pd:y>260</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns1:ErrorLogHandler>
+                <ns1:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns1:ApplictionName>
+                <ns1:ProcessName>
+                    <xsl:value-of select="'CheckInBook'"/>
+                </ns1:ProcessName>
+                <ns1:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns1:LogType>
+                <ns1:status>
+                    <xsl:value-of select="'Failed'"/>
+                </ns1:status>
+                <ns1:CorrelationID>
+                    <xsl:value-of select="$SetVariable/root/param"/>
+                </ns1:CorrelationID>
+                <ns1:MessageType>
+                    <xsl:value-of select="'ErrorDetails'"/>
+                </ns1:MessageType>
+                <ns1:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns1:Timestamp>
+                <ns1:ErrorCode>
+                    <xsl:value-of select="$_error/ns3:ErrorReport/MsgCode"/>
+                </ns1:ErrorCode>
+                <ns1:ErrorMsg>
+                    <xsl:value-of select="$_error/ns3:ErrorReport/Msg"/>
+                </ns1:ErrorMsg>
+            </ns1:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetVariable</pd:from>
+        <pd:to>CheckInReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckInReqLog</pd:from>
+        <pd:to>CheckINSub</pd:to>
+        <pd:xpathDescription>validateReq</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>string-length($Start/ns:CheckInReq/ns:transaction_id)!=0 
+and
+string-length($Start/ns:CheckInReq/ns:book_id)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckINSub</pd:from>
+        <pd:to>CheckInResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckInResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckInReqLog</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>CheckOutErrLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckOutErrLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
+    <pd:name>Processess/SubProcesses/RegisterSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:RegisterPatronsReq"/>
+    <pd:startX>137</pd:startX>
+    <pd:startY>87</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Map-Data/pfx:RegisterPatronsRes"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:RegisterPatronsRes"/>
+    <pd:endX>654</pd:endX>
+    <pd:endY>88</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679047648833</pd:targetNamespace>
+    <pd:activity name="SQL Direct">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>240</pd:x>
+        <pd:y>87</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="&quot;select 'LIB'||LIB_CARDNOSEQ.NEXTVAL as LIBCARDNO from dual&quot;"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>361</pd:x>
+        <pd:y>90</pd:y>
+        <config>
+            <element ref="pfx:RegisterPatronsRes"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:RegisterPatronsRes>
+                <xsl:if test="$SQL-Direct/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='LIBCARDNO']/value">
+                    <pfx:library_card_number>
+                        <xsl:value-of select="$SQL-Direct/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='LIBCARDNO']/value"/>
+                    </pfx:library_card_number>
+                </xsl:if>
+                <pfx:expiration_date>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',tib:add-to-date(current-date(), 1, 0, 0))"/>
+                </pfx:expiration_date>
+                <xsl:if test="$Start/pfx:RegisterPatronsReq/pfx:patron_name">
+                    <pfx:patron_name>
+                        <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:patron_name"/>
+                    </pfx:patron_name>
+                </xsl:if>
+                <pfx:status>
+                    <xsl:value-of select="'Active'"/>
+                </pfx:status>
+            </pfx:RegisterPatronsRes>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="InsertPatron">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>488</pd:x>
+        <pd:y>85</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>INSERT INTO LIB_CARD
+  VALUES (?,?,?,?,?,?,?)</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>CARDNUMBER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PATRON_NAME</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>ADDRESS</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PHONE_NUMBER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EMAIL</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EXPIRYDATE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>STATUS</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <CARDNUMBER>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:RegisterPatronsRes/pfx:library_card_number)">
+                            <xsl:value-of select="$Map-Data/pfx:RegisterPatronsRes/pfx:library_card_number"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </CARDNUMBER>
+                <PATRON_NAME>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:RegisterPatronsReq/pfx:patron_name)">
+                            <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:patron_name"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </PATRON_NAME>
+                <ADDRESS>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:RegisterPatronsReq/pfx:address)">
+                            <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:address"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ADDRESS>
+                <PHONE_NUMBER>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:RegisterPatronsReq/pfx:phone_number)">
+                            <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:phone_number"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </PHONE_NUMBER>
+                <EMAIL>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:RegisterPatronsReq/pfx:email)">
+                            <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:email"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EMAIL>
+                <EXPIRYDATE>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:RegisterPatronsRes/pfx:expiration_date)">
+                            <xsl:value-of select="$Map-Data/pfx:RegisterPatronsRes/pfx:expiration_date"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EXPIRYDATE>
+                <STATUS>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:RegisterPatronsRes/pfx:status)">
+                            <xsl:value-of select="$Map-Data/pfx:RegisterPatronsRes/pfx:status"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </STATUS>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SQL Direct</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SQL Direct</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>InsertPatron</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>InsertPatron</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
