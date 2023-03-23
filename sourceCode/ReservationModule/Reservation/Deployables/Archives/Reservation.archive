@@ -10,11 +10,15 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/ReservationService.process</processProperty>
         </processArchive>
-        <versionProperty>2</versionProperty>
+        <versionProperty>3</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>Reservation</name>
-        <designer/>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
         <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\ReservationModule\Reservation\Deployables\EAR\Reservation.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>
