@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
+    <pd:name>Processess/SubProcesses/CheckINSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:CheckInReq"/>
+    <pd:startX>158</pd:startX>
+    <pd:startY>112</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Map-Data/pfx:checkInRes"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:checkInRes"/>
+    <pd:endX>812</pd:endX>
+    <pd:endY>107</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679288866169</pd:targetNamespace>
+    <pd:activity name="FetchBorrowing">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>283</pd:x>
+        <pd:y>108</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT TRANID,BOOKID
+  FROM LIB_BORROWING where TRANID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>TRANID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>TRANID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <TRANID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:CheckInReq/pfx:transaction_id)">
+                            <xsl:value-of select="$Start/pfx:CheckInReq/pfx:transaction_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </TRANID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>396</pd:x>
+        <pd:y>116</pd:y>
+        <config>
+            <element ref="pfx:checkInRes"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:checkInRes>
+                <pfx:transaction_id>
+                    <xsl:value-of select="$Start/pfx:CheckInReq/pfx:transaction_id"/>
+                </pfx:transaction_id>
+                <xsl:if test="$Start/pfx:CheckInReq/pfx:book_id">
+                    <pfx:book_id>
+                        <xsl:value-of select="$Start/pfx:CheckInReq/pfx:book_id"/>
+                    </pfx:book_id>
+                </xsl:if>
+                <pfx:return_date>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </pfx:return_date>
+                <pfx:status>
+                    <xsl:value-of select="'Returned'"/>
+                </pfx:status>
+            </pfx:checkInRes>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="UpdateBorrowings">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>507</pd:x>
+        <pd:y>104</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <statement>UPDATE LIB_BORROWING
+  SET RETURN_DATE = ?, STATUS=? where TRANID=?</statement>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>RETURN_DATE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>STATUS</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>TRANID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <RETURN_DATE>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:checkInRes/pfx:return_date)">
+                            <xsl:value-of select="$Map-Data/pfx:checkInRes/pfx:return_date"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </RETURN_DATE>
+                <STATUS>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:checkInRes/pfx:status)">
+                            <xsl:value-of select="$Map-Data/pfx:checkInRes/pfx:status"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </STATUS>
+                <TRANID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:checkInRes/pfx:transaction_id)">
+                            <xsl:value-of select="$Map-Data/pfx:checkInRes/pfx:transaction_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </TRANID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>280</pd:x>
+        <pd:y>220</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="count($FetchBorrowing/resultSet/Record)=0">
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Transaction ID is not valid'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat('103', '-','400')"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'BookID is not valid'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat('104', '-','400')"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="UpdateBookStatus">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>672</pd:x>
+        <pd:y>108</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>update LIB_BOOK set STATUS=? where BOOKID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>STATUS</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <STATUS>
+                    <xsl:value-of select="'available'"/>
+                </STATUS>
+                <BOOKID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:CheckInReq/pfx:book_id)">
+                            <xsl:value-of select="$Start/pfx:CheckInReq/pfx:book_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </BOOKID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>FetchBorrowing</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBorrowing</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($FetchBorrowing/resultSet/Record)&gt;0
+and
+$FetchBorrowing/resultSet/Record/BOOKID=$Start/pfx:CheckInReq/pfx:book_id</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>UpdateBorrowings</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateBorrowings</pd:from>
+        <pd:to>UpdateBookStatus</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBorrowing</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateBookStatus</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

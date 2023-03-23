@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/mail" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:ns12="http://xmlns.tibco.com/body" xmlns:pfx="http://www.example.org/Circulation" xmlns:cust="java://Custom.Custom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
+    <pd:name>Processess/MainProcesses/OverDueNoticeMain.process</pd:name>
+    <pd:startName>Timer</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="Timer">
+        <pd:type>com.tibco.plugin.timer.TimerEventSource</pd:type>
+        <pd:resourceType>ae.activities.timer</pd:resourceType>
+        <pd:x>102</pd:x>
+        <pd:y>213</pd:y>
+        <config>
+            <StartTime>1679283001000</StartTime>
+            <Frequency>false</Frequency>
+            <TimeInterval>1</TimeInterval>
+            <FrequencyIndex>Week</FrequencyIndex>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1740</pd:endX>
+    <pd:endY>241</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679295030621</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>737</pd:x>
+        <pd:y>151</pd:y>
+        <pd:width>663</pd:width>
+        <pd:height>230</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Map-Data/pfx:overDueRoot/pfx:OverdueInfo</pd:over>
+            <pd:iterationElementSlot>currentElement</pd:iterationElementSlot>
+            <pd:indexSlot>index</pd:indexSlot>
+            <pd:outSlot>Accumulate</pd:outSlot>
+            <pd:activityOutputName>Map-Data-1</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>genNoticeID</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Send Mail</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>genNoticeID</pd:from>
+            <pd:to>fetchPatronInfo</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>fetchPatronInfo</pd:from>
+            <pd:to>Map-Data-1</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Map-Data-1</pd:from>
+            <pd:to>Send Mail</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="genNoticeID">
+            <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+            <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+            <pd:x>833</pd:x>
+            <pd:y>245</pd:y>
+            <config>
+                <timeout>10</timeout>
+                <commit>false</commit>
+                <maxRows>100</maxRows>
+                <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            </config>
+            <pd:inputBindings>
+                <jdbcGeneralActivityInput>
+                    <statement>
+                        <xsl:value-of select="&quot;select 'N'||NoticeIDSEQ.NEXTVAL as NOTICEID from dual&quot;"/>
+                    </statement>
+                </jdbcGeneralActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="fetchPatronInfo">
+            <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+            <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+            <pd:x>989</pd:x>
+            <pd:y>245</pd:y>
+            <config>
+                <timeout>10</timeout>
+                <commit>false</commit>
+                <maxRows>100</maxRows>
+                <emptyStrAsNil>false</emptyStrAsNil>
+                <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+                <statement>SELECT CARDNUMBER,PATRON_NAME,EMAIL
+  FROM LIB_CARD where CARDNUMBER=?
+</statement>
+                <Prepared_Param_DataType>
+                    <parameter>
+                        <parameterName>CARDNUMBER</parameterName>
+                        <dataType>VARCHAR</dataType>
+                    </parameter>
+                </Prepared_Param_DataType>
+                <QueryOutputCachedSchemaColumns>CARDNUMBER</QueryOutputCachedSchemaColumns>
+                <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+                <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+                <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+                <QueryOutputCachedSchemaColumns>PATRON_NAME</QueryOutputCachedSchemaColumns>
+                <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+                <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+                <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+                <QueryOutputCachedSchemaColumns>EMAIL</QueryOutputCachedSchemaColumns>
+                <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+                <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+                <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+                <oraObjects/>
+                <oraTables/>
+            </config>
+            <pd:inputBindings>
+                <jdbcQueryActivityInput>
+                    <CARDNUMBER>
+                        <xsl:choose>
+                            <xsl:when test="exists($currentElement/pfx:OverdueInfo/pfx:CARDNUMBER)">
+                                <xsl:value-of select="$currentElement/pfx:OverdueInfo/pfx:CARDNUMBER"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </CARDNUMBER>
+                </jdbcQueryActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Map-Data-1">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>1152</pd:x>
+            <pd:y>246</pd:y>
+            <config>
+                <element ref="pfx:Notice"/>
+            </config>
+            <pd:inputBindings>
+                <pfx:Notice>
+                    <xsl:if test="not(($genNoticeID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='NOTICEID']/value/@xsi:nil=(&quot;true&quot;)) or ($genNoticeID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='NOTICEID']/value/@xsi:nil=(&quot;1&quot;)))">
+                        <pfx:notice_id>
+                            <xsl:value-of select="$genNoticeID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='NOTICEID']/value"/>
+                        </pfx:notice_id>
+                    </xsl:if>
+                    <xsl:if test="$currentElement/pfx:OverdueInfo/pfx:CARDNUMBER">
+                        <pfx:library_card_number>
+                            <xsl:value-of select="$currentElement/pfx:OverdueInfo/pfx:CARDNUMBER"/>
+                        </pfx:library_card_number>
+                    </xsl:if>
+                    <xsl:if test="$fetchPatronInfo/resultSet/Record[1]/PATRON_NAME">
+                        <pfx:Name>
+                            <xsl:value-of select="$fetchPatronInfo/resultSet/Record[1]/PATRON_NAME"/>
+                        </pfx:Name>
+                    </xsl:if>
+                    <xsl:if test="$currentElement/pfx:OverdueInfo/pfx:BOOKID">
+                        <pfx:book_id>
+                            <xsl:value-of select="$currentElement/pfx:OverdueInfo/pfx:BOOKID"/>
+                        </pfx:book_id>
+                    </xsl:if>
+                    <pfx:notice_date>
+                        <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                    </pfx:notice_date>
+                    <xsl:if test="$fetchPatronInfo/resultSet/Record[1]/EMAIL">
+                        <pfx:EmailID>
+                            <xsl:value-of select="$fetchPatronInfo/resultSet/Record[1]/EMAIL"/>
+                        </pfx:EmailID>
+                    </xsl:if>
+                    <pfx:status>
+                        <xsl:value-of select="'Sent'"/>
+                    </pfx:status>
+                </pfx:Notice>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Send Mail">
+            <pd:type>com.tibco.plugin.mail.MailPubActivity</pd:type>
+            <pd:resourceType>ae.activities.MailActivityResource</pd:resourceType>
+            <pd:x>1291</pd:x>
+            <pd:y>247</pd:y>
+            <config>
+                <newMimeSupport>true</newMimeSupport>
+                <inputOutputVersion>5.2.0</inputOutputVersion>
+                <authenticate>true</authenticate>
+                <host>%%Connections/SMTP/Host%%</host>
+                <username>%%Connections/SMTP/username%%</username>
+                <password>%%Connections/SMTP/password%%</password>
+                <InputHeaders>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </InputHeaders>
+            </config>
+            <pd:inputBindings>
+                <ns0:mailActivityInput>
+                    <from>
+                        <xsl:value-of select="'santoshbe22@gmail.com'"/>
+                    </from>
+                    <xsl:if test="$Map-Data-1/pfx:Notice/pfx:EmailID">
+                        <to>
+                            <xsl:value-of select="$Map-Data-1/pfx:Notice/pfx:EmailID"/>
+                        </to>
+                    </xsl:if>
+                    <ns12:bodyElement>
+                        <bodyText>
+                            <xsl:value-of select="concat('&lt;html>&#xD;&#xA;&lt;head>&lt;/head>&#xD;&#xA;&lt;body>&#xD;&#xA;&lt;p>Hi ',$Map-Data-1/pfx:Notice/pfx:Name,',','&#xD;&#xA;&#x9;&#x9;&#x9;this mail is to let you know that the due date for the book you borrowed is over. we request you to return the book immediatly&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;Thanks and Regards,&#xD;&#xA;&#x9;Library Management.&#xD;&#xA;&lt;/p>&#xD;&#xA;&lt;table border=&quot;1&quot;>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>Library CARD NUMBER&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:library_card_number,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NAME&lt;/td>&#xD;&#xA;   &#xA; &lt;td>',$Map-Data-1/pfx:Notice/pfx:Name,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>BOOK_ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:book_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE_DATE&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_date,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;&lt;/table>&#xD;&#xA;&lt;/body>&#xD;&#xA;&lt;/html>')"/>
+                        </bodyText>
+                    </ns12:bodyElement>
+                    <Headers>
+                        <Content-Type>
+                            <xsl:value-of select="&quot;text/html&quot;"/>
+                        </Content-Type>
+                    </Headers>
+                </ns0:mailActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="fetchBorrwingDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>492</pd:x>
+        <pd:y>213</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT *
+  FROM LIB_BORROWING</statement>
+            <QueryOutputCachedSchemaColumns>TRANID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>CARDNUMBER</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>LOAN_DATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DUE_DATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>RETURN_DATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>STATUS</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="insertAllNotice">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>1488</pd:x>
+        <pd:y>246</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <statement>INSERT INTO LIB_NOTICEINFO
+  VALUES (?,?,?,?,?,?,?)</statement>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>notice_id</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>library_card_number</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>Name</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>book_id</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>notice_date</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EmailID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>status</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <batchUpdate>true</batchUpdate>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <xsl:for-each select="$Accumulate/AccumulatedOutput/pfx:Notice">
+                    <Record>
+                        <notice_id>
+                            <xsl:value-of select="pfx:notice_id"/>
+                        </notice_id>
+                        <library_card_number>
+                            <xsl:value-of select="pfx:library_card_number"/>
+                        </library_card_number>
+                        <Name>
+                            <xsl:value-of select="pfx:Name"/>
+                        </Name>
+                        <book_id>
+                            <xsl:value-of select="pfx:book_id"/>
+                        </book_id>
+                        <notice_date>
+                            <xsl:value-of select="pfx:notice_date"/>
+                        </notice_date>
+                        <EmailID>
+                            <xsl:value-of select="pfx:EmailID"/>
+                        </EmailID>
+                        <status>
+                            <xsl:value-of select="pfx:status"/>
+                        </status>
+                    </Record>
+                </xsl:for-each>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>632</pd:x>
+        <pd:y>213</pd:y>
+        <config>
+            <element ref="pfx:overDueRoot"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:overDueRoot>
+                <xsl:for-each select="$fetchBorrwingDetails/resultSet/Record[tib:compare-date(tib:parse-date('yyyy-MM-dd', DUE_DATE), current-date()) = '-1']">
+                    <pfx:OverdueInfo>
+                        <pfx:TRANID>
+                            <xsl:value-of select="TRANID"/>
+                        </pfx:TRANID>
+                        <xsl:if test="BOOKID">
+                            <pfx:BOOKID>
+                                <xsl:value-of select="BOOKID"/>
+                            </pfx:BOOKID>
+                        </xsl:if>
+                        <xsl:if test="CARDNUMBER">
+                            <pfx:CARDNUMBER>
+                                <xsl:value-of select="CARDNUMBER"/>
+                            </pfx:CARDNUMBER>
+                        </xsl:if>
+                        <xsl:if test="LOAN_DATE">
+                            <pfx:LOAN_DATE>
+                                <xsl:value-of select="LOAN_DATE"/>
+                            </pfx:LOAN_DATE>
+                        </xsl:if>
+                        <xsl:if test="DUE_DATE">
+                            <pfx:DUE_DATE>
+                                <xsl:value-of select="DUE_DATE"/>
+                            </pfx:DUE_DATE>
+                        </xsl:if>
+                        <xsl:if test="RETURN_DATE">
+                            <pfx:RETURN_DATE>
+                                <xsl:value-of select="RETURN_DATE"/>
+                            </pfx:RETURN_DATE>
+                        </xsl:if>
+                        <xsl:if test="STATUS">
+                            <pfx:STATUS>
+                                <xsl:value-of select="STATUS"/>
+                            </pfx:STATUS>
+                        </xsl:if>
+                    </pfx:OverdueInfo>
+                </xsl:for-each>
+            </pfx:overDueRoot>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="overdueNoticeReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>350</pd:x>
+        <pd:y>213</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'SendOverdueNotice'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'requestPayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="'Overdue Notice process Started'"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetCorrID">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>227</pd:x>
+        <pd:y>213</pd:y>
+        <config>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+            <showResult>true</showResult>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="cust:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="overdueNoticeResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1622</pd:x>
+        <pd:y>243</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'SendOverdueNotice'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'responsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="concat('Overdue Notice was successfully sent to ', tib:concat-sequence-format(for $var in $Accumulate/AccumulatedOutput/pfx:Notice return $var/pfx:library_card_number, &quot;,&quot;))"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>1506</pd:x>
+        <pd:y>77</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="overdueNoticeErrLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1643</pd:x>
+        <pd:y>84</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:ErrorLogHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'SendOverdueNotice'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Failed'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'ErorDetails'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                    <ns:ErrorCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </ns:ErrorCode>
+                </xsl:if>
+                <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                    <ns:ErrorMsg>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                    </ns:ErrorMsg>
+                </xsl:if>
+            </ns:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Null">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>685</pd:x>
+        <pd:y>493</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Timer</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetCorrID</pd:from>
+        <pd:to>overdueNoticeReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>overdueNoticeReqLog</pd:from>
+        <pd:to>fetchBorrwingDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchBorrwingDetails</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>insertAllNotice</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>insertAllNotice</pd:from>
+        <pd:to>overdueNoticeResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>overdueNoticeResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>overdueNoticeErrLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>overdueNoticeErrLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:xpathDescription>No Borrowings</pd:xpathDescription>
+        <pd:lineType>Straight</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($Map-Data/pfx:overDueRoot/pfx:OverdueInfo)=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null</pd:from>
+        <pd:to>overdueNoticeResLog</pd:to>
+        <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
