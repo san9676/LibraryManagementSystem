@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
+    <xsd:import namespace="http://www.eniquesol.com/v1/reservation.xsd" schemaLocation="/SharedResources/Schemas/Reservation.xsd"/>
+    <pd:name>Processess/RestProcesses/ReserveBookRest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="payload" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>107</pd:startX>
+    <pd:startY>92</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <payload>
+                <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+            </payload>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="payload" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>825</pd:endX>
+    <pd:endY>98</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679314008986</pd:targetNamespace>
+    <pd:activity name="Parse JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONParserActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONParserActivity</pd:resourceType>
+        <pd:x>239</pd:x>
+        <pd:y>92</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ValidateOutputEnable>false</ValidateOutputEnable>
+            <ActivityOutputEditor ref="pfx:reserveBookReq"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <jsonString>
+                    <xsl:value-of select="$Start/root/payload"/>
+                </jsonString>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>659</pd:x>
+        <pd:y>95</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <removeRootElementForInput>true</removeRootElementForInput>
+            <ActivityInputEditor>
+                <xsd:element name="group">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element ref="pfx:reserveBookRes" minOccurs="0"/>
+                            <xsd:element ref="pfx:fault" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="exists($ReservationMain/group/pfx:fault)">
+                    <ns:ActivityInputClass>
+                        <group>
+                            <pfx:fault>
+                                <pfx:FaultCode>
+                                    <xsl:value-of select="if(contains($ReservationMain/group/pfx:fault/pfx:FaultCode, '-400'))&#xA; then &#xA;substring-before($ReservationMain/group/pfx:fault/pfx:FaultCode, '-400')  &#xA;else &#xA;$ReservationMain/group/pfx:fault/pfx:FaultCode"/>
+                                </pfx:FaultCode>
+                                <xsl:if test="$ReservationMain/group/pfx:fault/pfx:FaultMsg">
+                                    <pfx:FaultMsg>
+                                        <xsl:value-of select="$ReservationMain/group/pfx:fault/pfx:FaultMsg"/>
+                                    </pfx:FaultMsg>
+                                </xsl:if>
+                            </pfx:fault>
+                        </group>
+                    </ns:ActivityInputClass>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns:ActivityInputClass>
+                        <group>
+                            <xsl:copy-of select="$ReservationMain/group/pfx:reserveBookRes"/>
+                        </group>
+                    </ns:ActivityInputClass>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReservationMain">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>428</pd:x>
+        <pd:y>91</pd:y>
+        <config>
+            <processName>/Processess/MainProcesses/ReservationMain.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Parse-JSON/ns:ActivityOutputClass/pfx:reserveBookReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Parse JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse JSON</pd:from>
+        <pd:to>ReservationMain</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReservationMain</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

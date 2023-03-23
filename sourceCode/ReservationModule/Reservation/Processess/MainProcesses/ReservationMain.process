@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd" xmlns:cust="java://Custom.Custom">
+    <xsd:import namespace="http://www.eniquesol.com/v1/reservation.xsd" schemaLocation="/SharedResources/Schemas/Reservation.xsd"/>
+    <pd:name>Processess/MainProcesses/ReservationMain.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:reserveBookReq"/>
+    <pd:startX>105</pd:startX>
+    <pd:startY>70</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns1:ErrorReport)">
+                <group>
+                    <pfx:fault>
+                        <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                            <pfx:FaultCode>
+                                <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                            </pfx:FaultCode>
+                        </xsl:if>
+                        <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                            <pfx:FaultMsg>
+                                <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                            </pfx:FaultMsg>
+                        </xsl:if>
+                    </pfx:fault>
+                </group>
+            </xsl:when>
+            <xsl:otherwise>
+                <group>
+                    <xsl:copy-of select="$CallReservationSub/pfx:reserveBookRes"/>
+                </group>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="group">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx:reserveBookRes" minOccurs="0"/>
+                    <xsd:element ref="pfx:fault" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>757</pd:endX>
+    <pd:endY>75</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679313390075</pd:targetNamespace>
+    <pd:activity name="SetCorrID">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>217</pd:x>
+        <pd:y>73</pd:y>
+        <config>
+            <showResult>true</showResult>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="cust:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReserveReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>320</pd:x>
+        <pd:y>74</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'ReserveBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'RequestPayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($Start/pfx:reserveBookReq,true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReserveResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>600</pd:x>
+        <pd:y>74</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'ReserveBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'responsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($CallReservationSub/pfx:reserveBookRes,true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CallReservationSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>457</pd:x>
+        <pd:y>77</pd:y>
+        <config>
+            <processName>/Processess/SubProcesses/ReserveBookSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/pfx:reserveBookReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>323</pd:x>
+        <pd:y>176</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="string-length($Start/pfx:reserveBookReq/pfx:cardNo)=0">
+                    <ns2:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Card num cannot be null'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/CardNull,$_globalVariables/ns3:GlobalVariables/codeSep,$_globalVariables/ns3:GlobalVariables/badReqCode)"/>
+                        </messageCode>
+                    </ns2:ActivityInput>
+                </xsl:when>
+                <xsl:when test="string-length($Start/pfx:reserveBookReq/pfx:book_id)=0">
+                    <ns2:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Book ID cannot be null'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/BookIDNull,$_globalVariables/ns3:GlobalVariables/codeSep,$_globalVariables/ns3:GlobalVariables/badReqCode)"/>
+                        </messageCode>
+                    </ns2:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns2:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Reservation Date cannot be null'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/reserveDateNull,$_globalVariables/ns3:GlobalVariables/codeSep,$_globalVariables/ns3:GlobalVariables/badReqCode)"/>
+                        </messageCode>
+                    </ns2:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>544</pd:x>
+        <pd:y>216</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="ReserveErrLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>655</pd:x>
+        <pd:y>216</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:ErrorLogHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'ReserveBook'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'failed'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'errorDetails'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                </ns:Timestamp>
+                <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                    <ns:ErrorCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </ns:ErrorCode>
+                </xsl:if>
+                <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                    <ns:ErrorMsg>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                    </ns:ErrorMsg>
+                </xsl:if>
+            </ns:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetCorrID</pd:from>
+        <pd:to>ReserveReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReserveReqLog</pd:from>
+        <pd:to>CallReservationSub</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>string-length($Start/pfx:reserveBookReq/pfx:cardNo)!=0 
+and
+string-length($Start/pfx:reserveBookReq/pfx:book_id)!=0 
+and
+string-length($Start/pfx:reserveBookReq/pfx:reservation_date)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CallReservationSub</pd:from>
+        <pd:to>ReserveResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReserveResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReserveReqLog</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>ReserveErrLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReserveErrLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

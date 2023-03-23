@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.eniquesol.com/v1/reservation.xsd"
+	 targetNamespace="http://www.eniquesol.com/v1/reservation.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="fault">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FaultCode" type="xs:string" minOccurs="0"/>
+				<xs:element name="FaultMsg" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="reserveBookReq" type="reserveBookReqType"/>
+	<xs:complexType name="reserveBookReqType">
+		<xs:sequence>
+			<xs:element ref="cardNo" minOccurs="0"/>
+			<xs:element ref="book_id" minOccurs="0"/>
+			<xs:element ref="reservation_date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="cardNo" type="xs:string"/>
+	<xs:element name="book_id" type="xs:string"/>
+	<xs:element name="reservation_date" type="xs:string"/>
+	<xs:complexType name="reserveBookResType">
+		<xs:sequence>
+			<xs:element ref="reservation_id" minOccurs="0"/>
+			<xs:element ref="cardNo" minOccurs="0"/>
+			<xs:element ref="book_id" minOccurs="0"/>
+			<xs:element ref="reservation_date" minOccurs="0"/>
+			<xs:element ref="status" minOccurs="0"/>
+			<xs:element ref="email" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="reservation_id" type="xs:string"/>
+	<xs:element name="status" type="xs:string"/>
+	<xs:element name="reserveBookRes" type="reserveBookResType"/>
+	<xs:element name="email" type="xs:string"/>
+</xs:schema>

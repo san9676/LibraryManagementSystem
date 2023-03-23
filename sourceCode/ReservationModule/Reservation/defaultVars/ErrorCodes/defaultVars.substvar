@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>BookIDNull</name>
+			<value>102</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1679558170646</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>CardNull</name>
+			<value>101</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1679558170671</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>LibActive</name>
+			<value>105</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1679558290087</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>noRecordErr</name>
+			<value>104</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1679558290055</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>reserveDateNull</name>
+			<value>103</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1679558170616</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesol.com/v1/reservation.xsd" schemaLocation="/SharedResources/Schemas/Reservation.xsd"/>
+    <pd:name>Processess/SubProcesses/ReserveBookSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:reserveBookReq"/>
+    <pd:startX>97</pd:startX>
+    <pd:startY>117</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Map-Data/pfx:reserveBookRes"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:reserveBookRes"/>
+    <pd:endX>862</pd:endX>
+    <pd:endY>116</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679313744884</pd:targetNamespace>
+    <pd:activity name="FetchBookDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>212</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select BOOKID,TITLE,AUTHOR,COPIES,STATUS  from LIB_BOOK where BOOKID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>TITLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>AUTHOR</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>COPIES</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>2</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>NUMBER</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>STATUS</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <BOOKID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:reserveBookReq/pfx:book_id)">
+                            <xsl:value-of select="$Start/pfx:reserveBookReq/pfx:book_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </BOOKID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="fetchLibInfo">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>342</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select CARDNUMBER,STATUS,EMAIL  from LIB_CARD where  CARDNUMBER=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>CARDNUMBER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>CARDNUMBER</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>STATUS</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>EMAIL</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <CARDNUMBER>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:reserveBookReq/pfx:cardNo)">
+                            <xsl:value-of select="$Start/pfx:reserveBookReq/pfx:cardNo"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </CARDNUMBER>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>606</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <element ref="pfx:reserveBookRes"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:reserveBookRes>
+                <xsl:if test="$genReservID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='RESERVEID']/value">
+                    <pfx:reservation_id>
+                        <xsl:value-of select="$genReservID/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[name='RESERVEID']/value"/>
+                    </pfx:reservation_id>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:reserveBookReq/pfx:cardNo">
+                    <pfx:cardNo>
+                        <xsl:value-of select="$Start/pfx:reserveBookReq/pfx:cardNo"/>
+                    </pfx:cardNo>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:reserveBookReq/pfx:book_id">
+                    <pfx:book_id>
+                        <xsl:value-of select="$Start/pfx:reserveBookReq/pfx:book_id"/>
+                    </pfx:book_id>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:reserveBookReq/pfx:reservation_date">
+                    <pfx:reservation_date>
+                        <xsl:value-of select="$Start/pfx:reserveBookReq/pfx:reservation_date"/>
+                    </pfx:reservation_date>
+                </xsl:if>
+                <pfx:status>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/activeStatus"/>
+                </pfx:status>
+                <xsl:if test="$fetchLibInfo/resultSet/Record[1]/EMAIL">
+                    <pfx:email>
+                        <xsl:value-of select="$fetchLibInfo/resultSet/Record[1]/EMAIL"/>
+                    </pfx:email>
+                </xsl:if>
+            </pfx:reserveBookRes>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="genReservID">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>476</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="&quot;select 'R'||reserveIDSEQ.NEXTVAL as RESERVEID from dual&quot;"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="insertReservationDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>717</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>insert into LIB_RESERVATION values(?,?,?,?,?,?,?)</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>RESERVATION_ID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>BOOK_ID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>CARDNUMBER</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>RESERVATION_DATE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EXPIRATION_DATE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>STATUS</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>emailId</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <RESERVATION_ID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:reservation_id)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:reservation_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </RESERVATION_ID>
+                <BOOK_ID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:book_id)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:book_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </BOOK_ID>
+                <CARDNUMBER>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:cardNo)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:cardNo"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </CARDNUMBER>
+                <RESERVATION_DATE>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:reservation_date)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:reservation_date"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </RESERVATION_DATE>
+                <EXPIRATION_DATE>
+                    <xsl:value-of select="tib:add-to-date($Map-Data/pfx:reserveBookRes/pfx:reservation_date, 0, 0, 14)"/>
+                </EXPIRATION_DATE>
+                <STATUS>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:status)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:status"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </STATUS>
+                <emailId>
+                    <xsl:choose>
+                        <xsl:when test="exists($Map-Data/pfx:reserveBookRes/pfx:email)">
+                            <xsl:value-of select="$Map-Data/pfx:reserveBookRes/pfx:email"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </emailId>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>339</pd:x>
+        <pd:y>228</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="count($fetchLibInfo/resultSet/Record)=0">
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'No Record for the given Card number'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/noRecordErr,$_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReqCode)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'The Library card is not active'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/LibActive,$_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReqCode)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>FetchBookDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBookDetails</pd:from>
+        <pd:to>fetchLibInfo</pd:to>
+        <pd:xpathDescription/>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchLibInfo</pd:from>
+        <pd:to>genReservID</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($fetchLibInfo/resultSet/Record)&gt;0 
+and
+upper-case($fetchLibInfo/resultSet/Record[1]/STATUS)=upper-case($_globalVariables/ns1:GlobalVariables/activeStatus)</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>genReservID</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>insertReservationDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>insertReservationDetails</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchLibInfo</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
