@@ -7,11 +7,7 @@
 <property name="project.bw.application" value="${basedir}/CatalogModule" />
     <!-- Define targets -->
 	
-    <!-- <target name="export-deploy-conf">
-        <exec executable="${Appmanage}">
-            <arg line="-export --propFile C:\tibco\tra\5.7\bin\AppManage.tra -out ${build.dir}/Conf/catalogConfig.xml -ear ${build.dir}/EAR/catalog.ear" />
-        </exec> 
-    </target>-->
+   
 
     <target name="deploy" >
         <exec executable="${Appmanage}">
