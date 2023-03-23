@@ -57,7 +57,7 @@
             <commit>false</commit>
             <emptyStrAsNil>false</emptyStrAsNil>
             <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
-            <statement>insert into Lib_Book values(?,?,?,?,?,?,?,?,?,?,?)</statement>
+            <statement>insert into Lib_Book values(?,?,?,?,?,?,?,?,?,?,?,?)</statement>
             <Prepared_Param_DataType>
                 <parameter>
                     <parameterName>BOOKID</parameterName>
@@ -101,6 +101,10 @@
                 </parameter>
                 <parameter>
                     <parameterName>copies</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>status</parameterName>
                     <dataType>VARCHAR</dataType>
                 </parameter>
             </Prepared_Param_DataType>
@@ -204,6 +208,9 @@
                 <copies>
                     <xsl:value-of select="1"/>
                 </copies>
+                <status>
+                    <xsl:value-of select="'available'"/>
+                </status>
             </jdbcUpdateActivityInput>
         </pd:inputBindings>
     </pd:activity>

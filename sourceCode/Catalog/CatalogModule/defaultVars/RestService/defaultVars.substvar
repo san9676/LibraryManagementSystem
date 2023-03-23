@@ -5,9 +5,9 @@
 			<name>baseURL</name>
 			<value>http://localhost:10010/api/v1/catalog</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1678948968726</modTime>
+			<modTime>1679546553534</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

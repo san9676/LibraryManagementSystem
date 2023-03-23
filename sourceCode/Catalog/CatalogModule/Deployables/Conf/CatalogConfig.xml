@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!rPxZfYbcKGEJ3m6S6vhbGQ6wizuie/my</value>
+            <value>#!+kyWisSRsLfy6GNPgtEHSBxH5HN2CHt9</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,7 +46,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!x8KQbUMtbfc7Cvo0UrCnHj94pqjc6yPJN4X57qLqEG3zoAvu8nWW1eCtUa8RDjY1</value>
+            <value>#!YhwklKs3jEvHjj/IFlhatgWJIFfW4R+BNY67LE+CozIzrsc5C5tbZ33uM95HYIcE</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
@@ -75,10 +75,6 @@
         <NameValuePair>
             <name>RemoteRvDaemon</name>
             <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RestService/baseURL</name>
-            <value>http://localhost:10010/api/v1/catalog</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvDaemon</name>
@@ -112,6 +108,10 @@
             <name>TIBHawkService</name>
             <value>7474</value>
         </NameValuePair>
+        <NameValuePair>
+            <name>RestService/baseURL</name>
+            <value>http://localhost:10010/api/v1/catalog</value>
+        </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
         <httpRepoInstance>
@@ -132,7 +132,7 @@
             <enabled>true</enabled>
             <bindings>
                 <binding name="">
-                    <machine>DESKTOP-DQBV3IC</machine>
+                    <machine>%%Process Archive.par-machine%%</machine>
                     <product>
                         <type>bwengine</type>
                         <version></version>
@@ -146,6 +146,12 @@
                     </shutdown>
                 </binding>
             </bindings>
+            <NVPairs name="Runtime Variables">
+                <NameValuePair>
+                    <name>RestService/baseURL</name>
+                    <value>http://localhost:10010/api/v1/catalog</value>
+                </NameValuePair>
+            </NVPairs>
             <NVPairs name="Adapter SDK Properties">
                 <NameValuePair>
                     <name>Trace.Task.*</name>
@@ -238,7 +244,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>Process_Ar_44983698</tablePrefix>
+                <tablePrefix>Process_Ar_72157857</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>
