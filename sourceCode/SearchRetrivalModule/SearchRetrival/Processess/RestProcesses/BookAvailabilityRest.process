@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
+    <pd:name>Processess/RestProcesses/BookAvailabilityRest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="book_id" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>120</pd:startX>
+    <pd:startY>78</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <payload>
+                <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+            </payload>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="payload" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>655</pd:endX>
+    <pd:endY>79</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679889644197</pd:targetNamespace>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>483</pd:x>
+        <pd:y>77</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <removeRootElementForInput>true</removeRootElementForInput>
+            <ActivityInputEditor ref="pfx:BookAvailRes"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <xsl:choose>
+                    <xsl:when test="contains($CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorCode,concat('-','400'))">
+                        <pfx:BookAvailRes>
+                            <pfx:control>
+                                <pfx:ErrorCode>
+                                    <xsl:value-of select="substring-before($CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorCode,concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/badReqCode))"/>
+                                </pfx:ErrorCode>
+                                <xsl:if test="$CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorMsg">
+                                    <pfx:ErrorMsg>
+                                        <xsl:copy-of select="$CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorMsg/@xsi:nil"/>
+                                        <xsl:value-of select="$CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorMsg"/>
+                                    </pfx:ErrorMsg>
+                                </xsl:if>
+                            </pfx:control>
+                        </pfx:BookAvailRes>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="$CallSearchMain/pfx:BookAvailRes"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CallSearchMain">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>283</pd:x>
+        <pd:y>77</pd:y>
+        <config>
+            <processName>/Processess/MainProcesses/BookAvailabilityMain.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <book_id>
+                    <xsl:value-of select="$Start/root/book_id"/>
+                </book_id>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CallSearchMain</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CallSearchMain</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

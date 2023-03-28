@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/BOOKResultSet.xsd" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/BOOKResultSet.xsd" schemaLocation="/SharedResources/Schemas/BOOKResultSet.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
+    <pd:name>Processess/SubProcesses/SearchCatalogSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:SearchReq"/>
+    <pd:startX>113</pd:startX>
+    <pd:startY>71</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Map-Data/pfx:SearchCatalogResults"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SearchCatalogResults"/>
+    <pd:endX>736</pd:endX>
+    <pd:endY>67</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679892404635</pd:targetNamespace>
+    <pd:activity name="JDBC Call Procedure">
+        <pd:type>com.tibco.plugin.jdbc.JDBCCallActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCCallActivity</pd:resourceType>
+        <pd:x>245</pd:x>
+        <pd:y>76</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <ProcedureName>LMS_SEARCHCATALOG_GETBOOK</ProcedureName>
+            <useSchema>true</useSchema>
+            <oraObjects/>
+            <oraTables/>
+            <ConfigurationError>ORA-00936: missing expression
+ORA-06512: at "SYSTEM.LMS_SEARCHCATALOG_GETBOOK", line 33
+ORA-06512: at line 1
+</ConfigurationError>
+            <parameterTypes>
+                <parameter>
+                    <colName>SEARCH_Q</colName>
+                    <colType>1</colType>
+                    <dataType>12</dataType>
+                    <typeName>VARCHAR2</typeName>
+                </parameter>
+                <parameter>
+                    <colName>SEARCH_T</colName>
+                    <colType>1</colType>
+                    <dataType>12</dataType>
+                    <typeName>VARCHAR2</typeName>
+                </parameter>
+                <parameter>
+                    <colName>ORDER_BY</colName>
+                    <colType>1</colType>
+                    <dataType>12</dataType>
+                    <typeName>VARCHAR2</typeName>
+                </parameter>
+                <parameter>
+                    <colName>SORTORDER</colName>
+                    <colType>1</colType>
+                    <dataType>12</dataType>
+                    <typeName>VARCHAR2</typeName>
+                </parameter>
+                <parameter>
+                    <colName>PAGENO</colName>
+                    <colType>1</colType>
+                    <dataType>2</dataType>
+                    <typeName>NUMBER</typeName>
+                </parameter>
+                <parameter>
+                    <colName>LIMIT</colName>
+                    <colType>1</colType>
+                    <dataType>2</dataType>
+                    <typeName>NUMBER</typeName>
+                </parameter>
+                <parameter>
+                    <colName>RESULT</colName>
+                    <colType>3</colType>
+                    <dataType>-10</dataType>
+                    <typeName>REF CURSOR</typeName>
+                </parameter>
+            </parameterTypes>
+        </config>
+        <pd:inputBindings>
+            <inputs>
+                <inputSet>
+                    <SEARCH_Q>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:Search_Query)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:Search_Query"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </SEARCH_Q>
+                    <SEARCH_T>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:Search_Type)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:Search_Type"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </SEARCH_T>
+                    <ORDER_BY>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:sort_by)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_by"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </ORDER_BY>
+                    <SORTORDER>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:sort_order)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_order"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </SORTORDER>
+                    <PAGENO>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:page_number)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_number"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </PAGENO>
+                    <LIMIT>
+                        <xsl:choose>
+                            <xsl:when test="exists($Start/pfx:SearchReq/pfx:page_size)">
+                                <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_size"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </LIMIT>
+                </inputSet>
+            </inputs>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>364</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx2:Resultsets"/>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$JDBC-Call-Procedure/resultSet/UnresolvedResultsets"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>495</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <element ref="pfx:SearchCatalogResults"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:SearchCatalogResults>
+                <xsl:for-each select="$Parse-XML/Resultsets/ResultSet1/Record1">
+                    <pfx:BookDetails>
+                        <pfx:book_id>
+                            <xsl:value-of select="BOOKID"/>
+                        </pfx:book_id>
+                        <pfx:title>
+                            <xsl:value-of select="TITLE"/>
+                        </pfx:title>
+                        <pfx:author>
+                            <xsl:value-of select="AUTHOR"/>
+                        </pfx:author>
+                        <pfx:isbn>
+                            <xsl:value-of select="ISBN"/>
+                        </pfx:isbn>
+                        <pfx:publisher>
+                            <xsl:value-of select="PUBLISHER"/>
+                        </pfx:publisher>
+                        <pfx:publish_year>
+                            <xsl:value-of select="PUBLISH_YEAR"/>
+                        </pfx:publish_year>
+                        <pfx:edition>
+                            <xsl:value-of select="EDITION"/>
+                        </pfx:edition>
+                        <pfx:category>
+                            <xsl:value-of select="CATEGORY"/>
+                        </pfx:category>
+                        <pfx:language>
+                            <xsl:value-of select="LANGUAGE"/>
+                        </pfx:language>
+                        <pfx:description>
+                            <xsl:value-of select="DESRIPTION"/>
+                        </pfx:description>
+                        <pfx:status>
+                            <xsl:value-of select="STATUS"/>
+                        </pfx:status>
+                    </pfx:BookDetails>
+                </xsl:for-each>
+                <pfx:control>
+                    <xsl:if test="$Start/pfx:SearchReq/pfx:sort_by">
+                        <pfx:sort_by>
+                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_by"/>
+                        </pfx:sort_by>
+                    </xsl:if>
+                    <xsl:if test="$Start/pfx:SearchReq/pfx:sort_order">
+                        <pfx:sort_order>
+                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_order"/>
+                        </pfx:sort_order>
+                    </xsl:if>
+                    <xsl:if test="$Start/pfx:SearchReq/pfx:page_number">
+                        <pfx:page_number>
+                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_number"/>
+                        </pfx:page_number>
+                    </xsl:if>
+                    <xsl:if test="$Start/pfx:SearchReq/pfx:page_size">
+                        <pfx:page_size>
+                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_size"/>
+                        </pfx:page_size>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="$Parse-XML/Resultsets/ResultSet1/Record1/TOTAL_NUM_PAGES > $Start/pfx:SearchReq/pfx:page_number">
+                            <pfx:nextpageURL>
+                                <xsl:value-of select="concat('http://localhost:10040/api/v1/search?Search_Query=',$Start/pfx:SearchReq/pfx:Search_Query,'&amp;Search_Type=',$Start/pfx:SearchReq/pfx:Search_Type,'&amp;sort_by=',$Start/pfx:SearchReq/pfx:sort_by,'&amp;sort_order=',$Start/pfx:SearchReq/pfx:sort_order,'&amp;page_number=',$Start/pfx:SearchReq/pfx:page_number + 1,'&amp;page_size=',$Start/pfx:SearchReq/pfx:page_size)"/>
+                            </pfx:nextpageURL>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <pfx:nextpageURL/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <pfx:ErrorCode xsi:nil="true"/>
+                    <pfx:ErrorMsg/>
+                </pfx:control>
+            </pfx:SearchCatalogResults>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>244</pd:x>
+        <pd:y>194</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInput>
+                <message>
+                    <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                </messageCode>
+            </ns:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>JDBC Call Procedure</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Call Procedure</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Call Procedure</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-65536</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

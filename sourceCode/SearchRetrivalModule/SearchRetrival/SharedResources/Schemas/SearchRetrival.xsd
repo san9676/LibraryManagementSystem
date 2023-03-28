@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.eniquesolutions.com/V1/SearchRetrival.xsd"
+	 targetNamespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="SearchCatalogResults">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="BookDetails" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="control" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="BookDeatilsType">
+		<xs:sequence>
+			<xs:element ref="book_id" minOccurs="0"/>
+			<xs:element ref="title" minOccurs="0"/>
+			<xs:element ref="author" minOccurs="0"/>
+			<xs:element ref="isbn" minOccurs="0"/>
+			<xs:element ref="publisher" minOccurs="0"/>
+			<xs:element ref="publish_year" minOccurs="0"/>
+			<xs:element ref="edition" minOccurs="0"/>
+			<xs:element ref="category" minOccurs="0"/>
+			<xs:element ref="language" minOccurs="0"/>
+			<xs:element ref="description" minOccurs="0"/>
+			<xs:element ref="status" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="book_id" type="xs:string"/>
+	<xs:element name="title" type="xs:string"/>
+	<xs:element name="author" type="xs:string"/>
+	<xs:element name="isbn" type="xs:string"/>
+	<xs:element name="publisher" type="xs:string"/>
+	<xs:element name="publish_year" type="xs:string"/>
+	<xs:element name="edition" type="xs:string"/>
+	<xs:element name="category" type="xs:string"/>
+	<xs:element name="language" type="xs:string"/>
+	<xs:element name="description" type="xs:string"/>
+	<xs:element name="status" type="xs:string"/>
+	<xs:complexType name="SearchReqType">
+		<xs:sequence>
+			<xs:element ref="Search_Query" minOccurs="0"/>
+			<xs:element ref="Search_Type" minOccurs="0"/>
+			<xs:element ref="sort_by" minOccurs="0"/>
+			<xs:element ref="sort_order" minOccurs="0"/>
+			<xs:element ref="page_number" minOccurs="0"/>
+			<xs:element ref="page_size" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Search_Query" type="xs:string"/>
+	<xs:element name="Search_Type" type="xs:string"/>
+	<xs:element name="sort_by" type="xs:string"/>
+	<xs:element name="sort_order" type="xs:string"/>
+	<xs:element name="page_number" type="xs:string"/>
+	<xs:element name="page_size" type="xs:string"/>
+	<xs:element name="SearchReq" type="SearchReqType"/>
+	<xs:element name="BookDetails" type="BookDeatilsType" nillable="true"/>
+	<xs:element name="control">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="sort_by" minOccurs="0"/>
+				<xs:element ref="sort_order" minOccurs="0"/>
+				<xs:element ref="page_number" minOccurs="0"/>
+				<xs:element ref="page_size" minOccurs="0"/>
+				<xs:element ref="nextpageURL" minOccurs="0"/>
+				<xs:element ref="ErrorCode" minOccurs="0"/>
+				<xs:element ref="ErrorMsg" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ErrorCode" type="xs:string" nillable="true"/>
+	<xs:element name="ErrorMsg" type="xs:string" nillable="true"/>
+	<xs:element name="nextpageURL" type="xs:string" nillable="true"/>
+	<xs:element name="BookAvailRes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="bookAvailDetails" minOccurs="0"/>
+				<xs:element ref="control" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="availability" type="xs:string"/>
+	<xs:element name="return_date" type="xs:string"/>
+	<xs:element name="bookAvailDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="book_id" minOccurs="0"/>
+				<xs:element ref="title" minOccurs="0"/>
+				<xs:element ref="author" minOccurs="0"/>
+				<xs:element ref="availability" minOccurs="0"/>
+				<xs:element ref="return_date" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>Services/SearchRetrivalRestService.process</pd:name>
+    <pd:startName>HTTP Receiver</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="HTTP Receiver">
+        <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
+        <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
+        <pd:x>145</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <outputMode>String</outputMode>
+            <defaultEncoding>ISO8859_1</defaultEncoding>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <sharedChannel>/SharedResources/Connections/Http/HTTPConnection.sharedhttp</sharedChannel>
+            <customField/>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>488</pd:endX>
+    <pd:endY>63</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679893977162</pd:targetNamespace>
+    <pd:activity name="REST Dispatch and Reply">
+        <pd:type>com.tibco.plugin.json.rest.server.activities.RestAdapterActivity</pd:type>
+        <pd:resourceType>rest.activities.RestAdapter</pd:resourceType>
+        <pd:x>307</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <eventSource>HTTP Receiver</eventSource>
+            <RestService>
+                <InnerService>
+                    <ns0:application xmlns:ns0="http://wadl.dev.java.net/2009/02" name="Application">
+                        <ns0:resources name="searchRetrivalRest" base="%%Rest/baseURL%%">
+                            <ns0:resource id="searchCatalog" path="/search">
+                                <ns0:doc/>
+                                <ns0:method id="get" name="GET">
+                                    <ns0:doc/>
+                                    <Binding process="/Processess/RestProcesses/SearchCatalogRest.process">
+                                        <RESTResponseHeader>
+                                            <xsd:element name="Headers">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </RESTResponseHeader>
+                                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                                <ns:SearchReq>
+                                                    <xsl:if test="$Input-Binding/params/query/Search_Query">
+                                                        <ns:Search_Query>
+                                                            <xsl:value-of select="$Input-Binding/params/query/Search_Query"/>
+                                                        </ns:Search_Query>
+                                                    </xsl:if>
+                                                    <xsl:if test="$Input-Binding/params/query/Search_Type">
+                                                        <ns:Search_Type>
+                                                            <xsl:value-of select="$Input-Binding/params/query/Search_Type"/>
+                                                        </ns:Search_Type>
+                                                    </xsl:if>
+                                                    <ns:sort_by>
+                                                        <xsl:value-of select="$Input-Binding/params/query/sort_by"/>
+                                                    </ns:sort_by>
+                                                    <xsl:if test="$Input-Binding/params/query/sort_order">
+                                                        <ns:sort_order>
+                                                            <xsl:value-of select="$Input-Binding/params/query/sort_order"/>
+                                                        </ns:sort_order>
+                                                    </xsl:if>
+                                                    <xsl:if test="$Input-Binding/params/query/page_number">
+                                                        <ns:page_number>
+                                                            <xsl:value-of select="$Input-Binding/params/query/page_number"/>
+                                                        </ns:page_number>
+                                                    </xsl:if>
+                                                    <xsl:if test="$Input-Binding/params/query/page_size">
+                                                        <ns:page_size>
+                                                            <xsl:value-of select="$Input-Binding/params/query/page_size"/>
+                                                        </ns:page_size>
+                                                    </xsl:if>
+                                                </ns:SearchReq>
+                                            </xsl:template>
+                                        </Input-Binding>
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                <RESTResponse>
+                                                    <xsl:if test="$End/root/payload">
+                                                        <asciiContent>
+                                                            <xsl:value-of select="$End/root/payload"/>
+                                                        </asciiContent>
+                                                    </xsl:if>
+                                                    <Headers>
+                                                        <StatusLine>
+                                                            <xsl:value-of select="if (empty($CallSearchMain/pfx:SearchCatalogResults/pfx:control/pfx:ErrorCode)) then &#xA;'HTTP/1.1 200 OK'&#xA;else&#xA;if (contains($CallSearchMain/pfx:SearchCatalogResults/pfx:control/pfx:ErrorCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/badReqCode))) &#xA;then &#xA;'HTTP/1.1 400 Bad Request' &#xA;else &#xA;'HTTP/1.1 500 Internal Server Error'"/>
+                                                        </StatusLine>
+                                                        <Content-Type>
+                                                            <xsl:value-of select="'application/json'"/>
+                                                        </Content-Type>
+                                                    </Headers>
+                                                </RESTResponse>
+                                            </xsl:template>
+                                        </Output-Binding>
+                                    </Binding>
+                                    <ns0:request name="Request">
+                                        <ns0:representation mediaType="application/json"/>
+                                    </ns0:request>
+                                    <ns0:response name="Response0" status="200">
+                                        <ns0:representation mediaType="application/json"/>
+                                    </ns0:response>
+                                </ns0:method>
+                                <ns0:param name="Search_Query" style="query" required="false"/>
+                                <ns0:param name="Search_Type" style="query" required="false"/>
+                                <ns0:param name="sort_by" style="query" required="false"/>
+                                <ns0:param name="sort_order" style="query" required="false"/>
+                                <ns0:param name="page_number" style="query" required="false"/>
+                                <ns0:param name="page_size" style="query" required="false"/>
+                            </ns0:resource>
+                            <ns0:resource id="BookAvail" path="/checkAvail">
+                                <ns0:doc/>
+                                <ns0:method id="getBook" name="GET">
+                                    <ns0:doc/>
+                                    <Binding process="/Processess/RestProcesses/BookAvailabilityRest.process">
+                                        <RESTResponseHeader>
+                                            <xsd:element name="Headers">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </RESTResponseHeader>
+                                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                                <root>
+                                                    <xsl:if test="$Input-Binding/params/query/book_id">
+                                                        <book_id>
+                                                            <xsl:value-of select="$Input-Binding/params/query/book_id"/>
+                                                        </book_id>
+                                                    </xsl:if>
+                                                </root>
+                                            </xsl:template>
+                                        </Input-Binding>
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                <RESTResponse>
+                                                    <xsl:if test="$End/root/payload">
+                                                        <asciiContent>
+                                                            <xsl:value-of select="$End/root/payload"/>
+                                                        </asciiContent>
+                                                    </xsl:if>
+                                                    <Headers>
+                                                        <StatusLine>
+                                                            <xsl:value-of select="if ($CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorCode/@xsi:nil) then &#xA;'HTTP/1.1 200 OK'&#xA;else&#xA;if (contains($CallSearchMain/pfx:BookAvailRes/pfx:control/pfx:ErrorCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/badReqCode)))&#xA; then &#xA;'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                        </StatusLine>
+                                                        <Content-Type>
+                                                            <xsl:value-of select="'application/json'"/>
+                                                        </Content-Type>
+                                                    </Headers>
+                                                </RESTResponse>
+                                            </xsl:template>
+                                        </Output-Binding>
+                                    </Binding>
+                                </ns0:method>
+                                <ns0:param name="book_id" style="query" required="true"/>
+                            </ns0:resource>
+                        </ns0:resources>
+                    </ns0:application>
+                </InnerService>
+            </RestService>
+        </config>
+        <pd:inputBindings>
+            <ns0:ActivityInputClass xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/json">
+                <tmp>
+                    <xsl:value-of select="$HTTP-Receiver/ProcessStarterOutput/Method"/>
+                </tmp>
+            </ns0:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>HTTP Receiver</pd:from>
+        <pd:to>REST Dispatch and Reply</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>REST Dispatch and Reply</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

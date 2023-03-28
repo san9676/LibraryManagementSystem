@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:cust="java://Custom.Custom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
+    <pd:name>Processess/MainProcesses/BookAvailabilityMain.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="book_id" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>100</pd:startX>
+    <pd:startY>74</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns1:ErrorReport)">
+                <pfx:BookAvailRes>
+                    <pfx:control>
+                        <pfx:ErrorCode>
+                            <xsl:choose>
+                                <xsl:when test="exists($_error/ns1:ErrorReport/MsgCode)">
+                                    <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </pfx:ErrorCode>
+                        <pfx:ErrorMsg>
+                            <xsl:choose>
+                                <xsl:when test="exists($_error/ns1:ErrorReport/Msg)">
+                                    <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </pfx:ErrorMsg>
+                    </pfx:control>
+                </pfx:BookAvailRes>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy-of select="$CallBookAvailSub/pfx:BookAvailRes"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookAvailRes"/>
+    <pd:endX>840</pd:endX>
+    <pd:endY>76</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679889798870</pd:targetNamespace>
+    <pd:activity name="BookAvailReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>353</pd:x>
+        <pd:y>74</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'SearchRetrival'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'BookAvailability'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'RequestPayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($Start/root, true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetCorrID">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>211</pd:x>
+        <pd:y>73</pd:y>
+        <config>
+            <showResult>true</showResult>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="cust:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CallBookAvailSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>511</pd:x>
+        <pd:y>77</pd:y>
+        <config>
+            <processName>/Processess/SubProcesses/BookAvailSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <Book_Id>
+                    <xsl:value-of select="$Start/root/book_id"/>
+                </Book_Id>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="BookAvailResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>668</pd:x>
+        <pd:y>78</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'SearchRetrival'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'BookAvailability'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'ResponsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($CallBookAvailSub/pfx:BookAvailRes, true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>358</pd:x>
+        <pd:y>180</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <pfx2:ActivityInput>
+                <message>
+                    <xsl:value-of select="'BookId canot be null'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ErrorCodes/BookIDNullErrCode,$_globalVariables/ns2:GlobalVariables/CodeSep,$_globalVariables/ns2:GlobalVariables/badReqCode)"/>
+                </messageCode>
+            </pfx2:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>551</pd:x>
+        <pd:y>241</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="ErrLogHandler">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>688</pd:x>
+        <pd:y>235</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:ErrorLogHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'SearchRetrival'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'BookAvailability'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'failed'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'ErrorDetails'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                    <ns:ErrorCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </ns:ErrorCode>
+                </xsl:if>
+                <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                    <ns:ErrorMsg>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                    </ns:ErrorMsg>
+                </xsl:if>
+            </ns:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetCorrID</pd:from>
+        <pd:to>BookAvailReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>BookAvailReqLog</pd:from>
+        <pd:to>CallBookAvailSub</pd:to>
+        <pd:xpathDescription>validation</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>string-length($Start/root/book_id)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CallBookAvailSub</pd:from>
+        <pd:to>BookAvailResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>BookAvailResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>BookAvailReqLog</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>ErrLogHandler</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ErrLogHandler</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

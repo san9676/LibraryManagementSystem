@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <enterpriseArchive>
+        <sharedArchive name="SharedArchive">
+            <resourceType>shared.archive.resource</resourceType>
+            <authorProperty>admin</authorProperty>
+            <sharedResources/>
+            <sharedFiles/>
+            <sharedJarFiles/>
+        </sharedArchive>
+        <processArchive name="ProcessArchive">
+            <resourceType>process.archive.resource</resourceType>
+            <authorProperty>admin</authorProperty>
+            <processProperty>/Services/SearchRetrivalRestService.process</processProperty>
+        </processArchive>
+        <versionProperty>3</versionProperty>
+        <authorProperty>admin</authorProperty>
+        <addServiceSettableGvars>true</addServiceSettableGvars>
+        <name>SearchRetrival</name>
+        <designer/>
+        <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\SearchRetrivalModule\SearchRetrival\Deployables\EAR\SearchRetrival.ear</fileLocationProperty>
+    </enterpriseArchive>
+</Repository:repository>

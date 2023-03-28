@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 elementFormDefault="unqualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Resultsets">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultSet1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Record1" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="BOOKID" type="xs:string"/>
+										<xs:element name="TITLE" type="xs:string"/>
+										<xs:element name="AUTHOR" type="xs:string"/>
+										<xs:element name="ISBN" type="xs:string"/>
+										<xs:element name="PUBLISHER" type="xs:string"/>
+										<xs:element name="PUBLISH_YEAR" type="xs:string"/>
+										<xs:element name="EDITION" type="xs:string"/>
+										<xs:element name="CATEGORY" type="xs:string"/>
+										<xs:element name="LANGUAGE" type="xs:string"/>
+										<xs:element name="DESRIPTION" type="xs:string"/>
+										<xs:element name="COPIES" type="xs:string"/>
+										<xs:element name="STATUS" type="xs:string"/>
+										<xs:element name="RNUM" type="xs:string"/>
+										<xs:element name="RESULT_COUNT" type="xs:string"/>
+										<xs:element name="TOTAL_NUM_PAGES" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

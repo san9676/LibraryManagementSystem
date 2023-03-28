@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
+    <pd:name>Processess/SubProcesses/BookAvailSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="Book_Id" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>106</pd:startX>
+    <pd:startY>118</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Map-Data/pfx:BookAvailRes"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:BookAvailRes"/>
+    <pd:endX>744</pd:endX>
+    <pd:endY>116</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1679980310112</pd:targetNamespace>
+    <pd:activity name="fetchBookAvail">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>269</pd:x>
+        <pd:y>117</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select BOOKID,TITLE,AUTHOR,STATUS from LIB_BOOK where BOOKID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>TITLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>AUTHOR</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>STATUS</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <BOOKID>
+                    <xsl:value-of select="$Start/root/Book_Id"/>
+                </BOOKID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="fetchReturnDate">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>405</pd:x>
+        <pd:y>35</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select BOOKID,DUE_DATE from LIB_BORROWING where BOOKID=? and STATUS='Checked Out'</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>BOOKID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>BOOKID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DUE_DATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <BOOKID>
+                    <xsl:value-of select="$Start/root/Book_Id"/>
+                </BOOKID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>541</pd:x>
+        <pd:y>120</pd:y>
+        <config>
+            <element ref="pfx:BookAvailRes"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:BookAvailRes>
+                <xsl:choose>
+                    <xsl:when test="$fetchBookAvail/resultSet/Record/STATUS='available'">
+                        <pfx:bookAvailDetails>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
+                                <pfx:book_id>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
+                                </pfx:book_id>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
+                                <pfx:title>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
+                                </pfx:title>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
+                                <pfx:author>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
+                                </pfx:author>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
+                                <pfx:availability>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
+                                </pfx:availability>
+                            </xsl:if>
+                        </pfx:bookAvailDetails>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <pfx:bookAvailDetails>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
+                                <pfx:book_id>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
+                                </pfx:book_id>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
+                                <pfx:title>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
+                                </pfx:title>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
+                                <pfx:author>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
+                                </pfx:author>
+                            </xsl:if>
+                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
+                                <pfx:availability>
+                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
+                                </pfx:availability>
+                            </xsl:if>
+                            <xsl:if test="$fetchReturnDate/resultSet/Record[1]/DUE_DATE">
+                                <pfx:return_date>
+                                    <xsl:value-of select="$fetchReturnDate/resultSet/Record[1]/DUE_DATE"/>
+                                </pfx:return_date>
+                            </xsl:if>
+                        </pfx:bookAvailDetails>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </pfx:BookAvailRes>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>fetchBookAvail</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchBookAvail</pd:from>
+        <pd:to>fetchReturnDate</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchBookAvail</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:xpathDescription>if available</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$fetchBookAvail/resultSet/Record/STATUS='available'</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchReturnDate</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
