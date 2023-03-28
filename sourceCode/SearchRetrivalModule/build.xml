@@ -1,0 +1,18 @@
+<project name="SearchRetrival" default="deploy" basedir=".">
+
+    <!-- Define properties -->
+    <property name="Appmanage" value="C:\tibco\tra\5.7\bin\AppManage.exe" />
+    <property name="build.dir" value="${basedir}/SearchRetrival/Deployables" />
+    <property name="app.name" value="SearchRetrival" />
+<property name="project.bw.application" value="${basedir}/SearchRetrival" />
+    <!-- Define targets -->
+	
+   
+
+    <target name="deploy" >
+        <exec executable="${Appmanage}">
+            <arg line="-deploy --propFile C:\tibco\tra\5.7\bin\AppManage.tra -app ${app.name} -ear ${build.dir}/EAR/SearchRetrival.ear -deployconfig ${build.dir}/Conf/SearchRetrivalConfig.xml -user admin -pw admin -domain admin" />
+        </exec>
+    </target>
+
+</project>
