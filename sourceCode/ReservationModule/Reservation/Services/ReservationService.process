@@ -16,6 +16,8 @@
             <inputOutputVersion>5.3.0</inputOutputVersion>
             <newMimeSupport>true</newMimeSupport>
             <sharedChannel>/SharedResources/Connections/Http/HTTP Connection.sharedhttp</sharedChannel>
+            <parsePostData>false</parsePostData>
+            <customField/>
             <Headers>
                 <xsd:element name="root">
                     <xsd:complexType>
@@ -45,7 +47,7 @@
         <pd:type>com.tibco.plugin.json.rest.server.activities.RestAdapterActivity</pd:type>
         <pd:resourceType>rest.activities.RestAdapter</pd:resourceType>
         <pd:x>309</pd:x>
-        <pd:y>70</pd:y>
+        <pd:y>69</pd:y>
         <config>
             <eventSource>HTTP Receiver</eventSource>
             <RestService>
