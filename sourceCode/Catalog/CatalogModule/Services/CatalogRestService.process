@@ -28,6 +28,9 @@
                             <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Access-Control-Allow-Origin" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Access-Control-Allow-Methods" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Access-Control-Allow-Headers" type="xsd:string" minOccurs="0"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>

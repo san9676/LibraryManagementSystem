@@ -126,18 +126,17 @@
                                         </Output-Binding>
                                     </Binding>
                                     <ns0:request name="Request">
-                                        <ns0:representation mediaType="application/json"/>
+                                        <ns0:param name="Search_Query" style="query" required="false"/>
+                                        <ns0:param name="Search_Type" style="query" required="false"/>
+                                        <ns0:param name="sort_by" style="query" required="false"/>
+                                        <ns0:param name="sort_order" style="query" required="false"/>
+                                        <ns0:param name="page_number" style="query" required="false"/>
+                                        <ns0:param name="page_size" style="query" required="false"/>
                                     </ns0:request>
                                     <ns0:response name="Response0" status="200">
                                         <ns0:representation mediaType="application/json"/>
                                     </ns0:response>
                                 </ns0:method>
-                                <ns0:param name="Search_Query" style="query" required="false"/>
-                                <ns0:param name="Search_Type" style="query" required="false"/>
-                                <ns0:param name="sort_by" style="query" required="false"/>
-                                <ns0:param name="sort_order" style="query" required="false"/>
-                                <ns0:param name="page_number" style="query" required="false"/>
-                                <ns0:param name="page_size" style="query" required="false"/>
                             </ns0:resource>
                             <ns0:resource id="BookAvail" path="/checkAvail">
                                 <ns0:doc/>
@@ -188,10 +187,19 @@
                                             </xsl:template>
                                         </Output-Binding>
                                     </Binding>
+                                    <ns0:request name="Request"/>
+                                    <ns0:response name="Response0" status="200">
+                                        <ns0:representation mediaType="application/json"/>
+                                    </ns0:response>
                                 </ns0:method>
-                                <ns0:param name="book_id" style="query" required="true"/>
+                                <ns0:param name="book_id" style="query" required="false"/>
                             </ns0:resource>
                         </ns0:resources>
+                        <ns0:param name="Param" style="query" required="true"/>
+                        <ns0:param name="Param1" style="query" required="true"/>
+                        <ns0:param name="Param2" style="query" required="true"/>
+                        <ns0:param name="Param3" style="query" required="true"/>
+                        <ns0:param name="Param4" style="query" required="true"/>
                     </ns0:application>
                 </InnerService>
             </RestService>

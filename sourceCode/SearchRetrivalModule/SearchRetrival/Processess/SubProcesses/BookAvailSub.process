@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
     <pd:name>Processess/SubProcesses/BookAvailSub.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -115,64 +115,89 @@
             <element ref="pfx:BookAvailRes"/>
         </config>
         <pd:inputBindings>
-            <pfx:BookAvailRes>
-                <xsl:choose>
-                    <xsl:when test="$fetchBookAvail/resultSet/Record/STATUS='available'">
-                        <pfx:bookAvailDetails>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
-                                <pfx:book_id>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
-                                </pfx:book_id>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
-                                <pfx:title>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
-                                </pfx:title>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
-                                <pfx:author>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
-                                </pfx:author>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
-                                <pfx:availability>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
-                                </pfx:availability>
-                            </xsl:if>
-                        </pfx:bookAvailDetails>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <pfx:bookAvailDetails>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
-                                <pfx:book_id>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
-                                </pfx:book_id>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
-                                <pfx:title>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
-                                </pfx:title>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
-                                <pfx:author>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
-                                </pfx:author>
-                            </xsl:if>
-                            <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
-                                <pfx:availability>
-                                    <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
-                                </pfx:availability>
-                            </xsl:if>
-                            <xsl:if test="$fetchReturnDate/resultSet/Record[1]/DUE_DATE">
-                                <pfx:return_date>
-                                    <xsl:value-of select="$fetchReturnDate/resultSet/Record[1]/DUE_DATE"/>
-                                </pfx:return_date>
-                            </xsl:if>
-                        </pfx:bookAvailDetails>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </pfx:BookAvailRes>
+            <xsl:choose>
+                <xsl:when test="count($fetchBookAvail/resultSet/Record)!=0">
+                    <pfx:BookAvailRes>
+                        <xsl:choose>
+                            <xsl:when test="$fetchBookAvail/resultSet/Record/STATUS='available'">
+                                <pfx:bookAvailDetails>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
+                                        <pfx:book_id>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
+                                        </pfx:book_id>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
+                                        <pfx:title>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
+                                        </pfx:title>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
+                                        <pfx:author>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
+                                        </pfx:author>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
+                                        <pfx:availability>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
+                                        </pfx:availability>
+                                    </xsl:if>
+                                </pfx:bookAvailDetails>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <pfx:bookAvailDetails>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
+                                        <pfx:book_id>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/BOOKID"/>
+                                        </pfx:book_id>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/TITLE">
+                                        <pfx:title>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/TITLE"/>
+                                        </pfx:title>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/AUTHOR">
+                                        <pfx:author>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/AUTHOR"/>
+                                        </pfx:author>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchBookAvail/resultSet/Record[1]/STATUS">
+                                        <pfx:availability>
+                                            <xsl:value-of select="$fetchBookAvail/resultSet/Record[1]/STATUS"/>
+                                        </pfx:availability>
+                                    </xsl:if>
+                                    <xsl:if test="$fetchReturnDate/resultSet/Record[1]/DUE_DATE">
+                                        <pfx:return_date>
+                                            <xsl:value-of select="$fetchReturnDate/resultSet/Record[1]/DUE_DATE"/>
+                                        </pfx:return_date>
+                                    </xsl:if>
+                                </pfx:bookAvailDetails>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </pfx:BookAvailRes>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx:BookAvailRes>
+                        <pfx:bookAvailDetails/>
+                        <pfx:control>
+                            <pfx:ErrorCode>
+                                <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/ErrorCodes/noRecord,$_globalVariables/ns:GlobalVariables/CodeSep,$_globalVariables/ns:GlobalVariables/badReqCode)"/>
+                            </pfx:ErrorCode>
+                            <pfx:ErrorMsg>
+                                <xsl:value-of select="'No Record for the give BookID'"/>
+                            </pfx:ErrorMsg>
+                        </pfx:control>
+                    </pfx:BookAvailRes>
+                </xsl:otherwise>
+            </xsl:choose>
         </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Null">
+        <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+        <pd:resourceType>ae.activities.null</pd:resourceType>
+        <pd:x>405</pd:x>
+        <pd:y>227</pd:y>
+        <config/>
+        <pd:inputBindings/>
     </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
@@ -207,6 +232,22 @@
     <pd:transition>
         <pd:from>Map Data</pd:from>
         <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchBookAvail</pd:from>
+        <pd:to>Null</pd:to>
+        <pd:xpathDescription>no record</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($fetchBookAvail/resultSet/Record)=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Null</pd:from>
+        <pd:to>Map Data</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>

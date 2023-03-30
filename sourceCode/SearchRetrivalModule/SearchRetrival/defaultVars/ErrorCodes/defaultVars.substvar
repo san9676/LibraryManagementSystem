@@ -42,6 +42,14 @@
 			<modTime>1679994763733</modTime>
 		</globalVariable>
 		<globalVariable>
+			<name>noRecord</name>
+			<value>401</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1680081625851</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>pageLessErrCode</name>
 			<value>105</value>
 			<deploymentSettable>true</deploymentSettable>
