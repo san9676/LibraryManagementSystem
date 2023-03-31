@@ -5,81 +5,81 @@
 			<name>BookIDNullErrCode</name>
 			<value>101</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679995127204</modTime>
+			<modTime>1680261796818</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>SQueryErrCode</name>
 			<value>101</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994764012</modTime>
+			<modTime>1680261796853</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>STypeErrCode</name>
 			<value>102</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763980</modTime>
+			<modTime>1680261796889</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>limitGreaterErrCode</name>
 			<value>108</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763950</modTime>
+			<modTime>1680261796922</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>limitLessErrCode</name>
 			<value>107</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763733</modTime>
+			<modTime>1680261796954</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>noRecord</name>
 			<value>401</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1680081625851</modTime>
+			<modTime>1680261796991</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>pageLessErrCode</name>
 			<value>105</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763892</modTime>
+			<modTime>1680261797030</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>pageValidErrCode</name>
 			<value>106</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763862</modTime>
+			<modTime>1680261797064</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>sortByErrCode</name>
 			<value>103</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763833</modTime>
+			<modTime>1680261797096</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>sortOrderErrCode</name>
 			<value>104</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763921</modTime>
+			<modTime>1680261797131</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

@@ -119,7 +119,7 @@
                 <xsl:when test="count($fetchBookAvail/resultSet/Record)!=0">
                     <pfx:BookAvailRes>
                         <xsl:choose>
-                            <xsl:when test="$fetchBookAvail/resultSet/Record/STATUS='available'">
+                            <xsl:when test="$fetchBookAvail/resultSet/Record/STATUS=$_globalVariables/ns:GlobalVariables/status/available">
                                 <pfx:bookAvailDetails>
                                     <xsl:if test="$fetchBookAvail/resultSet/Record[1]/BOOKID">
                                         <pfx:book_id>
@@ -220,7 +220,7 @@
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>xpath</pd:conditionType>
-        <pd:xpath>$fetchBookAvail/resultSet/Record/STATUS='available'</pd:xpath>
+        <pd:xpath>$fetchBookAvail/resultSet/Record/STATUS=$_globalVariables/ns:GlobalVariables/status/available</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>fetchReturnDate</pd:from>

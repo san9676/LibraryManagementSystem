@@ -13,11 +13,15 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/SearchRetrivalRestService.process</processProperty>
         </processArchive>
-        <versionProperty>3</versionProperty>
+        <versionProperty>4</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>SearchRetrival</name>
-        <designer/>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
         <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\SearchRetrivalModule\SearchRetrival\Deployables\EAR\SearchRetrival.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>

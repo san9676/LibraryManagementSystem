@@ -5,9 +5,9 @@
 			<name>CodeSep</name>
 			<value>-</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763802</modTime>
+			<modTime>1680261796708</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>Deployment</name>
@@ -21,17 +21,17 @@
 			<name>DirLedger</name>
 			<value>.</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516216</modTime>
+			<modTime>1680261796750</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>DirTrace</name>
 			<value>.</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516138</modTime>
+			<modTime>1680261796784</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>Domain</name>
@@ -45,105 +45,105 @@
 			<name>HawkEnabled</name>
 			<value>false</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516101</modTime>
+			<modTime>1680261797162</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>JmsProviderUrl</name>
 			<value>tcp://localhost:7222</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516128</modTime>
+			<modTime>1680261797194</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>JmsSslProviderUrl</name>
 			<value>ssl://localhost:7243</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516168</modTime>
+			<modTime>1680261797221</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RemoteRvDaemon</name>
 			<value></value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516200</modTime>
+			<modTime>1680261797248</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RvDaemon</name>
 			<value>tcp:7500</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516188</modTime>
+			<modTime>1680261797304</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RvNetwork</name>
 			<value></value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516179</modTime>
+			<modTime>1680261797338</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RvService</name>
 			<value>7500</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516147</modTime>
+			<modTime>1680261797373</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RvaHost</name>
 			<value>localhost</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516118</modTime>
+			<modTime>1680261797418</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>RvaPort</name>
 			<value>7600</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516155</modTime>
+			<modTime>1680261797447</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>TIBHawkDaemon</name>
 			<value>tcp:7474</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516162</modTime>
+			<modTime>1680261797476</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>TIBHawkNetwork</name>
 			<value></value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516086</modTime>
+			<modTime>1680261797502</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>TIBHawkService</name>
 			<value>7474</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679572516108</modTime>
+			<modTime>1680261797532</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>badReqCode</name>
 			<value>400</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679994763774</modTime>
+			<modTime>1680261797565</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

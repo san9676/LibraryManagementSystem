@@ -4,10 +4,6 @@
     <description></description>
     <contact></contact>
     <NVPairs name="Global Variables">
-        <NameValuePair>
-            <name>CodeSep</name>
-            <value>-</value>
-        </NameValuePair>
         <NameValuePairInteger>
             <name>Connections/HTTP/CatalogPort</name>
             <value>10010</value>
@@ -38,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!AnTdV0ol33zaHiqyzppG/RMpv4cfzrCw</value>
+            <value>#!UAQObUoWIMQxSttMtRjfih/CIZO8tlCt</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -50,55 +46,23 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!DYhGS/2Y1/wsKQk5C+ymj0rYbykGc7ITiEk4h2DTw7VHoSv6+yFDvoy1EIjjruKa</value>
+            <value>#!m5AZ0qb/hMHkvLrLJ+aE+i3NF66G+eYZpBPLyyE9m9+fp7K64nH96New4w+M5zgh</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
             <value>santoshbe22</value>
         </NameValuePair>
         <NameValuePair>
-            <name>DirLedger</name>
-            <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>DirTrace</name>
-            <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/BookIDNullErrCode</name>
-            <value>101</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/SQueryErrCode</name>
-            <value>101</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/STypeErrCode</name>
-            <value>102</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/limitGreaterErrCode</name>
-            <value>108</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/limitLessErrCode</name>
-            <value>107</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/pageLessErrCode</name>
-            <value>105</value>
+            <name>badReqCode</name>
+            <value>400</value>
         </NameValuePair>
         <NameValuePair>
             <name>ErrorCodes/pageValidErrCode</name>
             <value>106</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/sortByErrCode</name>
-            <value>103</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/sortOrderErrCode</name>
-            <value>104</value>
+            <name>RemoteRvDaemon</name>
+            <value></value>
         </NameValuePair>
         <NameValuePair>
             <name>HawkEnabled</name>
@@ -109,52 +73,96 @@
             <value>tcp://localhost:7222</value>
         </NameValuePair>
         <NameValuePair>
-            <name>JmsSslProviderUrl</name>
-            <value>ssl://localhost:7243</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RemoteRvDaemon</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
             <name>Rest/baseURL</name>
             <value>http://localhost:10040/api/v1</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvDaemon</name>
-            <value>tcp:7500</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvNetwork</name>
             <value></value>
         </NameValuePair>
         <NameValuePair>
-            <name>RvService</name>
-            <value>7500</value>
+            <name>CodeSep</name>
+            <value>-</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RvaHost</name>
-            <value>localhost</value>
+            <name>ErrorCodes/BookIDNullErrCode</name>
+            <value>101</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RvaPort</name>
-            <value>7600</value>
+            <name>ErrorCodes/sortByErrCode</name>
+            <value>103</value>
         </NameValuePair>
         <NameValuePair>
-            <name>TIBHawkDaemon</name>
-            <value>tcp:7474</value>
+            <name>DirTrace</name>
+            <value>.</value>
         </NameValuePair>
         <NameValuePair>
             <name>TIBHawkNetwork</name>
             <value></value>
         </NameValuePair>
         <NameValuePair>
+            <name>RvaPort</name>
+            <value>7600</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/pageLessErrCode</name>
+            <value>105</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvService</name>
+            <value>7500</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/limitGreaterErrCode</name>
+            <value>108</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>TIBHawkService</name>
             <value>7474</value>
         </NameValuePair>
         <NameValuePair>
-            <name>badReqCode</name>
-            <value>400</value>
+            <name>ErrorCodes/limitLessErrCode</name>
+            <value>107</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/STypeErrCode</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/sortOrderErrCode</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/SQueryErrCode</name>
+            <value>101</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkDaemon</name>
+            <value>tcp:7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/noRecord</name>
+            <value>401</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirLedger</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvDaemon</name>
+            <value>tcp:7500</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvaHost</name>
+            <value>localhost</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>status/available</name>
+            <value>available</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsSslProviderUrl</name>
+            <value>ssl://localhost:7243</value>
         </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
@@ -176,7 +184,7 @@
             <enabled>true</enabled>
             <bindings>
                 <binding name="">
-                    <machine>DESKTOP-DQBV3IC</machine>
+                    <machine>%%ProcessArchive.par-machine%%</machine>
                     <product>
                         <type>bwengine</type>
                         <version></version>
@@ -190,6 +198,120 @@
                     </shutdown>
                 </binding>
             </bindings>
+            <NVPairs name="Runtime Variables">
+                <NameValuePair>
+                    <name>badReqCode</name>
+                    <value>400</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/pageValidErrCode</name>
+                    <value>106</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RemoteRvDaemon</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>HawkEnabled</name>
+                    <value>false</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsProviderUrl</name>
+                    <value>tcp://localhost:7222</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>Rest/baseURL</name>
+                    <value>http://localhost:10040/api/v1</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>CodeSep</name>
+                    <value>-</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/BookIDNullErrCode</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/sortByErrCode</name>
+                    <value>103</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirTrace</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaPort</name>
+                    <value>7600</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/pageLessErrCode</name>
+                    <value>105</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvService</name>
+                    <value>7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/limitGreaterErrCode</name>
+                    <value>108</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkService</name>
+                    <value>7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/limitLessErrCode</name>
+                    <value>107</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/STypeErrCode</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/sortOrderErrCode</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/SQueryErrCode</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkDaemon</name>
+                    <value>tcp:7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/noRecord</name>
+                    <value>401</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirLedger</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvDaemon</name>
+                    <value>tcp:7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaHost</name>
+                    <value>localhost</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>status/available</name>
+                    <value>available</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsSslProviderUrl</name>
+                    <value>ssl://localhost:7243</value>
+                </NameValuePair>
+            </NVPairs>
             <NVPairs name="Adapter SDK Properties">
                 <NameValuePair>
                     <name>Trace.Task.*</name>
@@ -282,7 +404,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>ProcessArc_33792046</tablePrefix>
+                <tablePrefix>ProcessArc_74295329</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>

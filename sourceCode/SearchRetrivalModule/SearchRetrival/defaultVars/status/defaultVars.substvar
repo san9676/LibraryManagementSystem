@@ -2,12 +2,12 @@
 <repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
 	<globalVariables>
 		<globalVariable>
-			<name>baseURL</name>
-			<value>http://localhost:10040/api/v1</value>
+			<name>available</name>
+			<value>available</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1680261797276</modTime>
+			<modTime>1680261797592</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>
