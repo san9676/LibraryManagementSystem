@@ -5,41 +5,41 @@
 			<name>BookIDNull</name>
 			<value>102</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679558170646</modTime>
+			<modTime>1680261425630</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>CardNull</name>
 			<value>101</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679558170671</modTime>
+			<modTime>1680261425681</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>LibActive</name>
 			<value>105</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679558290087</modTime>
+			<modTime>1680261425730</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>noRecordErr</name>
 			<value>104</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679558290055</modTime>
+			<modTime>1680261425778</modTime>
 		</globalVariable>
 		<globalVariable>
 			<name>reserveDateNull</name>
 			<value>103</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679558170616</modTime>
+			<modTime>1680261425828</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

@@ -10,7 +10,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/ReservationService.process</processProperty>
         </processArchive>
-        <versionProperty>3</versionProperty>
+        <versionProperty>4</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>Reservation</name>

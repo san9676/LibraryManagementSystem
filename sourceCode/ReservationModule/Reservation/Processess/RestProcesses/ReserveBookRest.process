@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
     <xsd:import namespace="http://www.eniquesol.com/v1/reservation.xsd" schemaLocation="/SharedResources/Schemas/Reservation.xsd"/>
     <pd:name>Processess/RestProcesses/ReserveBookRest.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -82,7 +82,7 @@
                         <group>
                             <pfx:fault>
                                 <pfx:FaultCode>
-                                    <xsl:value-of select="if(contains($ReservationMain/group/pfx:fault/pfx:FaultCode, '-400'))&#xA; then &#xA;substring-before($ReservationMain/group/pfx:fault/pfx:FaultCode, '-400')  &#xA;else &#xA;$ReservationMain/group/pfx:fault/pfx:FaultCode"/>
+                                    <xsl:value-of select="if(contains($ReservationMain/group/pfx:fault/pfx:FaultCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReqCode)))&#xA; then &#xA;substring-before($ReservationMain/group/pfx:fault/pfx:FaultCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReqCode))  &#xA;else &#xA;$ReservationMain/group/pfx:fault/pfx:FaultCode"/>
                                 </pfx:FaultCode>
                                 <xsl:if test="$ReservationMain/group/pfx:fault/pfx:FaultMsg">
                                     <pfx:FaultMsg>

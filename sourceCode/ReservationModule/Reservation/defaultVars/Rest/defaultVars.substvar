@@ -5,9 +5,9 @@
 			<name>baseURL</name>
 			<value>http://localhost:10030/api/v1/reservation</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679313958625</modTime>
+			<modTime>1680261426050</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

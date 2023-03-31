@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!ucp8AdxEAyUCDXjdg65T59vDTUOaloS7</value>
+            <value>#!80TUIwy69+NiQ7uxNZgi2sSaJX5gzxiy</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,35 +46,27 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!SVi5goPwvOPmd2f+O7vM5rw6KqEwnb9/MzrzPwJbw2QYbabFI3J1gClXX+aFnm8j</value>
+            <value>#!aDjZvXHZo5dDnxT+CiU+/CjBTESe29J7WLkEt1hGbTVAm/x45YtJe8UsM3h8Hjvu</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
             <value>santoshbe22</value>
         </NameValuePair>
         <NameValuePair>
-            <name>DirLedger</name>
-            <value>.</value>
+            <name>activeStatus</name>
+            <value>Active</value>
         </NameValuePair>
         <NameValuePair>
-            <name>DirTrace</name>
-            <value>.</value>
+            <name>TIBHawkDaemon</name>
+            <value>tcp:7474</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/BookIDNull</name>
-            <value>102</value>
+            <name>RvaHost</name>
+            <value>localhost</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/CardNull</name>
-            <value>101</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/LibActive</name>
-            <value>105</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/noRecordErr</name>
-            <value>104</value>
+            <name>JmsSslProviderUrl</name>
+            <value>ssl://localhost:7243</value>
         </NameValuePair>
         <NameValuePair>
             <name>ErrorCodes/reserveDateNull</name>
@@ -85,64 +77,72 @@
             <value>false</value>
         </NameValuePair>
         <NameValuePair>
-            <name>JmsProviderUrl</name>
-            <value>tcp://localhost:7222</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsSslProviderUrl</name>
-            <value>ssl://localhost:7243</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RemoteRvDaemon</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
             <name>Rest/baseURL</name>
             <value>http://localhost:10030/api/v1/reservation</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvDaemon</name>
-            <value>tcp:7500</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvNetwork</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvService</name>
-            <value>7500</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvaHost</name>
-            <value>localhost</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvaPort</name>
             <value>7600</value>
         </NameValuePair>
         <NameValuePair>
-            <name>TIBHawkDaemon</name>
-            <value>tcp:7474</value>
+            <name>RemoteRvDaemon</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirLedger</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsProviderUrl</name>
+            <value>tcp://localhost:7222</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>codeSep</name>
+            <value>-</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/LibActive</name>
+            <value>105</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CardNull</name>
+            <value>101</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvService</name>
+            <value>7500</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirTrace</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/noRecordErr</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvDaemon</name>
+            <value>tcp:7500</value>
         </NameValuePair>
         <NameValuePair>
             <name>TIBHawkNetwork</name>
             <value></value>
         </NameValuePair>
         <NameValuePair>
-            <name>TIBHawkService</name>
-            <value>7474</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>activeStatus</name>
-            <value>active</value>
-        </NameValuePair>
-        <NameValuePair>
             <name>badReqCode</name>
             <value>400</value>
         </NameValuePair>
         <NameValuePair>
-            <name>codeSep</name>
-            <value>-</value>
+            <name>ErrorCodes/BookIDNull</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvNetwork</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkService</name>
+            <value>7474</value>
         </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
@@ -164,7 +164,7 @@
             <enabled>true</enabled>
             <bindings>
                 <binding name="">
-                    <machine>DESKTOP-DQBV3IC</machine>
+                    <machine>%%ProcessArchive.par-machine%%</machine>
                     <product>
                         <type>bwengine</type>
                         <version></version>
@@ -178,6 +178,100 @@
                     </shutdown>
                 </binding>
             </bindings>
+            <NVPairs name="Runtime Variables">
+                <NameValuePair>
+                    <name>activeStatus</name>
+                    <value>Active</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkDaemon</name>
+                    <value>tcp:7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaHost</name>
+                    <value>localhost</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsSslProviderUrl</name>
+                    <value>ssl://localhost:7243</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/reserveDateNull</name>
+                    <value>103</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>HawkEnabled</name>
+                    <value>false</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>Rest/baseURL</name>
+                    <value>http://localhost:10030/api/v1/reservation</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaPort</name>
+                    <value>7600</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RemoteRvDaemon</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirLedger</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsProviderUrl</name>
+                    <value>tcp://localhost:7222</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>codeSep</name>
+                    <value>-</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/LibActive</name>
+                    <value>105</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CardNull</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvService</name>
+                    <value>7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirTrace</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/noRecordErr</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvDaemon</name>
+                    <value>tcp:7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>badReqCode</name>
+                    <value>400</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/BookIDNull</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkService</name>
+                    <value>7474</value>
+                </NameValuePair>
+            </NVPairs>
             <NVPairs name="Adapter SDK Properties">
                 <NameValuePair>
                     <name>Trace.Task.*</name>
@@ -270,7 +364,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>ProcessArc_46872347</tablePrefix>
+                <tablePrefix>ProcessArc_74383693</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>

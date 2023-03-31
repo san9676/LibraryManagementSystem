@@ -81,8 +81,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.eniquesol.com/v1/reservation.xsd">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -91,7 +91,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if (exists($ReservationMain/group/pfx:reserveBookRes)) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($ReservationMain/group/pfx:fault/pfx:FaultCode, '-400')) then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if (exists($ReservationMain/group/pfx:reserveBookRes)) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($ReservationMain/group/pfx:fault/pfx:FaultCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReqCode))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>
