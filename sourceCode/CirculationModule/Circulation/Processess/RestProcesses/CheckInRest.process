@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/RestProcesses/CheckInRest.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -81,7 +81,7 @@
                         <group>
                             <ns:fault>
                                 <ns:FaultCode>
-                                    <xsl:value-of select="if(contains($CheckInMain/group/ns:fault/ns:FaultCode,'-400')) &#xA;then &#xA;substring-before($CheckInMain/group/ns:fault/ns:FaultCode, '-400')  else $CheckInMain/group/ns:fault/ns:FaultCode"/>
+                                    <xsl:value-of select="if(contains($CheckInMain/group/ns:fault/ns:FaultCode,concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq))) &#xA;then &#xA;substring-before($CheckInMain/group/ns:fault/ns:FaultCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq))  &#xA;else $CheckInMain/group/ns:fault/ns:FaultCode"/>
                                 </ns:FaultCode>
                                 <xsl:if test="$CheckInMain/group/ns:fault/ns:FaultMsg">
                                     <ns:FaultMsg>

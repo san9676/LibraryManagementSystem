@@ -13,7 +13,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/CirculationRestService.process,/Processess/MainProcesses/OverDueNoticeMain.process</processProperty>
         </processArchive>
-        <versionProperty>5</versionProperty>
+        <versionProperty>6</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>Circulation</name>
@@ -22,6 +22,6 @@
             <fixedChildren/>
             <resourceDescriptions/>
         </designer>
-        <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\Circulation\Deployables\EAR\Circulation.ear</fileLocationProperty>
+        <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\CirculationModule\Circulation\Deployables\EAR\Circulation.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>

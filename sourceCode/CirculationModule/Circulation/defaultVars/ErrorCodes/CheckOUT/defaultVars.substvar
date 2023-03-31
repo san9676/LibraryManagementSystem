@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>BookIDNullErr</name>
+			<value>102</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258272155</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>LibNoRecErr</name>
+			<value>103</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258272227</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>LibNoValidErr</name>
+			<value>104</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258272302</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>LibNullErr</name>
+			<value>101</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258272372</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

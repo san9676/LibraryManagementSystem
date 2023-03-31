@@ -5,9 +5,9 @@
 			<name>baseURL</name>
 			<value>http://localhost:10020/api/v1/circulation</value>
 			<deploymentSettable>true</deploymentSettable>
-			<serviceSettable>false</serviceSettable>
+			<serviceSettable>true</serviceSettable>
 			<type>String</type>
-			<modTime>1679052029899</modTime>
+			<modTime>1680258272938</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:UUID="java://Custom.Custom" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:UUID="java://Custom.Custom" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/MainProcesses/RegisterPatronMain.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -166,7 +166,7 @@
                             <xsl:value-of select="'Patron name should not be empty'"/>
                         </message>
                         <messageCode>
-                            <xsl:value-of select="concat('101', '-','400')"/>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/register/nameNullErr, $_globalVariables/ns3:GlobalVariables/CodeSep,$_globalVariables/ns3:GlobalVariables/BadReq)"/>
                         </messageCode>
                     </ns2:ActivityInput>
                 </xsl:when>
@@ -176,7 +176,7 @@
                             <xsl:value-of select="'Phone Number should only be in digits'"/>
                         </message>
                         <messageCode>
-                            <xsl:value-of select="concat('102', '-','400')"/>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/register/pnoValidErr, $_globalVariables/ns3:GlobalVariables/CodeSep,$_globalVariables/ns3:GlobalVariables/BadReq)"/>
                         </messageCode>
                     </ns2:ActivityInput>
                 </xsl:when>
@@ -186,7 +186,7 @@
                             <xsl:value-of select="'Email Id is not in a valid format'"/>
                         </message>
                         <messageCode>
-                            <xsl:value-of select="concat('103', '-','400')"/>
+                            <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/register/emailVaildErr, $_globalVariables/ns3:GlobalVariables/CodeSep,$_globalVariables/ns3:GlobalVariables/BadReq)"/>
                         </messageCode>
                     </ns2:ActivityInput>
                 </xsl:otherwise>
@@ -273,7 +273,7 @@
         <pd:xpath>string-length($Start/pfx:RegisterPatronsReq/pfx:patron_name)!=0 
 and
 UUID:matchRegex($Start/pfx:RegisterPatronsReq/pfx:phone_number, '[0-9]{10}') and
-UUID:matchRegex($Start/pfx:RegisterPatronsReq/pfx:email, '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$')</pd:xpath>
+UUID:matchRegex($Start/pfx:RegisterPatronsReq/pfx:email, '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>RegisterSub</pd:from>

@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>Available</name>
+			<value>available</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258273549</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Renewed</name>
+			<value>Renewed</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680259239549</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Sent</name>
+			<value>Sent</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680260345376</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>active</name>
+			<value>Active</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258273616</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>checkOut</name>
+			<value>Checked Out</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258273769</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>returned</name>
+			<value>Returned</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680258273691</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>
