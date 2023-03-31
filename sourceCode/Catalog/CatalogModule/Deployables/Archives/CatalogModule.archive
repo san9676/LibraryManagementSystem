@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
     <enterpriseArchive>
-        <sharedArchive name="Shared Archive">
+        <sharedArchive name="SharedArchive">
             <resourceType>shared.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
+            <sharedResources/>
+            <sharedFiles/>
+            <sharedJarFiles/>
         </sharedArchive>
-        <processArchive name="Process Archive">
+        <processArchive name="ProcessArchive">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/CatalogRestService.process</processProperty>
         </processArchive>
-        <versionProperty>5</versionProperty>
+        <versionProperty>8</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>CatalogModule</name>

@@ -28,9 +28,6 @@
                             <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
-                            <xsd:element name="Access-Control-Allow-Origin" type="xsd:string" minOccurs="0"/>
-                            <xsd:element name="Access-Control-Allow-Methods" type="xsd:string" minOccurs="0"/>
-                            <xsd:element name="Access-Control-Allow-Headers" type="xsd:string" minOccurs="0"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -47,7 +44,7 @@
     <pd:activity name="REST Dispatch and Reply">
         <pd:type>com.tibco.plugin.json.rest.server.activities.RestAdapterActivity</pd:type>
         <pd:resourceType>rest.activities.RestAdapter</pd:resourceType>
-        <pd:x>274</pd:x>
+        <pd:x>275</pd:x>
         <pd:y>76</pd:y>
         <config>
             <eventSource>HTTP Receiver</eventSource>
@@ -84,8 +81,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -94,7 +91,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if ($CallAddBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CallAddBookMain/pfx:BookRes/pfx:ResponseCode, '-400')) then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if ($CallAddBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CallAddBookMain/pfx:BookRes/pfx:ResponseCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq)))&#xA; then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>
@@ -146,8 +143,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -156,7 +153,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if ($CallUpdateBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CallUpdateBookMain/pfx:BookRes/pfx:ResponseCode, '-400')) then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if ($CallUpdateBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA;else&#xA;if (contains($CallUpdateBookMain/pfx:BookRes/pfx:ResponseCode,concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>
@@ -198,8 +195,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908" match="/*">
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://tns.tibco.com/bw/json/1678168908908">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -208,7 +205,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if ($CallremoveBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CallremoveBookMain/pfx:BookRes/pfx:ResponseCode, '-400')) then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if ($CallremoveBookMain/pfx:BookRes/pfx:ResponseCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA;if (contains($CallremoveBookMain/pfx:BookRes/pfx:ResponseCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>

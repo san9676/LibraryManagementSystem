@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!+kyWisSRsLfy6GNPgtEHSBxH5HN2CHt9</value>
+            <value>#!+139UGFzxbLENqxjSzNBRSngsT93Ea8x</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,71 +46,103 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!YhwklKs3jEvHjj/IFlhatgWJIFfW4R+BNY67LE+CozIzrsc5C5tbZ33uM95HYIcE</value>
+            <value>#!fc90fiqicIi7QIbxNquh4D2+iZyFfQgwVemKIZYajbnUF/o1L5yjxc/OiMfidPEM</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
             <value>santoshbe22</value>
         </NameValuePair>
         <NameValuePair>
+            <name>status/available</name>
+            <value>available</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/noRecord</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>DirLedger</name>
             <value>.</value>
         </NameValuePair>
         <NameValuePair>
-            <name>DirTrace</name>
-            <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>HawkEnabled</name>
-            <value>false</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsProviderUrl</name>
-            <value>tcp://localhost:7222</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsSslProviderUrl</name>
-            <value>ssl://localhost:7243</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RemoteRvDaemon</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvDaemon</name>
-            <value>tcp:7500</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvNetwork</name>
-            <value></value>
+            <name>RestService/baseURL</name>
+            <value>http://localhost:10010/api/v1/catalog</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvService</name>
             <value>7500</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RvaHost</name>
-            <value>localhost</value>
+            <name>DirTrace</name>
+            <value>.</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvaPort</name>
             <value>7600</value>
         </NameValuePair>
         <NameValuePair>
-            <name>TIBHawkDaemon</name>
-            <value>tcp:7474</value>
+            <name>RemoteRvDaemon</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvNetwork</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsSslProviderUrl</name>
+            <value>ssl://localhost:7243</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/addBook/ISBNnullErr</name>
+            <value>103</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/addBook/authoNullErr</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/addBook/titlenullErr</name>
+            <value>101</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsProviderUrl</name>
+            <value>tcp://localhost:7222</value>
         </NameValuePair>
         <NameValuePair>
             <name>TIBHawkNetwork</name>
             <value></value>
         </NameValuePair>
         <NameValuePair>
+            <name>TIBHawkDaemon</name>
+            <value>tcp:7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>HawkEnabled</name>
+            <value>false</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvDaemon</name>
+            <value>tcp:7500</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>TIBHawkService</name>
             <value>7474</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RestService/baseURL</name>
-            <value>http://localhost:10010/api/v1/catalog</value>
+            <name>badReq</name>
+            <value>400</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>codeSep</name>
+            <value>-</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvaHost</name>
+            <value>localhost</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/BookIDNullErr</name>
+            <value>101</value>
         </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
@@ -128,11 +160,11 @@
         </localRepoInstance>
     </repoInstances>
     <services>
-        <bw name="Process Archive.par">
+        <bw name="ProcessArchive.par">
             <enabled>true</enabled>
             <bindings>
                 <binding name="">
-                    <machine>DESKTOP-DQBV3IC</machine>
+                    <machine>%%ProcessArchive.par-machine%%</machine>
                     <product>
                         <type>bwengine</type>
                         <version></version>
@@ -148,8 +180,92 @@
             </bindings>
             <NVPairs name="Runtime Variables">
                 <NameValuePair>
+                    <name>ErrorCodes/noRecord</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirLedger</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
                     <name>RestService/baseURL</name>
                     <value>http://localhost:10010/api/v1/catalog</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvService</name>
+                    <value>7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirTrace</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaPort</name>
+                    <value>7600</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RemoteRvDaemon</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsSslProviderUrl</name>
+                    <value>ssl://localhost:7243</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/addBook/ISBNnullErr</name>
+                    <value>103</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/addBook/authoNullErr</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/addBook/titlenullErr</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsProviderUrl</name>
+                    <value>tcp://localhost:7222</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkDaemon</name>
+                    <value>tcp:7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>HawkEnabled</name>
+                    <value>false</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvDaemon</name>
+                    <value>tcp:7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkService</name>
+                    <value>7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>badReq</name>
+                    <value>400</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>codeSep</name>
+                    <value>-</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaHost</name>
+                    <value>localhost</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/BookIDNullErr</name>
+                    <value>101</value>
                 </NameValuePair>
             </NVPairs>
             <NVPairs name="Adapter SDK Properties">
@@ -244,7 +360,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>Process_Ar_72157857</tablePrefix>
+                <tablePrefix>ProcessArc_32784471</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>

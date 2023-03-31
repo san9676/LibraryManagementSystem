@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>ISBNnullErr</name>
+			<value>103</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680257240329</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>authoNullErr</name>
+			<value>102</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680257240369</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>titlenullErr</name>
+			<value>101</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680257240409</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>
