@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cust="java://Custom.Custom">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
+    <pd:name>Processess/MainProcesses/deleteUserMain.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:deleteUserReq"/>
+    <pd:startX>136</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns1:ErrorReport)">
+                <pfx:deleteUserRes>
+                    <pfx:control>
+                        <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                            <pfx:errorCode>
+                                <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                            </pfx:errorCode>
+                        </xsl:if>
+                        <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                            <pfx:errorMsg>
+                                <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                            </pfx:errorMsg>
+                        </xsl:if>
+                    </pfx:control>
+                </pfx:deleteUserRes>
+            </xsl:when>
+            <xsl:otherwise>
+                <pfx:deleteUserRes>
+                    <xsl:if test="$deleteUserSub/pfx:deleteUserRes/pfx:ResponseMsg">
+                        <pfx:ResponseMsg>
+                            <xsl:value-of select="$deleteUserSub/pfx:deleteUserRes/pfx:ResponseMsg"/>
+                        </pfx:ResponseMsg>
+                    </xsl:if>
+                    <pfx:control xsi:nil="true"/>
+                </pfx:deleteUserRes>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:deleteUserRes"/>
+    <pd:endX>874</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1680174594461</pd:targetNamespace>
+    <pd:activity name="deleteUserReqLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>378</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'deleteUser'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Started'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'RequestPayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($Start/pfx:deleteUserReq, true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="deleteUserResLog">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>681</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'deleteUser'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'responsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="tib:render-xml($deleteUserSub/pfx:deleteUserRes,true())"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="deleteUserSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>522</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <processName>/Processess/SubProcesses/deleteUserSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/pfx:deleteUserReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetCorrID">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>246</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
+            <showResult>true</showResult>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <param>
+                    <xsl:value-of select="cust:getUUID()"/>
+                </param>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>381</pd:x>
+        <pd:y>185</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput>
+                <message>
+                    <xsl:value-of select="'userID cannot be null'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat($_globalVariables/ns3:GlobalVariables/ErrorCodes/userIDNullErr,$_globalVariables/ns3:GlobalVariables/codeSep,$_globalVariables/ns3:GlobalVariables/badReq)"/>
+                </messageCode>
+            </ns2:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ErrLogHandler">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>692</pd:x>
+        <pd:y>231</pd:y>
+        <config>
+            <processName>/LoggerProcesses/ErrLogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:ErrorLogHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="$_processContext/ns1:ProcessContext/ProjectName"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'deleteUser'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'ERROR'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'failed'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'errorDetails'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-date('yyyy-MM-dd', current-date())"/>
+                </ns:Timestamp>
+                <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                    <ns:ErrorCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </ns:ErrorCode>
+                </xsl:if>
+                <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                    <ns:ErrorMsg>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                    </ns:ErrorMsg>
+                </xsl:if>
+            </ns:ErrorLogHandler>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>527</pd:x>
+        <pd:y>233</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>deleteUserResLog</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetCorrID</pd:from>
+        <pd:to>deleteUserReqLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>deleteUserReqLog</pd:from>
+        <pd:to>deleteUserSub</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>string-length($Start/pfx:deleteUserReq/pfx:user_id)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>deleteUserSub</pd:from>
+        <pd:to>deleteUserResLog</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>deleteUserReqLog</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>ErrLogHandler</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ErrLogHandler</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

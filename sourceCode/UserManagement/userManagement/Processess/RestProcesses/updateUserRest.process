@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
+    <pd:name>Processess/RestProcesses/updateUserRest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="payload" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>88</pd:startX>
+    <pd:startY>63</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <payload>
+                <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+            </payload>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="payload" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>724</pd:endX>
+    <pd:endY>63</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1680174451015</pd:targetNamespace>
+    <pd:activity name="updateUserMain">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>394</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <processName>/Processess/MainProcesses/updateUserMain.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Parse-JSON/ns:ActivityOutputClass/pfx2:updateUserReq"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONParserActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONParserActivity</pd:resourceType>
+        <pd:x>200</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ValidateOutputEnable>true</ValidateOutputEnable>
+            <ActivityOutputEditor ref="pfx2:updateUserReq"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <jsonString>
+                    <xsl:value-of select="$Start/root/payload"/>
+                </jsonString>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>547</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <removeRootElementForInput>true</removeRootElementForInput>
+            <ValidateIntputEnable>true</ValidateIntputEnable>
+            <ActivityInputEditor ref="pfx2:updateUserRes"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <xsl:choose>
+                    <xsl:when test="contains($updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))">
+                        <pfx2:updateUserRes>
+                            <pfx2:data xsi:nil="true"/>
+                            <pfx2:control>
+                                <pfx2:errorCode>
+                                    <xsl:value-of select="substring-before($updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))"/>
+                                </pfx2:errorCode>
+                                <xsl:if test="$updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorMsg">
+                                    <pfx2:errorMsg>
+                                        <xsl:value-of select="$updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorMsg"/>
+                                    </pfx2:errorMsg>
+                                </xsl:if>
+                            </pfx2:control>
+                        </pfx2:updateUserRes>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="$updateUserMain/pfx2:updateUserRes"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Parse JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse JSON</pd:from>
+        <pd:to>updateUserMain</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>updateUserMain</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

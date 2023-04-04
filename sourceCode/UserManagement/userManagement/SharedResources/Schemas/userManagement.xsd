@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.eniquesolutions.com/V1/userManagement.xsd"
+	 targetNamespace="http://www.eniquesolutions.com/V1/userManagement.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	<xs:element name="newUserReq" type="newUserReqType"/>
+	<xs:complexType name="newUserReqType">
+		<xs:sequence>
+			<xs:element ref="name" minOccurs="0"/>
+			<xs:element ref="email" minOccurs="0"/>
+			<xs:element ref="password" minOccurs="0"/>
+			<xs:element ref="role" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="name" type="xs:string"/>
+	<xs:element name="email" type="xs:string"/>
+	<xs:element name="password" type="xs:string"/>
+	<xs:element name="role" type="xs:string"/>
+	<xs:complexType name="dataType">
+		<xs:sequence>
+			<xs:element ref="user_id" minOccurs="0"/>
+			<xs:element ref="name" minOccurs="0"/>
+			<xs:element ref="email" minOccurs="0"/>
+			<xs:element ref="role" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="user_id" type="xs:string"/>
+	<xs:complexType name="ControlType">
+		<xs:sequence>
+			<xs:element ref="errorCode" minOccurs="0"/>
+			<xs:element ref="errorMsg" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="errorCode" type="xs:string"/>
+	<xs:element name="errorMsg" type="xs:string"/>
+	<xs:element name="newUserRes" type="newUserResType"/>
+	<xs:complexType name="newUserResType">
+		<xs:sequence>
+			<xs:element ref="data" minOccurs="0"/>
+			<xs:element ref="control" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="data" type="dataType" nillable="true"/>
+	<xs:element name="control" type="ControlType" nillable="true"/>
+	<xs:element name="updateUserReq" type="updateUserReqType"/>
+	<xs:complexType name="updateUserReqType">
+		<xs:sequence>
+			<xs:element ref="user_id" minOccurs="0"/>
+			<xs:element ref="name" minOccurs="0"/>
+			<xs:element ref="email" minOccurs="0"/>
+			<xs:element ref="password" minOccurs="0"/>
+			<xs:element ref="role" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="updateUserResType">
+		<xs:sequence>
+			<xs:element ref="data" minOccurs="0"/>
+			<xs:element ref="control" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="updateUserRes" type="updateUserResType"/>
+	<xs:complexType name="deleteUserReqType">
+		<xs:sequence>
+			<xs:element ref="user_id" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="deleteUserReq" type="deleteUserReqType"/>
+	<xs:complexType name="deleteUserResType">
+		<xs:sequence>
+			<xs:element ref="ResponseMsg" minOccurs="0"/>
+			<xs:element ref="control" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ResponseMsg" type="xs:string"/>
+	<xs:element name="deleteUserRes" type="deleteUserResType"/>
+</xs:schema>

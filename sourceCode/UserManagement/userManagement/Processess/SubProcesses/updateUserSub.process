@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
+    <pd:name>Processess/SubProcesses/updateUserSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:updateUserReq"/>
+    <pd:startX>131</pd:startX>
+    <pd:startY>72</pd:startY>
+    <pd:returnBindings>
+        <pfx:newUserRes>
+            <xsl:copy-of select="$MapResponse/pfx:data"/>
+            <pfx:control xsi:nil="true"/>
+        </pfx:newUserRes>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:newUserRes"/>
+    <pd:endX>702</pd:endX>
+    <pd:endY>72</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1680496363408</pd:targetNamespace>
+    <pd:activity name="fetchUser">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>252</pd:x>
+        <pd:y>71</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select USER_ID, NAME,EMAIL, PASSWORD,ROLE from LIB_USER where USER_ID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>USER_ID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>USER_ID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>NAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>EMAIL</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PASSWORD</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ROLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <USER_ID>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:updateUserReq/pfx:user_id)">
+                            <xsl:value-of select="$Start/pfx:updateUserReq/pfx:user_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </USER_ID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="MapResponse">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>376</pd:x>
+        <pd:y>73</pd:y>
+        <config>
+            <element ref="pfx:data"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:data>
+                <xsl:if test="$Start/pfx:updateUserReq/pfx:user_id">
+                    <pfx:user_id>
+                        <xsl:value-of select="$Start/pfx:updateUserReq/pfx:user_id"/>
+                    </pfx:user_id>
+                </xsl:if>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateUserReq/pfx:name) !=0">
+                        <xsl:if test="$Start/pfx:updateUserReq/pfx:name">
+                            <pfx:name>
+                                <xsl:value-of select="$Start/pfx:updateUserReq/pfx:name"/>
+                            </pfx:name>
+                        </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:if test="$fetchUser/resultSet/Record[1]/NAME">
+                            <pfx:name>
+                                <xsl:value-of select="$fetchUser/resultSet/Record[1]/NAME"/>
+                            </pfx:name>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateUserReq/pfx:email)!=0">
+                        <xsl:if test="$Start/pfx:updateUserReq/pfx:email">
+                            <pfx:email>
+                                <xsl:value-of select="$Start/pfx:updateUserReq/pfx:email"/>
+                            </pfx:email>
+                        </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:if test="$fetchUser/resultSet/Record[1]/EMAIL">
+                            <pfx:email>
+                                <xsl:value-of select="$fetchUser/resultSet/Record[1]/EMAIL"/>
+                            </pfx:email>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateUserReq/pfx:role)!=0">
+                        <xsl:if test="$Start/pfx:updateUserReq/pfx:role">
+                            <pfx:role>
+                                <xsl:value-of select="$Start/pfx:updateUserReq/pfx:role"/>
+                            </pfx:role>
+                        </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:if test="$fetchUser/resultSet/Record[1]/ROLE">
+                            <pfx:role>
+                                <xsl:value-of select="$fetchUser/resultSet/Record[1]/ROLE"/>
+                            </pfx:role>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </pfx:data>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="UpdateUserInfo">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>516</pd:x>
+        <pd:y>73</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>update LIB_USER set NAME=?,EMAIL=?,PASSWORD=?,ROLE=? where USER_ID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>NAME</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EMAIL</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PASSWORD</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>ROLE</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>USER_ID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <NAME>
+                    <xsl:choose>
+                        <xsl:when test="exists($MapResponse/pfx:data/pfx:name)">
+                            <xsl:value-of select="$MapResponse/pfx:data/pfx:name"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </NAME>
+                <EMAIL>
+                    <xsl:choose>
+                        <xsl:when test="exists($MapResponse/pfx:data/pfx:email)">
+                            <xsl:value-of select="$MapResponse/pfx:data/pfx:email"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EMAIL>
+                <xsl:choose>
+                    <xsl:when test="string-length($Start/pfx:updateUserReq/pfx:password)!=0">
+                        <PASSWORD>
+                            <xsl:choose>
+                                <xsl:when test="exists($Start/pfx:updateUserReq/pfx:password)">
+                                    <xsl:value-of select="$Start/pfx:updateUserReq/pfx:password"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </PASSWORD>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <PASSWORD>
+                            <xsl:value-of select="$fetchUser/resultSet/Record[1]/PASSWORD"/>
+                        </PASSWORD>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <ROLE>
+                    <xsl:choose>
+                        <xsl:when test="exists($MapResponse/pfx:data/pfx:role)">
+                            <xsl:value-of select="$MapResponse/pfx:data/pfx:role"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ROLE>
+                <USER_ID>
+                    <xsl:choose>
+                        <xsl:when test="exists($MapResponse/pfx:data/pfx:user_id)">
+                            <xsl:value-of select="$MapResponse/pfx:data/pfx:user_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </USER_ID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>257</pd:x>
+        <pd:y>177</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInput>
+                <message>
+                    <xsl:value-of select="'No Record for the given UserID'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/noRecordErr,$_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq)"/>
+                </messageCode>
+            </ns:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>fetchUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchUser</pd:from>
+        <pd:to>MapResponse</pd:to>
+        <pd:xpathDescription>recordExist</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($fetchUser/resultSet/Record)!=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>MapResponse</pd:from>
+        <pd:to>UpdateUserInfo</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateUserInfo</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchUser</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
