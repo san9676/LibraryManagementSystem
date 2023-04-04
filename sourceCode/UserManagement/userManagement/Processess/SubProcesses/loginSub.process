@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com//V1/Login.xsd" schemaLocation="/SharedResources/Schemas/Login.xsd"/>
+    <pd:name>Processess/SubProcesses/loginSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:LoginReq"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>62</pd:startY>
+    <pd:returnBindings>
+        <pfx:LoginRes>
+            <pfx:resCode>
+                <xsl:value-of select="200"/>
+            </pfx:resCode>
+            <pfx:resMsg>
+                <xsl:value-of select="'Login successfull..'"/>
+            </pfx:resMsg>
+        </pfx:LoginRes>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:LoginRes"/>
+    <pd:endX>533</pd:endX>
+    <pd:endY>62</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1680590376817</pd:targetNamespace>
+    <pd:activity name="fetchUserInfo">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>273</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select EMAIL,PASSWORD from LIB_USER where EMAIL=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>EMAIL</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>EMAIL</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PASSWORD</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <EMAIL>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:LoginReq/pfx:username)">
+                            <xsl:value-of select="$Start/pfx:LoginReq/pfx:username"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EMAIL>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>276</pd:x>
+        <pd:y>194</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="count($fetchUserInfo/resultSet/Record)=0">
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'No Record for the user found'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/noRecordErr,$_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Password is incorrect.. please try again'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/passErr,$_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>fetchUserInfo</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchUserInfo</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>fetchUserInfo</pd:from>
+        <pd:to>End</pd:to>
+        <pd:xpathDescription>validate</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($fetchUserInfo/resultSet/Record)!=0
+and
+$fetchUserInfo/resultSet/Record[1]/PASSWORD=$Start/pfx:LoginReq/pfx:password</pd:xpath>
+    </pd:transition>
+</pd:ProcessDefinition>

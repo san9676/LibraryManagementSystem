@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
-    <pd:name>Processess/RestProcesses/updateUserRest.process</pd:name>
+    <xsd:import namespace="http://www.eniquesolutions.com//V1/Login.xsd" schemaLocation="/SharedResources/Schemas/Login.xsd"/>
+    <pd:name>Processess/RestProcesses/LoginRest.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType>
         <xsd:element name="root">
@@ -36,16 +37,25 @@
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1680174451015</pd:targetNamespace>
-    <pd:activity name="updateUserMain">
+    <pd:activity name="loginMain">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>394</pd:x>
         <pd:y>63</pd:y>
         <config>
-            <processName>/Processess/MainProcesses/updateUserMain.process</processName>
+            <processName>/Processess/MainProcesses/LoginMain.process</processName>
         </config>
         <pd:inputBindings>
-            <xsl:copy-of select="$Parse-JSON/ns:ActivityOutputClass/pfx2:updateUserReq"/>
+            <pfx3:LoginReq>
+                <xsl:if test="$Parse-JSON/ns:ActivityOutputClass/pfx3:LoginReq/pfx3:username">
+                    <pfx3:username>
+                        <xsl:value-of select="$Parse-JSON/ns:ActivityOutputClass/pfx3:LoginReq/pfx3:username"/>
+                    </pfx3:username>
+                </xsl:if>
+                <pfx3:password>
+                    <xsl:value-of select="$Parse-JSON/ns:ActivityOutputClass/pfx3:LoginReq/pfx3:password"/>
+                </pfx3:password>
+            </pfx3:LoginReq>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="Parse JSON">
@@ -57,7 +67,7 @@
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
             <ValidateOutputEnable>true</ValidateOutputEnable>
-            <ActivityOutputEditor ref="pfx2:updateUserReq"/>
+            <ActivityOutputEditor ref="pfx3:LoginReq"/>
         </config>
         <pd:inputBindings>
             <ns:ActivityInputClass>
@@ -77,28 +87,25 @@
             <BadgerfishCheck>false</BadgerfishCheck>
             <removeRootElementForInput>true</removeRootElementForInput>
             <ValidateIntputEnable>true</ValidateIntputEnable>
-            <ActivityInputEditor ref="pfx2:updateUserRes"/>
+            <ActivityInputEditor ref="pfx3:LoginRes"/>
         </config>
         <pd:inputBindings>
             <ns:ActivityInputClass>
                 <xsl:choose>
-                    <xsl:when test="contains($updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))">
-                        <pfx2:updateUserRes>
-                            <pfx2:data xsi:nil="true"/>
-                            <pfx2:control>
-                                <pfx2:errorCode>
-                                    <xsl:value-of select="substring-before($updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))"/>
-                                </pfx2:errorCode>
-                                <xsl:if test="$updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorMsg">
-                                    <pfx2:errorMsg>
-                                        <xsl:value-of select="$updateUserMain/pfx2:updateUserRes/pfx2:control/pfx2:errorMsg"/>
-                                    </pfx2:errorMsg>
-                                </xsl:if>
-                            </pfx2:control>
-                        </pfx2:updateUserRes>
+                    <xsl:when test="contains($loginMain/pfx3:LoginRes/pfx3:resCode,concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))">
+                        <pfx3:LoginRes>
+                            <pfx3:resCode>
+                                <xsl:value-of select="substring-before($loginMain/pfx3:LoginRes/pfx3:resCode,concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))"/>
+                            </pfx3:resCode>
+                            <xsl:if test="$loginMain/pfx3:LoginRes/pfx3:resMsg">
+                                <pfx3:resMsg>
+                                    <xsl:value-of select="$loginMain/pfx3:LoginRes/pfx3:resMsg"/>
+                                </pfx3:resMsg>
+                            </xsl:if>
+                        </pfx3:LoginRes>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:copy-of select="$updateUserMain/pfx2:updateUserRes"/>
+                        <xsl:copy-of select="$loginMain/pfx3:LoginRes"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </ns:ActivityInputClass>
@@ -120,13 +127,13 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Parse JSON</pd:from>
-        <pd:to>updateUserMain</pd:to>
+        <pd:to>loginMain</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>updateUserMain</pd:from>
+        <pd:from>loginMain</pd:from>
         <pd:to>Render JSON</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>

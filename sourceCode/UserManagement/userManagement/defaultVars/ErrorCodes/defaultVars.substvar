@@ -42,6 +42,14 @@
 			<modTime>1680501563517</modTime>
 		</globalVariable>
 		<globalVariable>
+			<name>passNullErr</name>
+			<value>102</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680596162540</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>roleNullErr</name>
 			<value>104</value>
 			<deploymentSettable>true</deploymentSettable>
@@ -56,6 +64,14 @@
 			<serviceSettable>true</serviceSettable>
 			<type>String</type>
 			<modTime>1680501563715</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>usernameNullErr</name>
+			<value>101</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680596162568</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

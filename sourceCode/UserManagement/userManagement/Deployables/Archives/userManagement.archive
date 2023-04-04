@@ -11,13 +11,17 @@
         <processArchive name="ProcessArchive">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
-            <processProperty>/Services/UserManagementService.process</processProperty>
+            <processProperty>/Services/UserManagementService.process,/Services/LoginService.process</processProperty>
         </processArchive>
-        <versionProperty>2</versionProperty>
+        <versionProperty>3</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>userManagement</name>
-        <designer/>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
         <fileLocationProperty>C:\POC\LIbraryManagementSystem\GitRepo\LibraryManagementSystem\sourceCode\UserManagement\userManagement\Deployables\EAR\userManagement.ear</fileLocationProperty>
     </enterpriseArchive>
 </Repository:repository>

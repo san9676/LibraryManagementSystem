@@ -9,5 +9,13 @@
 			<type>String</type>
 			<modTime>1680501564059</modTime>
 		</globalVariable>
+		<globalVariable>
+			<name>loginBaseURL</name>
+			<value>http://localhost:10060/v1/LMS</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680596162593</modTime>
+		</globalVariable>
 	</globalVariables>
 </repository>
