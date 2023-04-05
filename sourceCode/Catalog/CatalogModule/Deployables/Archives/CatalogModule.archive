@@ -11,7 +11,7 @@
         <processArchive name="ProcessArchive">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
-            <processProperty>/Services/CatalogRestService.process</processProperty>
+            <processProperty>/Services/CatalogRestService.process,/Services/proxyCatalogService.process</processProperty>
         </processArchive>
         <versionProperty>8</versionProperty>
         <authorProperty>admin</authorProperty>
