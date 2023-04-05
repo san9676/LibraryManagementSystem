@@ -13,7 +13,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/UserManagementService.process,/Services/LoginService.process,/Services/LoginProxyService.process,/Services/UserManagementProxyService.process</processProperty>
         </processArchive>
-        <versionProperty>3</versionProperty>
+        <versionProperty>4</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>userManagement</name>
