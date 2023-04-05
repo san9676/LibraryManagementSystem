@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
     <xsd:import namespace="http://www.eniquesolutions.com//V1/Login.xsd" schemaLocation="/SharedResources/Schemas/Login.xsd"/>
     <pd:name>Processess/RestProcesses/LoginRest.process</pd:name>
@@ -85,7 +85,7 @@
         <config>
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
-            <removeRootElementForInput>true</removeRootElementForInput>
+            <removeRootElementForInput>false</removeRootElementForInput>
             <ValidateIntputEnable>true</ValidateIntputEnable>
             <ActivityInputEditor ref="pfx3:LoginRes"/>
         </config>

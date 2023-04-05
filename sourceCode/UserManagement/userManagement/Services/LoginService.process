@@ -28,6 +28,8 @@
                             <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
                             <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="access-control-allow-origin" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="access-control-allow-methods" type="xsd:string" minOccurs="0"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -81,8 +83,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" match="/*">
+                                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx2="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:pfx="http://www.tibco.com/schemas/userManagement/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -93,20 +95,11 @@
                                                         <StatusLine>
                                                             <xsl:value-of select="if ($loginMain/pfx3:LoginRes/pfx3:resCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($loginMain/pfx3:LoginRes/pfx3:resCode, concat($_globalVariables/ns1:GlobalVariables/codeSep,$_globalVariables/ns1:GlobalVariables/badReq))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
-                                                        <Content-Type>
-                                                            <xsl:value-of select="'application/json'"/>
-                                                        </Content-Type>
                                                     </Headers>
                                                 </RESTResponse>
                                             </xsl:template>
                                         </Output-Binding>
                                     </Binding>
-                                    <ns0:request name="loginReq">
-                                        <ns0:representation mediaType="application/json"/>
-                                    </ns0:request>
-                                    <ns0:response name="loginRes" status="200">
-                                        <ns0:representation mediaType="application/json"/>
-                                    </ns0:response>
                                 </ns0:method>
                             </ns0:resource>
                         </ns0:resources>
