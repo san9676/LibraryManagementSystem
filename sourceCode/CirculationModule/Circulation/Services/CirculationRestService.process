@@ -79,8 +79,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                                        <Output-Binding xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -89,7 +89,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if (exists($RegisterPatronMain/group/ns:RegisterPatronsRes)) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($RegisterPatronMain/group/ns:fault/ns:FaultCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq)))&#xA; then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if ($RegisterPatronMain/group/ns:fault/@xsi:nil) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($RegisterPatronMain/group/ns:fault/ns:FaultCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq)))&#xA; then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>
@@ -188,8 +188,8 @@
                                                 </root>
                                             </xsl:template>
                                         </Input-Binding>
-                                        <Output-Binding xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                            <xsl:template xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                                        <Output-Binding xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                                 <RESTResponse>
                                                     <xsl:if test="$End/root/payload">
                                                         <asciiContent>
@@ -198,7 +198,7 @@
                                                     </xsl:if>
                                                     <Headers>
                                                         <StatusLine>
-                                                            <xsl:value-of select="if ($CheckInMain/group/ns:fault/ns:FaultCode=200) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CheckInMain/group/ns:fault/ns:FaultCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
+                                                            <xsl:value-of select="if ($CheckInMain/group/ns:fault/@xsi:nil) then 'HTTP/1.1 200 OK'&#xA; else&#xA; if (contains($CheckInMain/group/ns:fault/ns:FaultCode, concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq))) &#xA;then 'HTTP/1.1 400 Bad Request' else 'HTTP/1.1 500 Internal Server Error'"/>
                                                         </StatusLine>
                                                         <Content-Type>
                                                             <xsl:value-of select="'application/json'"/>

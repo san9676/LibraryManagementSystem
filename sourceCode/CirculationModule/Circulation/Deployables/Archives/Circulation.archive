@@ -11,7 +11,7 @@
         <processArchive name="ProcessArchive">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
-            <processProperty>/Services/CirculationRestService.process,/Processess/MainProcesses/OverDueNoticeMain.process</processProperty>
+            <processProperty>/Services/CirculationRestService.process,/Processess/MainProcesses/OverDueNoticeMain.process,/Services/ProxyCirculationService.process</processProperty>
         </processArchive>
         <versionProperty>6</versionProperty>
         <authorProperty>admin</authorProperty>

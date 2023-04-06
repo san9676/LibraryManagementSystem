@@ -2,6 +2,14 @@
 <repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
 	<globalVariables>
 		<globalVariable>
+			<name>emailExistErr</name>
+			<value>104</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1680778384043</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>emailVaildErr</name>
 			<value>103</value>
 			<deploymentSettable>true</deploymentSettable>

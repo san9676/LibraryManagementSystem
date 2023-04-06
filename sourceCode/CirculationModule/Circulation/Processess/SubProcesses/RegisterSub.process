@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/SubProcesses/RegisterSub.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -11,8 +11,8 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:RegisterPatronsRes"/>
-    <pd:endX>654</pd:endX>
-    <pd:endY>88</pd:endY>
+    <pd:endX>727</pd:endX>
+    <pd:endY>90</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1679047648833</pd:targetNamespace>
@@ -38,8 +38,8 @@
     <pd:activity name="Map Data">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>361</pd:x>
-        <pd:y>90</pd:y>
+        <pd:x>491</pd:x>
+        <pd:y>88</pd:y>
         <config>
             <element ref="pfx:RegisterPatronsRes"/>
         </config>
@@ -67,8 +67,8 @@
     <pd:activity name="InsertPatron">
         <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
-        <pd:x>488</pd:x>
-        <pd:y>85</pd:y>
+        <pd:x>598</pd:x>
+        <pd:y>90</pd:y>
         <config>
             <timeout>10</timeout>
             <commit>false</commit>
@@ -182,6 +182,69 @@
             </jdbcUpdateActivityInput>
         </pd:inputBindings>
     </pd:activity>
+    <pd:activity name="JDBC Query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>356</pd:x>
+        <pd:y>87</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select CARDNUMBER,EMAIL from LIB_CARD where EMAIL=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>EMAIL</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>CARDNUMBER</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>EMAIL</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <EMAIL>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:RegisterPatronsReq/pfx:email)">
+                            <xsl:value-of select="$Start/pfx:RegisterPatronsReq/pfx:email"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EMAIL>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>358</pd:x>
+        <pd:y>188</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput>
+                <message>
+                    <xsl:value-of select="'Email ID already Registered'"/>
+                </message>
+                <messageCode>
+                    <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/ErrorCodes/register/emailExistErr,$_globalVariables/ns:GlobalVariables/CodeSep,$_globalVariables/ns:GlobalVariables/BadReq)"/>
+                </messageCode>
+            </ns2:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
         <pd:to>SQL Direct</pd:to>
@@ -191,7 +254,7 @@
     </pd:transition>
     <pd:transition>
         <pd:from>SQL Direct</pd:from>
-        <pd:to>Map Data</pd:to>
+        <pd:to>JDBC Query</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
@@ -206,6 +269,22 @@
     <pd:transition>
         <pd:from>InsertPatron</pd:from>
         <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Query</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:xpathDescription>email not exist</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($JDBC-Query/resultSet/Record)=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Query</pd:from>
+        <pd:to>Generate Error</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>

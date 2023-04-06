@@ -14,7 +14,7 @@
 			<element name="email" type="string" minOccurs="0"/>
 		</sequence>
 	</complexType>
-	<element name="RegisterPatronsRes" type="tns:RegisterPatronsResType"/>
+	<element name="RegisterPatronsRes" type="tns:RegisterPatronsResType" nillable="true"/>
 	<complexType name="RegisterPatronsResType">
 		<sequence>
 			<element name="library_card_number" type="string" minOccurs="0"/>
@@ -23,7 +23,7 @@
 			<element name="status" type="string" minOccurs="0"/>
 		</sequence>
 	</complexType>
-	<element name="fault">
+	<element name="fault" nillable="true">
 		<complexType>
 			<sequence>
 				<element name="FaultCode" type="string" minOccurs="0"/>

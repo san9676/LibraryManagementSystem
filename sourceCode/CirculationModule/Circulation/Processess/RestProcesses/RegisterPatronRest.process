@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.example.org/Circulation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/RestProcesses/RegisterPatronRest.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -44,6 +44,7 @@
         <config>
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
+            <ValidateOutputEnable>true</ValidateOutputEnable>
             <ActivityOutputEditor ref="ns:RegisterPatronsReq"/>
         </config>
         <pd:inputBindings>
@@ -63,6 +64,7 @@
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
             <removeRootElementForInput>true</removeRootElementForInput>
+            <ValidateIntputEnable>true</ValidateIntputEnable>
             <ActivityInputEditor>
                 <xsd:element name="group">
                     <xsd:complexType>
@@ -77,8 +79,9 @@
         <pd:inputBindings>
             <ns2:ActivityInputClass>
                 <xsl:choose>
-                    <xsl:when test="exists($RegisterPatronMain/group/ns:fault)">
+                    <xsl:when test="exists($RegisterPatronMain/group/ns:RegisterPatronsRes/@xsi:nil)">
                         <group>
+                            <ns:RegisterPatronsRes xsi:nil="true"/>
                             <ns:fault>
                                 <ns:FaultCode>
                                     <xsl:value-of select="if(contains($RegisterPatronMain/group/ns:fault/ns:FaultCode,concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq))) &#xA;then &#xA;substring-before($RegisterPatronMain/group/ns:fault/ns:FaultCode,concat($_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq) ) &#xA; else $RegisterPatronMain/group/ns:fault/ns:FaultCode"/>
@@ -94,6 +97,7 @@
                     <xsl:otherwise>
                         <group>
                             <xsl:copy-of select="$RegisterPatronMain/group/ns:RegisterPatronsRes"/>
+                            <ns:fault xsi:nil="true"/>
                         </group>
                     </xsl:otherwise>
                 </xsl:choose>

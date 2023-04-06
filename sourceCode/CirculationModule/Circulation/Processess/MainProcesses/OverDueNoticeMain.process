@@ -12,7 +12,7 @@
         <pd:x>102</pd:x>
         <pd:y>213</pd:y>
         <config>
-            <StartTime>1679283001000</StartTime>
+            <StartTime>1681011001000</StartTime>
             <Frequency>false</Frequency>
             <TimeInterval>7</TimeInterval>
             <FrequencyIndex>Day</FrequencyIndex>
@@ -228,9 +228,12 @@
                             <xsl:value-of select="$Map-Data-1/pfx:Notice/pfx:EmailID"/>
                         </to>
                     </xsl:if>
+                    <subject>
+                        <xsl:value-of select="'Library Borrowing Notice'"/>
+                    </subject>
                     <ns12:bodyElement>
                         <bodyText>
-                            <xsl:value-of select="concat('&lt;html>&#xD;&#xA;&lt;head>&lt;/head>&#xD;&#xA;&lt;body>&#xD;&#xA;&lt;p>Hi ',$Map-Data-1/pfx:Notice/pfx:Name,',','&#xD;&#xA;&#x9;&#x9;&#x9;this mail is to let you know that the due date for the book you borrowed is over. we request you to return the book immediatly&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;Thanks and Regards,&#xD;&#xA;&#x9;Library Management.&#xD;&#xA;&lt;/p>&#xD;&#xA;&lt;table border=&quot;1&quot;>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>Library CARD NUMBER&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:library_card_number,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NAME&lt;/td>&#xD;&#xA;   &#xA; &lt;td>',$Map-Data-1/pfx:Notice/pfx:Name,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>BOOK_ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:book_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE_DATE&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_date,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;&lt;/table>&#xD;&#xA;&lt;/body>&#xD;&#xA;&lt;/html>')"/>
+                            <xsl:value-of select="concat('&lt;html>&#xD;&#xA;&lt;head/>&#xD;&#xA;&lt;body>&#xD;&#xA;&lt;p>Hi ',$Map-Data-1/pfx:Notice/pfx:Name,',','&#xD;&#xA;&#x9;&#x9;&#x9;this mail is to let you know that the due date for the book you borrowed is over. we request you to return the book immediatly&#xD;&#xA;&lt;table border=&quot;1&quot;>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>Library CARD NUMBER&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:library_card_number,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NAME&lt;/td>&#xD;&#xA;   &#xA; &lt;td>',$Map-Data-1/pfx:Notice/pfx:Name,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>BOOK_ID&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:book_id,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;  &lt;tr>&#xD;&#xA;    &lt;td>NOTICE_DATE&lt;/td>&#xD;&#xA;    &lt;td>',$Map-Data-1/pfx:Notice/pfx:notice_date,'&lt;/td>&#xD;&#xA;  &lt;/tr>&#xD;&#xA;&lt;/table>&#xD;&#xA;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#xA;Thanks and Regards,&#xD;&#xA;&#x9;&#xA;Library Management.&#xD;&#xA;&lt;/p>&lt;/body>&#xD;&#xA;&lt;/html>')"/>
                         </bodyText>
                     </ns12:bodyElement>
                     <Headers>

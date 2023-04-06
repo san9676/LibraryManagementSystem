@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!gMKN22oQ+eKxsQxyCWcVKx0zU7ug8Fv5</value>
+            <value>#!Tu71fedqsr84eyO+/p+GWo1nW7iOHy/v</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,30 +46,82 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!r9NeGxJ/8+ynsd0ZyQ3v38iDZE7CWAQnNW3seBcFJ+4OFO4Lt7w7jYMR9aHVlfgX</value>
+            <value>#!XlV7bYem7cwRciqvEq7w10S2u89WX93DFnIcHewg1w6pW6RiQtMVMwRukmAn7T4J</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
             <value>santoshbe22</value>
         </NameValuePair>
         <NameValuePair>
-            <name>status/Renewed</name>
-            <value>Renewed</value>
+            <name>RemoteRvDaemon</name>
+            <value></value>
         </NameValuePair>
         <NameValuePair>
-            <name>status/checkOut</name>
-            <value>Checked Out</value>
+            <name>JmsProviderUrl</name>
+            <value>tcp://localhost:7222</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckIN/TransIDValidErr</name>
+            <value>103</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>Connections/ProxyHttpPort</name>
+            <value>9702</value>
         </NameValuePair>
         <NameValuePair>
             <name>RvDaemon</name>
             <value>tcp:7500</value>
         </NameValuePair>
         <NameValuePair>
+            <name>TIBHawkService</name>
+            <value>7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckIN/BookIDValidErr</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckIN/BookIDNullErr</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckOUT/BookIDNullErr</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvService</name>
+            <value>7500</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkNetwork</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckOUT/LibNoValidErr</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>status/Renewed</name>
+            <value>Renewed</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>fromEmail</name>
             <value>santoshbe22@gmail.com</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/CheckIN/TransIDValidErr</name>
+            <name>status/returned</name>
+            <value>Returned</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirLedger</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/register/pnoValidErr</name>
+            <value>102</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/register/emailVaildErr</name>
             <value>103</value>
         </NameValuePair>
         <NameValuePair>
@@ -77,104 +129,44 @@
             <value>-</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RvNetwork</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/CheckOUT/BookIDNullErr</name>
-            <value>102</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/register/pnoValidErr</name>
-            <value>102</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>status/returned</name>
-            <value>Returned</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/CheckIN/BookIDValidErr</name>
-            <value>104</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>TIBHawkService</name>
-            <value>7474</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>TIBHawkNetwork</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/CheckIN/BookIDNullErr</name>
-            <value>102</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/CheckOUT/LibNoValidErr</name>
-            <value>104</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>HawkEnabled</name>
-            <value>false</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/register/nameNullErr</name>
+            <name>ErrorCodes/CheckOUT/LibNullErr</name>
             <value>101</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/register/emailVaildErr</name>
-            <value>103</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>DirTrace</name>
-            <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsSslProviderUrl</name>
-            <value>ssl://localhost:7243</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>status/active</name>
-            <value>Active</value>
         </NameValuePair>
         <NameValuePair>
             <name>status/Available</name>
             <value>available</value>
         </NameValuePair>
         <NameValuePair>
-            <name>RemoteRvDaemon</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>status/Sent</name>
-            <value>Sent</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsProviderUrl</name>
-            <value>tcp://localhost:7222</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvaPort</name>
-            <value>7600</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvService</name>
-            <value>7500</value>
+            <name>status/active</name>
+            <value>Active</value>
         </NameValuePair>
         <NameValuePair>
             <name>Rest/baseURL</name>
             <value>http://localhost:10020/api/v1/circulation</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/CheckOUT/LibNoRecErr</name>
-            <value>103</value>
+            <name>RvaPort</name>
+            <value>7600</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/CheckOUT/LibNullErr</name>
-            <value>101</value>
+            <name>HawkEnabled</name>
+            <value>false</value>
         </NameValuePair>
         <NameValuePair>
             <name>TIBHawkDaemon</name>
             <value>tcp:7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirTrace</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>status/Sent</name>
+            <value>Sent</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/register/nameNullErr</name>
+            <value>101</value>
         </NameValuePair>
         <NameValuePair>
             <name>BadReq</name>
@@ -185,12 +177,28 @@
             <value>localhost</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/CheckIN/TransIDNullErr</name>
-            <value>101</value>
+            <name>ErrorCodes/CheckOUT/LibNoRecErr</name>
+            <value>103</value>
         </NameValuePair>
         <NameValuePair>
-            <name>DirLedger</name>
-            <value>.</value>
+            <name>RvNetwork</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>status/checkOut</name>
+            <value>Checked Out</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/register/emailExistErr</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsSslProviderUrl</name>
+            <value>ssl://localhost:7243</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/CheckIN/TransIDNullErr</name>
+            <value>101</value>
         </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
@@ -228,23 +236,75 @@
             </bindings>
             <NVPairs name="Runtime Variables">
                 <NameValuePair>
-                    <name>status/Renewed</name>
-                    <value>Renewed</value>
+                    <name>RemoteRvDaemon</name>
+                    <value></value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>status/checkOut</name>
-                    <value>Checked Out</value>
+                    <name>JmsProviderUrl</name>
+                    <value>tcp://localhost:7222</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckIN/TransIDValidErr</name>
+                    <value>103</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>Connections/ProxyHttpPort</name>
+                    <value>9702</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>RvDaemon</name>
                     <value>tcp:7500</value>
                 </NameValuePair>
                 <NameValuePair>
+                    <name>TIBHawkService</name>
+                    <value>7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckIN/BookIDValidErr</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckIN/BookIDNullErr</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckOUT/BookIDNullErr</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvService</name>
+                    <value>7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckOUT/LibNoValidErr</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>status/Renewed</name>
+                    <value>Renewed</value>
+                </NameValuePair>
+                <NameValuePair>
                     <name>fromEmail</name>
                     <value>santoshbe22@gmail.com</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/CheckIN/TransIDValidErr</name>
+                    <name>status/returned</name>
+                    <value>Returned</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirLedger</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/register/pnoValidErr</name>
+                    <value>102</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/register/emailVaildErr</name>
                     <value>103</value>
                 </NameValuePair>
                 <NameValuePair>
@@ -252,104 +312,44 @@
                     <value>-</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>RvNetwork</name>
-                    <value></value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/CheckOUT/BookIDNullErr</name>
-                    <value>102</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/register/pnoValidErr</name>
-                    <value>102</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>status/returned</name>
-                    <value>Returned</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/CheckIN/BookIDValidErr</name>
-                    <value>104</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>TIBHawkService</name>
-                    <value>7474</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>TIBHawkNetwork</name>
-                    <value></value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/CheckIN/BookIDNullErr</name>
-                    <value>102</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/CheckOUT/LibNoValidErr</name>
-                    <value>104</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>HawkEnabled</name>
-                    <value>false</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/register/nameNullErr</name>
+                    <name>ErrorCodes/CheckOUT/LibNullErr</name>
                     <value>101</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/register/emailVaildErr</name>
-                    <value>103</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>DirTrace</name>
-                    <value>.</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>JmsSslProviderUrl</name>
-                    <value>ssl://localhost:7243</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>status/active</name>
-                    <value>Active</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>status/Available</name>
                     <value>available</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>RemoteRvDaemon</name>
-                    <value></value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>status/Sent</name>
-                    <value>Sent</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>JmsProviderUrl</name>
-                    <value>tcp://localhost:7222</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>RvaPort</name>
-                    <value>7600</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>RvService</name>
-                    <value>7500</value>
+                    <name>status/active</name>
+                    <value>Active</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>Rest/baseURL</name>
                     <value>http://localhost:10020/api/v1/circulation</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/CheckOUT/LibNoRecErr</name>
-                    <value>103</value>
+                    <name>RvaPort</name>
+                    <value>7600</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/CheckOUT/LibNullErr</name>
-                    <value>101</value>
+                    <name>HawkEnabled</name>
+                    <value>false</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>TIBHawkDaemon</name>
                     <value>tcp:7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirTrace</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>status/Sent</name>
+                    <value>Sent</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/register/nameNullErr</name>
+                    <value>101</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>BadReq</name>
@@ -360,12 +360,28 @@
                     <value>localhost</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/CheckIN/TransIDNullErr</name>
-                    <value>101</value>
+                    <name>ErrorCodes/CheckOUT/LibNoRecErr</name>
+                    <value>103</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>DirLedger</name>
-                    <value>.</value>
+                    <name>RvNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>status/checkOut</name>
+                    <value>Checked Out</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/register/emailExistErr</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsSslProviderUrl</name>
+                    <value>ssl://localhost:7243</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/CheckIN/TransIDNullErr</name>
+                    <value>101</value>
                 </NameValuePair>
             </NVPairs>
             <NVPairs name="Adapter SDK Properties">
@@ -449,6 +465,13 @@
             <failureCount>0</failureCount>
             <failureInterval>0</failureInterval>
             <bwprocesses>
+                <bwprocess name="Processess/MainProcesses/OverDueNoticeMain.process">
+                    <starter>Timer</starter>
+                    <enabled>true</enabled>
+                    <maxJob>0</maxJob>
+                    <activation>true</activation>
+                    <flowLimit>0</flowLimit>
+                </bwprocess>
                 <bwprocess name="Services/CirculationRestService.process">
                     <starter>HTTP Receiver</starter>
                     <enabled>true</enabled>
@@ -456,8 +479,8 @@
                     <activation>true</activation>
                     <flowLimit>0</flowLimit>
                 </bwprocess>
-                <bwprocess name="Processess/MainProcesses/OverDueNoticeMain.process">
-                    <starter>Timer</starter>
+                <bwprocess name="Services/ProxyCirculationService.process">
+                    <starter>HTTP Receiver</starter>
                     <enabled>true</enabled>
                     <maxJob>0</maxJob>
                     <activation>true</activation>
@@ -467,7 +490,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>ProcessArc_16739127</tablePrefix>
+                <tablePrefix>ProcessArc_85669910</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>
