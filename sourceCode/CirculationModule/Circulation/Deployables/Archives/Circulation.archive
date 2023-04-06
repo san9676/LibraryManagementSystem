@@ -13,7 +13,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/CirculationRestService.process,/Processess/MainProcesses/OverDueNoticeMain.process,/Services/ProxyCirculationService.process</processProperty>
         </processArchive>
-        <versionProperty>6</versionProperty>
+        <versionProperty>7</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>Circulation</name>
