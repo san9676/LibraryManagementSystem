@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!CWr4lkm2c5M3Edf89zS62BVCutBVgp/6</value>
+            <value>#!0hg6J83SzbEfVwdNrdPAAwkWZQhqwZ7S</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,106 +46,50 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!HmA1D6ZPLN+C7DzgX27MbNe0S/uEY5j/zf1MZax818t2ID5UkvUU4Je1qay6ZUDj</value>
+            <value>#!qBHFrzKMqzumBW8MRpVlRKZk2nftdLe5qdI6f0ssL/kVK97O8f9imhp9CxFn7ms0</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
             <value>santoshbe22</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/roleNullErr</name>
-            <value>104</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RemoteRvDaemon</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>TIBHawkDaemon</name>
-            <value>tcp:7474</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>TIBHawkNetwork</name>
-            <value></value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>JmsSslProviderUrl</name>
-            <value>ssl://localhost:7243</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>DirLedger</name>
+            <name>DirTrace</name>
             <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>REST/loginBaseURL</name>
-            <value>http://localhost:10060/v1/LMS</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/usernameNullErr</name>
-            <value>101</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>REST/baseURL</name>
-            <value>http://localhost:10040/api/v1/userManagement</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>TIBHawkService</name>
-            <value>7474</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvaPort</name>
-            <value>7600</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/emailUsedErr</name>
-            <value>105</value>
         </NameValuePair>
         <NameValuePair>
             <name>ErrorCodes/emaillErr</name>
             <value>102</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/noRecordErr</name>
-            <value>401</value>
-        </NameValuePair>
-        <NameValuePair>
             <name>RvaHost</name>
             <value>localhost</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>HawkEnabled</name>
-            <value>false</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/passNullErr</name>
-            <value>102</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>badReq</name>
-            <value>400</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>RvService</name>
-            <value>7500</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>DirTrace</name>
-            <value>.</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>Connections/LoginPort</name>
-            <value>10060</value>
-        </NameValuePair>
-        <NameValuePair>
-            <name>ErrorCodes/userIDNullErr</name>
-            <value>101</value>
         </NameValuePair>
         <NameValuePair>
             <name>codeSep</name>
             <value>-</value>
         </NameValuePair>
         <NameValuePair>
-            <name>ErrorCodes/nameNullErr</name>
+            <name>ErrorCodes/emailUsedErr</name>
+            <value>105</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvaPort</name>
+            <value>7600</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>DirLedger</name>
+            <value>.</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RemoteRvDaemon</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkNetwork</name>
+            <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/userIDNullErr</name>
             <value>101</value>
         </NameValuePair>
         <NameValuePair>
@@ -153,16 +97,72 @@
             <value>tcp:7500</value>
         </NameValuePair>
         <NameValuePair>
+            <name>ErrorCodes/roleNullErr</name>
+            <value>104</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/nameNullErr</name>
+            <value>101</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/usernameNullErr</name>
+            <value>101</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>HawkEnabled</name>
+            <value>false</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>RvService</name>
+            <value>7500</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkDaemon</name>
+            <value>tcp:7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>TIBHawkService</name>
+            <value>7474</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>badReq</name>
+            <value>400</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>ErrorCodes/passErr</name>
             <value>103</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>Connections/LoginPort</name>
+            <value>10060</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/noRecordErr</name>
+            <value>401</value>
         </NameValuePair>
         <NameValuePair>
             <name>JmsProviderUrl</name>
             <value>tcp://localhost:7222</value>
         </NameValuePair>
         <NameValuePair>
+            <name>REST/loginBaseURL</name>
+            <value>http://localhost:10060/v1/LMS</value>
+        </NameValuePair>
+        <NameValuePair>
             <name>RvNetwork</name>
             <value></value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>JmsSslProviderUrl</name>
+            <value>ssl://localhost:7243</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>REST/baseURL</name>
+            <value>http://localhost:10040/api/v1/userManagement</value>
+        </NameValuePair>
+        <NameValuePair>
+            <name>ErrorCodes/passNullErr</name>
+            <value>102</value>
         </NameValuePair>
     </NVPairs>
     <repoInstances selected="rv">
@@ -200,99 +200,43 @@
             </bindings>
             <NVPairs name="Runtime Variables">
                 <NameValuePair>
-                    <name>ErrorCodes/roleNullErr</name>
-                    <value>104</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>RemoteRvDaemon</name>
-                    <value></value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>TIBHawkDaemon</name>
-                    <value>tcp:7474</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>TIBHawkNetwork</name>
-                    <value></value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>JmsSslProviderUrl</name>
-                    <value>ssl://localhost:7243</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>DirLedger</name>
+                    <name>DirTrace</name>
                     <value>.</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>REST/loginBaseURL</name>
-                    <value>http://localhost:10060/v1/LMS</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/usernameNullErr</name>
-                    <value>101</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>REST/baseURL</name>
-                    <value>http://localhost:10040/api/v1/userManagement</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>TIBHawkService</name>
-                    <value>7474</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>RvaPort</name>
-                    <value>7600</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/emailUsedErr</name>
-                    <value>105</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>ErrorCodes/emaillErr</name>
                     <value>102</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/noRecordErr</name>
-                    <value>401</value>
-                </NameValuePair>
-                <NameValuePair>
                     <name>RvaHost</name>
                     <value>localhost</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>HawkEnabled</name>
-                    <value>false</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/passNullErr</name>
-                    <value>102</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>badReq</name>
-                    <value>400</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>RvService</name>
-                    <value>7500</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>DirTrace</name>
-                    <value>.</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>Connections/LoginPort</name>
-                    <value>10060</value>
-                </NameValuePair>
-                <NameValuePair>
-                    <name>ErrorCodes/userIDNullErr</name>
-                    <value>101</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>codeSep</name>
                     <value>-</value>
                 </NameValuePair>
                 <NameValuePair>
-                    <name>ErrorCodes/nameNullErr</name>
+                    <name>ErrorCodes/emailUsedErr</name>
+                    <value>105</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvaPort</name>
+                    <value>7600</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>DirLedger</name>
+                    <value>.</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RemoteRvDaemon</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkNetwork</name>
+                    <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/userIDNullErr</name>
                     <value>101</value>
                 </NameValuePair>
                 <NameValuePair>
@@ -300,16 +244,72 @@
                     <value>tcp:7500</value>
                 </NameValuePair>
                 <NameValuePair>
+                    <name>ErrorCodes/roleNullErr</name>
+                    <value>104</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/nameNullErr</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/usernameNullErr</name>
+                    <value>101</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>HawkEnabled</name>
+                    <value>false</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>RvService</name>
+                    <value>7500</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkDaemon</name>
+                    <value>tcp:7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>TIBHawkService</name>
+                    <value>7474</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>badReq</name>
+                    <value>400</value>
+                </NameValuePair>
+                <NameValuePair>
                     <name>ErrorCodes/passErr</name>
                     <value>103</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>Connections/LoginPort</name>
+                    <value>10060</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/noRecordErr</name>
+                    <value>401</value>
                 </NameValuePair>
                 <NameValuePair>
                     <name>JmsProviderUrl</name>
                     <value>tcp://localhost:7222</value>
                 </NameValuePair>
                 <NameValuePair>
+                    <name>REST/loginBaseURL</name>
+                    <value>http://localhost:10060/v1/LMS</value>
+                </NameValuePair>
+                <NameValuePair>
                     <name>RvNetwork</name>
                     <value></value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>JmsSslProviderUrl</name>
+                    <value>ssl://localhost:7243</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>REST/baseURL</name>
+                    <value>http://localhost:10040/api/v1/userManagement</value>
+                </NameValuePair>
+                <NameValuePair>
+                    <name>ErrorCodes/passNullErr</name>
+                    <value>102</value>
                 </NameValuePair>
             </NVPairs>
             <NVPairs name="Adapter SDK Properties">
@@ -393,7 +393,7 @@
             <failureCount>0</failureCount>
             <failureInterval>0</failureInterval>
             <bwprocesses>
-                <bwprocess name="Services/UserManagementService.process">
+                <bwprocess name="Services/LoginService.process">
                     <starter>HTTP Receiver</starter>
                     <enabled>true</enabled>
                     <maxJob>0</maxJob>
@@ -414,7 +414,7 @@
                     <activation>true</activation>
                     <flowLimit>0</flowLimit>
                 </bwprocess>
-                <bwprocess name="Services/LoginService.process">
+                <bwprocess name="Services/UserManagementService.process">
                     <starter>HTTP Receiver</starter>
                     <enabled>true</enabled>
                     <maxJob>0</maxJob>
@@ -425,7 +425,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>ProcessArc_88792908</tablePrefix>
+                <tablePrefix>ProcessArc_60372631</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>
