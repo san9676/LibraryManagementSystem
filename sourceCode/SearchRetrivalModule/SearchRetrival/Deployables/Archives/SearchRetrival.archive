@@ -11,9 +11,9 @@
         <processArchive name="ProcessArchive">
             <resourceType>process.archive.resource</resourceType>
             <authorProperty>admin</authorProperty>
-            <processProperty>/Services/SearchRetrivalRestService.process</processProperty>
+            <processProperty>/Services/SearchRetrivalRestService.process,/Services/ProxyService.process</processProperty>
         </processArchive>
-        <versionProperty>4</versionProperty>
+        <versionProperty>5</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>SearchRetrival</name>

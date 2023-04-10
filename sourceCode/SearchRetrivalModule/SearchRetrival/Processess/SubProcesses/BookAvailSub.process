@@ -19,7 +19,7 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:BookAvailRes"/>
-    <pd:endX>744</pd:endX>
+    <pd:endX>745</pd:endX>
     <pd:endY>116</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
@@ -173,6 +173,10 @@
                                 </pfx:bookAvailDetails>
                             </xsl:otherwise>
                         </xsl:choose>
+                        <pfx:control>
+                            <pfx:ErrorCode xsi:nil="true"/>
+                            <pfx:ErrorMsg xsi:nil="true"/>
+                        </pfx:control>
                     </pfx:BookAvailRes>
                 </xsl:when>
                 <xsl:otherwise>

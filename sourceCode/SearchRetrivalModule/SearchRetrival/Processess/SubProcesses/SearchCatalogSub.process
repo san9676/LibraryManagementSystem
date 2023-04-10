@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/BOOKResultSet.xsd" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/BOOKResultSet.xsd" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/BOOKResultSet.xsd" schemaLocation="/SharedResources/Schemas/BOOKResultSet.xsd"/>
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
     <pd:name>Processess/SubProcesses/SearchCatalogSub.process</pd:name>
@@ -173,79 +173,117 @@ ORA-06512: at line 1
             <element ref="pfx:SearchCatalogResults"/>
         </config>
         <pd:inputBindings>
-            <pfx:SearchCatalogResults>
-                <xsl:for-each select="$Parse-XML/Resultsets/ResultSet1/Record1">
-                    <pfx:BookDetails>
-                        <pfx:book_id>
-                            <xsl:value-of select="BOOKID"/>
-                        </pfx:book_id>
-                        <pfx:title>
-                            <xsl:value-of select="TITLE"/>
-                        </pfx:title>
-                        <pfx:author>
-                            <xsl:value-of select="AUTHOR"/>
-                        </pfx:author>
-                        <pfx:isbn>
-                            <xsl:value-of select="ISBN"/>
-                        </pfx:isbn>
-                        <pfx:publisher>
-                            <xsl:value-of select="PUBLISHER"/>
-                        </pfx:publisher>
-                        <pfx:publish_year>
-                            <xsl:value-of select="PUBLISH_YEAR"/>
-                        </pfx:publish_year>
-                        <pfx:edition>
-                            <xsl:value-of select="EDITION"/>
-                        </pfx:edition>
-                        <pfx:category>
-                            <xsl:value-of select="CATEGORY"/>
-                        </pfx:category>
-                        <pfx:language>
-                            <xsl:value-of select="LANGUAGE"/>
-                        </pfx:language>
-                        <pfx:description>
-                            <xsl:value-of select="DESRIPTION"/>
-                        </pfx:description>
-                        <pfx:status>
-                            <xsl:value-of select="STATUS"/>
-                        </pfx:status>
-                    </pfx:BookDetails>
-                </xsl:for-each>
-                <pfx:control>
-                    <xsl:if test="$Start/pfx:SearchReq/pfx:sort_by">
-                        <pfx:sort_by>
-                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_by"/>
-                        </pfx:sort_by>
-                    </xsl:if>
-                    <xsl:if test="$Start/pfx:SearchReq/pfx:sort_order">
-                        <pfx:sort_order>
-                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_order"/>
-                        </pfx:sort_order>
-                    </xsl:if>
-                    <xsl:if test="$Start/pfx:SearchReq/pfx:page_number">
-                        <pfx:page_number>
-                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_number"/>
-                        </pfx:page_number>
-                    </xsl:if>
-                    <xsl:if test="$Start/pfx:SearchReq/pfx:page_size">
-                        <pfx:page_size>
-                            <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_size"/>
-                        </pfx:page_size>
-                    </xsl:if>
-                    <xsl:choose>
-                        <xsl:when test="$Parse-XML/Resultsets/ResultSet1/Record1/TOTAL_NUM_PAGES > $Start/pfx:SearchReq/pfx:page_number">
-                            <pfx:nextpageURL>
-                                <xsl:value-of select="concat('http://localhost:10040/api/v1/search?Search_Query=',$Start/pfx:SearchReq/pfx:Search_Query,'&amp;Search_Type=',$Start/pfx:SearchReq/pfx:Search_Type,'&amp;sort_by=',$Start/pfx:SearchReq/pfx:sort_by,'&amp;sort_order=',$Start/pfx:SearchReq/pfx:sort_order,'&amp;page_number=',$Start/pfx:SearchReq/pfx:page_number + 1,'&amp;page_size=',$Start/pfx:SearchReq/pfx:page_size)"/>
-                            </pfx:nextpageURL>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <pfx:nextpageURL/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <pfx:ErrorCode xsi:nil="true"/>
-                    <pfx:ErrorMsg/>
-                </pfx:control>
-            </pfx:SearchCatalogResults>
+            <xsl:choose>
+                <xsl:when test="count($Parse-XML/Resultsets/ResultSet1/Record1)=0">
+                    <pfx:SearchCatalogResults>
+                        <pfx:BookDetails xsi:nil="true"/>
+                        <pfx:control>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:sort_by">
+                                <pfx:sort_by>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_by"/>
+                                </pfx:sort_by>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:sort_order">
+                                <pfx:sort_order>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_order"/>
+                                </pfx:sort_order>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:page_number">
+                                <pfx:page_number>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_number"/>
+                                </pfx:page_number>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:page_size">
+                                <pfx:page_size>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_size"/>
+                                </pfx:page_size>
+                            </xsl:if>
+                            <pfx:nextpageURL xsi:nil="true"/>
+                            <pfx:ErrorCode>
+                                <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ErrorCodes/noRecord,$_globalVariables/ns2:GlobalVariables/CodeSep,$_globalVariables/ns2:GlobalVariables/badReqCode)"/>
+                            </pfx:ErrorCode>
+                            <pfx:ErrorMsg>
+                                <xsl:value-of select="'No Record Found'"/>
+                            </pfx:ErrorMsg>
+                        </pfx:control>
+                    </pfx:SearchCatalogResults>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx:SearchCatalogResults>
+                        <xsl:for-each select="$Parse-XML/Resultsets/ResultSet1/Record1">
+                            <pfx:BookDetails>
+                                <pfx:book_id>
+                                    <xsl:value-of select="BOOKID"/>
+                                </pfx:book_id>
+                                <pfx:title>
+                                    <xsl:value-of select="TITLE"/>
+                                </pfx:title>
+                                <pfx:author>
+                                    <xsl:value-of select="AUTHOR"/>
+                                </pfx:author>
+                                <pfx:isbn>
+                                    <xsl:value-of select="ISBN"/>
+                                </pfx:isbn>
+                                <pfx:publisher>
+                                    <xsl:value-of select="PUBLISHER"/>
+                                </pfx:publisher>
+                                <pfx:publish_year>
+                                    <xsl:value-of select="PUBLISH_YEAR"/>
+                                </pfx:publish_year>
+                                <pfx:edition>
+                                    <xsl:value-of select="EDITION"/>
+                                </pfx:edition>
+                                <pfx:category>
+                                    <xsl:value-of select="CATEGORY"/>
+                                </pfx:category>
+                                <pfx:language>
+                                    <xsl:value-of select="LANGUAGE"/>
+                                </pfx:language>
+                                <pfx:description>
+                                    <xsl:value-of select="DESRIPTION"/>
+                                </pfx:description>
+                                <pfx:status>
+                                    <xsl:value-of select="STATUS"/>
+                                </pfx:status>
+                            </pfx:BookDetails>
+                        </xsl:for-each>
+                        <pfx:control>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:sort_by">
+                                <pfx:sort_by>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_by"/>
+                                </pfx:sort_by>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:sort_order">
+                                <pfx:sort_order>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:sort_order"/>
+                                </pfx:sort_order>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:page_number">
+                                <pfx:page_number>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_number"/>
+                                </pfx:page_number>
+                            </xsl:if>
+                            <xsl:if test="$Start/pfx:SearchReq/pfx:page_size">
+                                <pfx:page_size>
+                                    <xsl:value-of select="$Start/pfx:SearchReq/pfx:page_size"/>
+                                </pfx:page_size>
+                            </xsl:if>
+                            <xsl:choose>
+                                <xsl:when test="$Parse-XML/Resultsets/ResultSet1/Record1/TOTAL_NUM_PAGES > $Start/pfx:SearchReq/pfx:page_number">
+                                    <pfx:nextpageURL>
+                                        <xsl:value-of select="concat('http://',$_globalVariables/ns2:GlobalVariables/Connections/HTTP/Host,':',$_globalVariables/ns2:GlobalVariables/Connections/proxyHttpPort,'/api/v1/search?Search_Query=',$Start/pfx:SearchReq/pfx:Search_Query,'&amp;Search_Type=',$Start/pfx:SearchReq/pfx:Search_Type,'&amp;sort_by=',$Start/pfx:SearchReq/pfx:sort_by,'&amp;sort_order=',$Start/pfx:SearchReq/pfx:sort_order,'&amp;page_number=',$Start/pfx:SearchReq/pfx:page_number + 1,'&amp;page_size=',$Start/pfx:SearchReq/pfx:page_size)"/>
+                                    </pfx:nextpageURL>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <pfx:nextpageURL/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <pfx:ErrorCode xsi:nil="true"/>
+                            <pfx:ErrorMsg/>
+                        </pfx:control>
+                    </pfx:SearchCatalogResults>
+                </xsl:otherwise>
+            </xsl:choose>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="Generate Error">
