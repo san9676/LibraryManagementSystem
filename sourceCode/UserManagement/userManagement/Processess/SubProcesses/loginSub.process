@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com//V1/Login.xsd" schemaLocation="/SharedResources/Schemas/Login.xsd"/>
     <pd:name>Processess/SubProcesses/loginSub.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -14,6 +14,11 @@
             <pfx:resMsg>
                 <xsl:value-of select="'Login successfull..'"/>
             </pfx:resMsg>
+            <xsl:if test="$fetchUserInfo/resultSet/Record[1]/ROLE">
+                <pfx:Role>
+                    <xsl:value-of select="$fetchUserInfo/resultSet/Record[1]/ROLE"/>
+                </pfx:Role>
+            </xsl:if>
         </pfx:LoginRes>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
@@ -34,7 +39,7 @@
             <maxRows>100</maxRows>
             <emptyStrAsNil>false</emptyStrAsNil>
             <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
-            <statement>select EMAIL,PASSWORD from LIB_USER where EMAIL=?</statement>
+            <statement>select EMAIL,PASSWORD,ROLE from LIB_USER where EMAIL=?</statement>
             <Prepared_Param_DataType>
                 <parameter>
                     <parameterName>EMAIL</parameterName>
@@ -46,6 +51,10 @@
             <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
             <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
             <QueryOutputCachedSchemaColumns>PASSWORD</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ROLE</QueryOutputCachedSchemaColumns>
             <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
             <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
             <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>

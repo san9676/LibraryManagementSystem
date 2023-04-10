@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cust="java://Custom.Custom">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.eniquesolutions.com//V1/Login.xsd" xmlns:pfx="http://www.eniquesolutions.com/V1/userManagement.xsd" xmlns:cust="java://Custom.Custom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/userManagement.xsd" schemaLocation="/SharedResources/Schemas/userManagement.xsd"/>
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com//V1/Login.xsd" schemaLocation="/SharedResources/Schemas/Login.xsd"/>
     <pd:name>Processess/MainProcesses/LoginMain.process</pd:name>
@@ -34,6 +34,11 @@
                         <pfx2:resMsg>
                             <xsl:value-of select="$loginSub/pfx2:LoginRes/pfx2:resMsg"/>
                         </pfx2:resMsg>
+                    </xsl:if>
+                    <xsl:if test="$loginSub/pfx2:LoginRes/pfx2:Role">
+                        <pfx2:Role>
+                            <xsl:value-of select="$loginSub/pfx2:LoginRes/pfx2:Role"/>
+                        </pfx2:Role>
                     </xsl:if>
                 </pfx2:LoginRes>
             </xsl:otherwise>

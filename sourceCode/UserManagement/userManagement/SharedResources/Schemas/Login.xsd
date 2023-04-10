@@ -18,9 +18,11 @@
 		<xs:sequence>
 			<xs:element ref="resCode" minOccurs="0"/>
 			<xs:element ref="resMsg" minOccurs="0"/>
+			<xs:element ref="Role" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="resCode" type="xs:string"/>
 	<xs:element name="resMsg" type="xs:string"/>
 	<xs:element name="LoginRes" type="LoginResType"/>
+	<xs:element name="Role" type="xs:string"/>
 </xs:schema>
