@@ -13,7 +13,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/ReservationService.process,/Services/ProxyReservationService.process</processProperty>
         </processArchive>
-        <versionProperty>4</versionProperty>
+        <versionProperty>5</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>Reservation</name>
