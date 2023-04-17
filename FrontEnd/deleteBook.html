@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Update book Details</title>
+	<script>
+      function removeBook() {
+        // Get the form data
+		const book_id = document.getElementById("bookid").value;
+
+        // Create the book object
+			const book = {
+							  "BookID": book_id,
+						 };
+
+        // Convert the book object to a JSON string
+        const data = JSON.stringify(book);
+
+        // Send the POST request to the REST API
+        const xhr = new XMLHttpRequest();
+        xhr.open("post", "http://localhost:9701/api/v1/catalog/removebook");
+		/*xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+		xhr.setRequestHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+		xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
+        /*xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("Book added successfully");
+          }
+        };*/
+        xhr.send(data);
+		xhr.onload= () => {
+ var res = JSON.parse(xhr.responseText);
+ console.log(res);
+if(res.ResponseCode =="200"){
+   alert(res.ResponseMsg + " for bookID: "+res.BookID);
+   
+  }
+  else {
+       alert("failed: "+ res.ResponseCode +":" +res.ResponseMsg);
+  }
+
+
+}
+      }
+    </script>
+</head>
+<body>
+<button onclick="window.location.href='catalog.html';">
+      Back
+    </button>
+	<button onclick="window.location.href='HomePage.html';">
+      Home
+    </button><br>
+	<h2>Remove book</h2>
+	<form action='javascript:removeBook();' method="POST" >
+		<label for="bookid">BookID:</label>
+		<input type="text" id="bookid" name="bookid"><br><br>
+		
+		
+		<button type="submit">Submit</button> <br><br>
+	</form>
+</body>
+</html>

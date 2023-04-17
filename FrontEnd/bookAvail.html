@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Book Availability</title>
+	<style>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		text-align: left;
+		padding: 8px;
+		border-bottom: 1px solid #ddd;
+		border-right: 1px solid #ddd; /* Add border between columns */
+	}
+
+	th {
+		background-color: #4CAF50;
+		color: white;
+	}
+</style>
+	<script>
+		function bookAvail() {
+			var book_id = document.getElementById("book_id").value;
+
+			var xhr = new XMLHttpRequest();
+			var url = "http://localhost:9704/api/v1/checkAvail?book_id="+book_id;
+			xhr.open("GET", url, true);
+			//xhr.setRequestHeader("Content-Type", "application/json");
+
+			xhr.onreadystatechange = function() {
+			   if (xhr.readyState === XMLHttpRequest.DONE) {
+			
+				var response = JSON.parse(this.responseText);
+				if (xhr.status === 200) {
+				var data = response.bookAvailDetails;
+				var table = document.getElementById("userTable");
+				var row = table.insertRow(-1);
+				var bookidCell = row.insertCell(0);
+				var titleCell = row.insertCell(1);
+				var authorCell = row.insertCell(2);
+				var availCell = row.insertCell(3);
+				var returnDateCell = row.insertCell(4);
+				
+				bookidCell.innerHTML = data.book_id;
+				titleCell.innerHTML = data.title;
+				authorCell.innerHTML = data.author;
+				availCell.innerHTML = data.availability;
+				returnDateCell.innerHTML = data.return_date;
+			}
+			else {
+				alert("failed: " + response.Control.ErrorCode + ":" + response.Control.ErrorMsg);
+			}
+			};
+			}
+
+			xhr.send();
+		}
+	</script>
+</head>
+<body>
+	<h1>Book Availability</h1>
+	<button onclick="window.location.href='searchRetrival.html';">
+      Back
+    </button>
+	<button onclick="window.location.href='HomePage.html';">
+      Home
+    </button><br><br>
+	<form>
+		<label for="book_id">Book ID:</label><br>
+		<input type="text" id="book_id" name="book_id" ><br>
+
+
+		<button type="button" onclick="bookAvail()">submit</button>
+	</form>
+	<br><br>
+	<table id="userTable">
+		<thead>
+			<tr>
+				<th>Book ID</th>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Availability</th>
+				<th>Return Date</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</body>
+</html>

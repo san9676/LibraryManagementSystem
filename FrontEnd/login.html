@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Form</title>
+</head>
+<body>
+	<h1>Login Form</h1>
+	<form id="login-form">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username"><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password"><br><br>
+		<button type="submit">Login</button>
+	</form>
+	<button onclick="window.location.href='newUser.html';">Create Account</button>
+	<script>
+		// Handle form submit event
+		document.getElementById("login-form").addEventListener("submit", function(event) {
+			event.preventDefault(); // Prevent form submission
+			
+			// Get form data
+			const formData = {
+				"username": document.getElementById("username").value,
+				"password": document.getElementById("password").value
+			};
+			
+			// Send POST request to the API endpoint using XMLHttpRequest
+			const xhr = new XMLHttpRequest();
+			xhr.open("POST", "http://localhost:9765/v1/LMS/login");
+			//xhr.setRequestHeader("Accept", "application/json");
+			//xhr.setRequestHeader('Referrer-Policy', 'no-referrer');
+			
+			//xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+			//xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					const response = JSON.parse(xhr.responseText);
+
+					// Handle API response
+					if (xhr.status === 200) {
+						alert(response.LoginRes.resMsg);
+						if(response.LoginRes.Role=='admin'){
+						window.location.href="HomePage.html";
+						//window.location.href="./user/userHomePage.html";
+						}
+						else{
+						window.location.href="./user/userHomePage.html";
+						}
+					} else {
+						alert("Login failed: " + response.LoginRes.resMsg);
+					}
+				}
+			};
+			xhr.onerror = function() {
+				alert("An error occurred while making the request.");
+			};
+			
+			
+			xhr.send(JSON.stringify(formData));
+		});
+	</script>
+</body>
+</html>

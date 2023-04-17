@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register Patron</title>
+	<style>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		text-align: left;
+		padding: 8px;
+		border-bottom: 1px solid #ddd;
+		border-right: 1px solid #ddd; /* Add border between columns */
+	}
+
+	th {
+		background-color: #4CAF50;
+		color: white;
+	}
+</style>
+	<script>
+		function registerPatron() {
+			var patronData = {
+				"patron_name": document.getElementById("patronName").value,
+				"address": document.getElementById("address").value,
+				"phone_number": document.getElementById("phoneNumber").value,
+				"email": document.getElementById("email").value
+			};
+			
+			var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+			
+				var response = JSON.parse(this.responseText);
+				if (xhr.status === 200) {
+				var data = response.RegisterPatronsRes;
+				var table = document.getElementById("userTable");
+				var row = table.insertRow(-1);
+				var libcardCell = row.insertCell(0);
+				var nameCell = row.insertCell(1);
+				var expirationCell = row.insertCell(2);
+				var statusCell = row.insertCell(3);
+				libcardCell.innerHTML = data.library_card_number;
+				nameCell.innerHTML = data.patron_name;
+				expirationCell.innerHTML = data.expiration_date;
+				statusCell.innerHTML = data.status;
+			}
+			else {
+				alert("failed: " + response.fault.FaultCode + ":" + response.fault.FaultMsg);
+			}
+			};
+			}
+		
+			xhr.open("POST", "http://localhost:9702/api/v1/circulation/register", true);
+			//xhr.setRequestHeader('Content-Type', 'application/json');
+			
+			xhr.send(JSON.stringify(patronData));
+		}
+	</script>
+</head>
+<body>
+	<h2>Register Patron</h2>
+	<button onclick="window.location.href='circulation.html';">
+      Back
+    </button>
+	<button onclick="window.location.href='HomePage.html';">
+      Home
+    </button><br>
+	<form>
+		<label for="patronName">Patron Name:</label><br>
+		<input type="text" id="patronName" name="patronName" required><br>
+		<label for="address">Address:</label><br>
+		<input type="text" id="address" name="address"><br>
+		<label for="phoneNumber">Phone Number:</label><br>
+		<input type="text" id="phoneNumber" name="phoneNumber"><br>
+		<label for="email">Email:</label><br>
+		<input type="email" id="email" name="email" required><br><br>
+		<input type="button" value="Submit" onclick="registerPatron()">
+	</form>
+	<br><br>
+	<table id="userTable">
+		<thead>
+			<tr>
+				<th>Library Card Number</th>
+				<th>Name</th>
+				<th>Expiration Date</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</body>
+</html>

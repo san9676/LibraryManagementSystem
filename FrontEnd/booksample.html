@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Details</title>
+</head>
+<body>
+    <h1>Book Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publisher</th>
+                <th>Published Year</th>
+                <th>Edition</th>
+                <th>Category</th>
+                <th>Language</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="book-details">
+        </tbody>
+    </table>
+    <button id="load-more">Load More</button>
+
+    <script>
+        var nextPageUrl = "http://localhost:9704/api/v1/search?Search_Query=dan brown&Search_Type=AUTHOR&sort_by=TITLE&sort_order=DESC&page_number=1&page_size=1";
+
+        function loadBookDetails() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', nextPageUrl);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var bookDetails = response.BookDetails;
+                    var control = response.control;
+
+                    // Update the nextPageUrl to fetch the next page of results
+                    nextPageUrl = control.nextpageURL;
+
+                    // Loop through the book details and create table rows
+                    var rows = '';
+                    for (var i = 0; i < bookDetails.length; i++) {
+                        rows += '<tr>';
+                        rows += '<td>' + bookDetails[i].book_id + '</td>';
+                        rows += '<td>' + bookDetails[i].title + '</td>';
+                        rows += '<td>' + bookDetails[i].author + '</td>';
+                        rows += '<td>' + bookDetails[i].isbn + '</td>';
+                        rows += '<td>' + bookDetails[i].publisher + '</td>';
+                        rows += '<td>' + bookDetails[i].publish_year + '</td>';
+                        rows += '<td>' + bookDetails[i].edition + '</td>';
+                        rows += '<td>' + bookDetails[i].category + '</td>';
+                        rows += '<td>' + bookDetails[i].language + '</td>';
+                        rows += '<td>' + bookDetails[i].description + '</td>';
+                        rows += '<td>' + bookDetails[i].status + '</td>';
+                        rows += '</tr>';
+                    }
+
+                    // Add the table rows to the tbody element
+                    var bookDetailsTable = document.getElementById('book-details');
+                    bookDetailsTable.innerHTML += rows;
+
+                    // Enable the load more button if there are more pages
+                    var loadMoreButton = document.getElementById('load-more');
+                    if (nextPageUrl !== null) {
+                        loadMoreButton.disabled = false;
+                    } else {
+                        loadMoreButton.disabled = true;
+                    }
+                } else {
+                    console.error(xhr.statusText);
+                }
+            };
+            xhr.send();
+        }
+
+        // Load the initial page of book details
+        loadBookDetails();
+
+        // Add a click event listener to the load more button
+        var loadMoreButton = document.getElementById('load-more');
+        loadMoreButton.addEventListener('click', function() {
+            loadBookDetails();
+        });
+    </script>
+</body>
+</html>

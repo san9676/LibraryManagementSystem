@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Details</title>
+	<style>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		text-align: left;
+		padding: 8px;
+		border-bottom: 1px solid #ddd;
+		border-right: 1px solid #ddd; /* Add border between columns */
+	}
+
+	th {
+		background-color: #4CAF50;
+		color: white;
+	}
+</style>
+
+</head>
+<body>
+    <h1>Book Details</h1>
+	<button onclick="window.location.href='searchRetrival.html';">
+      Back
+    </button>
+	<button onclick="window.location.href='HomePage.html';">
+      Home
+    </button><br><br>
+	<form>
+		<label for="query">Query:</label>
+		<input type="text" id="query" name="query"><br><br>
+		
+		<label for="q_type">Query Type:</label>
+		<select id="q_type" name="q_type">
+			<option  value=""></option>
+			<option  value="BOOKID">BookId</option>
+			<option  value="AUTHOR">Author</option>
+			<option  value="TITLE">Title</option>
+		</select><br><br>
+		
+		<label for="sortby">Sort By:</label>
+		<select id="sortby" name="sortby">
+			<option  value=""></option>
+			<option  value="AUTHOR">Author</option>
+			<option  value="TITLE">Title</option>
+		</select><br><br>
+		
+		<label for="sortorder">Sort Order:</label>
+		<select id="sortorder" name="sortorder">
+			<option  value=""></option>
+			<option  value="ASC">asc</option>
+			<option  value="DESC">desc</option>
+		</select><br><br>
+		
+		<br><br>
+		<input type="button" value="Submit" onclick="loadBook()">
+	</form><br>
+    <table>
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publisher</th>
+                <th>Published Year</th>
+                <th>Edition</th>
+                <th>Category</th>
+                <th>Language</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="book-details">
+        </tbody>
+    </table><br>
+    <button id="prev-button">Previous</button>
+	<button id="next-button">Next</button>
+	
+	
+
+    <script>
+		
+		let currentPageNumber = 1;
+		const pageSize = 3;
+		
+		var NextPageURL='';
+        function loadBook() {
+			var query = document.getElementById("query").value;
+			var type = document.getElementById("q_type").value;
+			var sortby = document.getElementById("sortby").value;
+			var sortorder = document.getElementById("sortorder").value;
+			
+		
+			var PageUrl = "http://localhost:9704/api/v1/search?Search_Query="+ query +"&Search_Type="+ type +"&sort_by="+ sortby +"&sort_order="+ sortorder +"&page_number="+ currentPageNumber +"&page_size="+ pageSize;
+			
+			loadBookDetails(PageUrl);
+			}
+			
+			function loadBookDetails(PageUrl){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', PageUrl);
+			xhr.send();
+            xhr.onload = function() {
+					var response = JSON.parse(xhr.responseText);
+                    var bookDetails = response.BookDetails;
+                    var control = response.control;
+                if (xhr.status === 200) {
+                    //var response = JSON.parse(xhr.responseText);
+                    //var bookDetails = response.BookDetails;
+                    //var control = response.control;
+
+                    // Update the nextPageUrl to fetch the next page of results
+                    NextPageURL = control.nextpageURL;
+
+                    // Loop through the book details and create table rows
+                    var rows = '';
+                    for (var i = 0; i < bookDetails.length; i++) {
+                        rows += '<tr>';
+                        rows += '<td>' + bookDetails[i].book_id + '</td>';
+                        rows += '<td>' + bookDetails[i].title + '</td>';
+                        rows += '<td>' + bookDetails[i].author + '</td>';
+                        rows += '<td>' + bookDetails[i].isbn + '</td>';
+                        rows += '<td>' + bookDetails[i].publisher + '</td>';
+                        rows += '<td>' + bookDetails[i].publish_year + '</td>';
+                        rows += '<td>' + bookDetails[i].edition + '</td>';
+                        rows += '<td>' + bookDetails[i].category + '</td>';
+                        rows += '<td>' + bookDetails[i].language + '</td>';
+                        rows += '<td>' + bookDetails[i].description + '</td>';
+                        rows += '<td>' + bookDetails[i].status + '</td>';
+                        rows += '</tr>';
+                    }
+
+                    // Add the table rows to the tbody element
+                    var bookDetailsTable = document.getElementById('book-details');
+                    bookDetailsTable.innerHTML = rows;
+
+                    // Enable the load more button if there are more pages
+                    /*var loadMoreButton = document.getElementById('load-more');
+                    if (NextPageURL !== null) {
+                        loadMoreButton.disabled = false;
+                    } else {
+                        loadMoreButton.disabled = true;
+                    }*/
+					// Update pagination control buttons
+					  var prevButton = document.getElementById('prev-button');
+					  var nextButton = document.getElementById('next-button');
+
+					  if (control.nextpageURL) {
+						nextButton.disabled = false;
+						nextButton.dataset.nextPageUrl = control.nextpageURL;
+					  } else {
+						nextButton.disabled = true;
+						nextButton.dataset.nextPageUrl = '';
+					  }
+
+					  if (currentPageNumber === 1) {
+						prevButton.disabled = true;
+					  } else {
+						prevButton.disabled = false;
+					  }
+                } else {
+                    alert("failed: " +control.ErrorCode+": "+ control.ErrorMsg)
+                }
+            };
+            
+        }
+		
+
+
+        /* Add a click event listener to the load more button
+        var loadMoreButton = document.getElementById('load-more');
+        loadMoreButton.addEventListener('click', function() {
+            loadBookDetails(NextPageURL);
+        });*/
+		
+		// Add a click event listener for previous button
+		var prevButton = document.getElementById('prev-button');
+		prevButton.addEventListener('click', function() {
+            handlePrevClick();
+        });
+		
+		// Function to handle click on previous button
+		function handlePrevClick() {
+		  if (currentPageNumber > 1) {
+			currentPageNumber--;
+			loadBook();
+		  }
+		}
+		
+		// Add a click event listener for next button
+		var nextButton = document.getElementById('next-button');
+		nextButton.addEventListener('click', function() {
+            handleNextClick();
+        });
+
+		// Function to handle click on next button
+		function handleNextClick() {
+		  const NextPageURL = document.getElementById('next-button').dataset.nextPageUrl;
+
+		  if (NextPageURL) {
+			currentPageNumber++;
+			loadBookDetails(NextPageURL);
+		  }
+		}
+    </script>
+</body>
+</html>
