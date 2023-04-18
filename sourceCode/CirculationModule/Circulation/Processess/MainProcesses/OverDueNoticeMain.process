@@ -12,7 +12,7 @@
         <pd:x>121</pd:x>
         <pd:y>224</pd:y>
         <config>
-            <StartTime>1681819451000</StartTime>
+            <StartTime>1681011000000</StartTime>
             <Frequency>false</Frequency>
             <TimeInterval>1</TimeInterval>
             <FrequencyIndex>Day</FrequencyIndex>
@@ -257,7 +257,13 @@
             <emptyStrAsNil>false</emptyStrAsNil>
             <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
             <statement>SELECT *
-  FROM LIB_BORROWING</statement>
+  FROM LIB_BORROWING where status=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>status</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
             <QueryOutputCachedSchemaColumns>TRANID</QueryOutputCachedSchemaColumns>
             <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
             <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
@@ -290,7 +296,11 @@
             <oraTables/>
         </config>
         <pd:inputBindings>
-            <jdbcQueryActivityInput/>
+            <jdbcQueryActivityInput>
+                <status>
+                    <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/status/checkOut"/>
+                </status>
+            </jdbcQueryActivityInput>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="insertAllNotice">
