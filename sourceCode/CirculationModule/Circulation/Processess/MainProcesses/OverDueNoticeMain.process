@@ -9,12 +9,12 @@
     <pd:starter name="Timer">
         <pd:type>com.tibco.plugin.timer.TimerEventSource</pd:type>
         <pd:resourceType>ae.activities.timer</pd:resourceType>
-        <pd:x>102</pd:x>
-        <pd:y>213</pd:y>
+        <pd:x>121</pd:x>
+        <pd:y>224</pd:y>
         <config>
-            <StartTime>1681011001000</StartTime>
+            <StartTime>1681819451000</StartTime>
             <Frequency>false</Frequency>
-            <TimeInterval>7</TimeInterval>
+            <TimeInterval>1</TimeInterval>
             <FrequencyIndex>Day</FrequencyIndex>
         </config>
         <pd:inputBindings/>
@@ -575,13 +575,6 @@
         <pd:inputBindings/>
     </pd:activity>
     <pd:transition>
-        <pd:from>Timer</pd:from>
-        <pd:to>SetCorrID</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
         <pd:from>SetCorrID</pd:from>
         <pd:to>overdueNoticeReqLog</pd:to>
         <pd:lineType>Default</pd:lineType>
@@ -657,6 +650,13 @@
         <pd:from>Null</pd:from>
         <pd:to>overdueNoticeResLog</pd:to>
         <pd:lineType>One Bend</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Timer</pd:from>
+        <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
