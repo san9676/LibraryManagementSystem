@@ -14,8 +14,8 @@
         <config>
             <StartTime>1681972264000</StartTime>
             <Frequency>false</Frequency>
-            <TimeInterval>1</TimeInterval>
-            <FrequencyIndex>Day</FrequencyIndex>
+            <TimeInterval>%%OverDueTime%%</TimeInterval>
+            <FrequencyIndex>Millisecond</FrequencyIndex>
         </config>
         <pd:inputBindings/>
     </pd:starter>

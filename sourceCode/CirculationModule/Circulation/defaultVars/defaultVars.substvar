@@ -74,6 +74,14 @@
 			<modTime>1680258272791</modTime>
 		</globalVariable>
 		<globalVariable>
+			<name>OverDueTime</name>
+			<value>3600000</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>true</serviceSettable>
+			<type>String</type>
+			<modTime>1682073171035</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>RemoteRvDaemon</name>
 			<value></value>
 			<deploymentSettable>true</deploymentSettable>
