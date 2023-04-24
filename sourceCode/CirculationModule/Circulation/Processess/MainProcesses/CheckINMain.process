@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns="http://www.example.org/Circulation" xmlns:ns4="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cust="java://Custom.Custom">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns4="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.example.org/Circulation" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:cust="java://Custom.Custom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/MainProcesses/CheckINMain.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -107,7 +107,7 @@
                     <xsl:value-of select="'RequestPayload'"/>
                 </ns1:MessageType>
                 <ns1:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns1:Timestamp>
                 <ns1:PAYLOAD>
                     <xsl:value-of select="tib:render-xml($Start/ns:CheckInReq, true())"/>
@@ -145,7 +145,7 @@
                     <xsl:value-of select="'ResponsePayload'"/>
                 </ns1:MessageType>
                 <ns1:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns1:Timestamp>
                 <ns1:PAYLOAD>
                     <xsl:value-of select="tib:render-xml($CheckINSub/ns:checkInRes, true())"/>
@@ -227,7 +227,7 @@
                     <xsl:value-of select="'ErrorDetails'"/>
                 </ns1:MessageType>
                 <ns1:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns1:Timestamp>
                 <ns1:ErrorCode>
                     <xsl:value-of select="$_error/ns3:ErrorReport/MsgCode"/>

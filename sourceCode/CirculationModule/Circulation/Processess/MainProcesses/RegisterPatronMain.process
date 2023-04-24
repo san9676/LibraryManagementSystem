@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:UUID="java://Custom.Custom" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:ns3="http://www.tibco.com/pe/DeployedVarsType" xmlns:UUID="java://Custom.Custom" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/MainProcesses/RegisterPatronMain.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -77,7 +77,7 @@
                     <xsl:value-of select="'RequestPayload'"/>
                 </ns:MessageType>
                 <ns:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns:Timestamp>
                 <ns:PAYLOAD>
                     <xsl:value-of select="tib:render-xml($Start/pfx:RegisterPatronsReq, true())"/>
@@ -144,7 +144,7 @@
                     <xsl:value-of select="'ResponsePayload'"/>
                 </ns:MessageType>
                 <ns:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns:Timestamp>
                 <ns:PAYLOAD>
                     <xsl:value-of select="tib:render-xml($RegisterSub/pfx:RegisterPatronsRes, true())"/>

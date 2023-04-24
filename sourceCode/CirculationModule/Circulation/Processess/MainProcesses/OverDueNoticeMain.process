@@ -457,7 +457,7 @@
                     <xsl:value-of select="'requestPayload'"/>
                 </ns:MessageType>
                 <ns:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns:Timestamp>
                 <ns:PAYLOAD>
                     <xsl:value-of select="'Overdue Notice process Started'"/>
@@ -468,8 +468,8 @@
     <pd:activity name="SetCorrID">
         <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
         <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
-        <pd:x>227</pd:x>
-        <pd:y>213</pd:y>
+        <pd:x>237</pd:x>
+        <pd:y>216</pd:y>
         <config>
             <variableConfig>/SharedResources/SharedVariables/CorrealationID.jobsharedvariable</variableConfig>
             <showResult>true</showResult>
@@ -512,7 +512,7 @@
                     <xsl:value-of select="'responsePayload'"/>
                 </ns:MessageType>
                 <ns:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns:Timestamp>
                 <ns:PAYLOAD>
                     <xsl:value-of select="concat('Overdue Notice was successfully sent to ', tib:concat-sequence-format(for $var in $Accumulate/AccumulatedOutput/pfx:Notice return $var/pfx:library_card_number, &quot;,&quot;))"/>
@@ -561,7 +561,7 @@
                     <xsl:value-of select="'ErorDetails'"/>
                 </ns:MessageType>
                 <ns:Timestamp>
-                    <xsl:value-of select="tib:format-date('yyyy-MM-dd',current-date())"/>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
                 </ns:Timestamp>
                 <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
                     <ns:ErrorCode>
@@ -583,6 +583,44 @@
         <pd:y>493</pd:y>
         <config/>
         <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="overdueNoticeResLog-1">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>1738</pd:x>
+        <pd:y>388</pd:y>
+        <config>
+            <processName>/LoggerProcesses/LogHandler.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <ns:LogExceptionHandler>
+                <ns:ApplictionName>
+                    <xsl:value-of select="'CirculationModule'"/>
+                </ns:ApplictionName>
+                <ns:ProcessName>
+                    <xsl:value-of select="'SendOverdueNotice'"/>
+                </ns:ProcessName>
+                <ns:LogType>
+                    <xsl:value-of select="'INFO'"/>
+                </ns:LogType>
+                <ns:status>
+                    <xsl:value-of select="'Success'"/>
+                </ns:status>
+                <ns:CorrelationID>
+                    <xsl:value-of select="$SetCorrID/root/param"/>
+                </ns:CorrelationID>
+                <ns:MessageType>
+                    <xsl:value-of select="'responsePayload'"/>
+                </ns:MessageType>
+                <ns:Timestamp>
+                    <xsl:value-of select="tib:format-dateTime('yyyy-MM-dd HH:mm:ss', current-dateTime())"/>
+                </ns:Timestamp>
+                <ns:PAYLOAD>
+                    <xsl:value-of select="'Overdue Notice was successfully with no notice'"/>
+                </ns:PAYLOAD>
+            </ns:LogExceptionHandler>
+        </pd:inputBindings>
     </pd:activity>
     <pd:transition>
         <pd:from>SetCorrID</pd:from>
@@ -658,7 +696,7 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Null</pd:from>
-        <pd:to>overdueNoticeResLog</pd:to>
+        <pd:to>overdueNoticeResLog-1</pd:to>
         <pd:lineType>One Bend</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
@@ -666,6 +704,13 @@
     <pd:transition>
         <pd:from>Timer</pd:from>
         <pd:to>SetCorrID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>overdueNoticeResLog-1</pd:from>
+        <pd:to>End</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
