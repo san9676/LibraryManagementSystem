@@ -34,7 +34,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/JDBC/password</name>
-            <value>#!avtoWYXuDZtYO2b3E0nBVx+UybuYWN0M</value>
+            <value>#!l/8+e8FLIZ+OHw4fPqnckmv0cuHaaZ8m</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/JDBC/username</name>
@@ -46,7 +46,7 @@
         </NameValuePair>
         <NameValuePairPassword>
             <name>Connections/SMTP/password</name>
-            <value>#!XaiHq2BMDe8Xgd83coo0QSCGRbmDSzhNyozUODlZJd5x2SzEfBEu1wWmo4/drAEm</value>
+            <value>#!JB/nKu49Ey8h/GdvQkJXWa49SodPgTyfmgVqQlCrtRUUJjRYY4c9F+gxM3J8HLjG</value>
         </NameValuePairPassword>
         <NameValuePair>
             <name>Connections/SMTP/username</name>
@@ -194,7 +194,7 @@
         </NameValuePair>
         <NameValuePair>
             <name>OverDueTime</name>
-            <value>86400000</value>
+            <value>3600000</value>
         </NameValuePair>
         <NameValuePair>
             <name>RemoteRvDaemon</name>
@@ -498,7 +498,7 @@
             <checkpoints selected="Local File">
                 <checkpoint>Local File</checkpoint>
                 <checkpoint>/SharedResources/Connections/JDBC/JDBC Connection</checkpoint>
-                <tablePrefix>ProcessArc_61848770</tablePrefix>
+                <tablePrefix>ProcessArc_69112055</tablePrefix>
             </checkpoints>
             <isFt>false</isFt>
         </bw>
