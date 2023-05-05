@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:cust="java://Custom.Custom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.eniquesolution.com/ESI_integartion/CommonFramework" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cust="java://Custom.Custom">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.eniquesolutions.com/V1/SearchRetrival.xsd" schemaLocation="/SharedResources/Schemas/SearchRetrival.xsd"/>
     <pd:name>Processess/MainProcesses/SearchCatalogMain.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -347,7 +347,9 @@
 and
 string-length($Start/pfx:SearchReq/pfx:Search_Type)!=0
 and
-(upper-case($Start/pfx:SearchReq/pfx:sort_by)='TITLE' or upper-case($Start/pfx:SearchReq/pfx:sort_by)='AUTHOR')
+(upper-case($Start/pfx:SearchReq/pfx:sort_by)='TITLE' 
+or upper-case($Start/pfx:SearchReq/pfx:sort_by)='AUTHOR'
+or upper-case($Start/pfx:SearchReq/pfx:sort_by)='BOOKID')
 and
 (upper-case($Start/pfx:SearchReq/pfx:sort_order)='ASC' or upper-case($Start/pfx:SearchReq/pfx:sort_order)='DESC')
 and

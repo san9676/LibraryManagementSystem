@@ -13,7 +13,7 @@
             <authorProperty>admin</authorProperty>
             <processProperty>/Services/SearchRetrivalRestService.process,/Services/ProxyService.process</processProperty>
         </processArchive>
-        <versionProperty>5</versionProperty>
+        <versionProperty>6</versionProperty>
         <authorProperty>admin</authorProperty>
         <addServiceSettableGvars>true</addServiceSettableGvars>
         <name>SearchRetrival</name>
