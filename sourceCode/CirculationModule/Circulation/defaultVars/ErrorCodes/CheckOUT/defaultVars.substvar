@@ -10,6 +10,14 @@
 			<modTime>1680258272155</modTime>
 		</globalVariable>
 		<globalVariable>
+			<name>CountMore3</name>
+			<value>105</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1683276289455</modTime>
+		</globalVariable>
+		<globalVariable>
 			<name>LibNoRecErr</name>
 			<value>103</value>
 			<deploymentSettable>true</deploymentSettable>

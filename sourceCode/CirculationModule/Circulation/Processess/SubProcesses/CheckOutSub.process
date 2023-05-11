@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.example.org/Circulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/Circulation" schemaLocation="/SharedResources/Schemas/Circulation.xsd"/>
     <pd:name>Processess/SubProcesses/CheckOutSub.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -11,8 +11,8 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:BookCheckOutRes"/>
-    <pd:endX>918</pd:endX>
-    <pd:endY>108</pd:endY>
+    <pd:endX>909</pd:endX>
+    <pd:endY>103</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1679053339790</pd:targetNamespace>
@@ -63,8 +63,8 @@
     <pd:activity name="SQL Direct">
         <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
-        <pd:x>385</pd:x>
-        <pd:y>105</pd:y>
+        <pd:x>477</pd:x>
+        <pd:y>104</pd:y>
         <config>
             <timeout>10</timeout>
             <commit>false</commit>
@@ -82,8 +82,8 @@
     <pd:activity name="Map Data">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>491</pd:x>
-        <pd:y>110</pd:y>
+        <pd:x>568</pd:x>
+        <pd:y>103</pd:y>
         <config>
             <element ref="pfx:BookCheckOutRes"/>
         </config>
@@ -111,8 +111,8 @@
     <pd:activity name="insertBorrowing">
         <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
-        <pd:x>605</pd:x>
-        <pd:y>109</pd:y>
+        <pd:x>667</pd:x>
+        <pd:y>107</pd:y>
         <config>
             <timeout>10</timeout>
             <commit>false</commit>
@@ -213,27 +213,41 @@
     <pd:activity name="Generate Error">
         <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
         <pd:resourceType>ae.activities.throw</pd:resourceType>
-        <pd:x>224</pd:x>
+        <pd:x>279</pd:x>
         <pd:y>201</pd:y>
         <config>
             <faultName/>
         </config>
         <pd:inputBindings>
-            <ns:ActivityInput>
-                <message>
-                    <xsl:value-of select="'Library card Number is not valid... please Try agian.'"/>
-                </message>
-                <messageCode>
-                    <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/CheckOUT/LibNoRecErr, $_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq)"/>
-                </messageCode>
-            </ns:ActivityInput>
+            <xsl:choose>
+                <xsl:when test="count($FetchLibInfo/resultSet/Record)=0">
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'Library card Number is not valid... please Try agian.'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/CheckOUT/LibNoRecErr, $_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ns:ActivityInput>
+                        <message>
+                            <xsl:value-of select="'This Card number has already borrowed 3 books...., Please Return the book to borrow new Book'"/>
+                        </message>
+                        <messageCode>
+                            <xsl:value-of select="concat($_globalVariables/ns1:GlobalVariables/ErrorCodes/CheckOUT/CountMore3, $_globalVariables/ns1:GlobalVariables/CodeSep,$_globalVariables/ns1:GlobalVariables/BadReq)"/>
+                        </messageCode>
+                    </ns:ActivityInput>
+                </xsl:otherwise>
+            </xsl:choose>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="JDBC Call Procedure">
         <pd:type>com.tibco.plugin.jdbc.JDBCCallActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCCallActivity</pd:resourceType>
-        <pd:x>750</pd:x>
-        <pd:y>108</pd:y>
+        <pd:x>776</pd:x>
+        <pd:y>110</pd:y>
         <config>
             <timeout>10</timeout>
             <maxRows>100</maxRows>
@@ -275,6 +289,53 @@
             </inputs>
         </pd:inputBindings>
     </pd:activity>
+    <pd:activity name="FetchBorrowing">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>359</pd:x>
+        <pd:y>104</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>select TRANID from LIB_BORROWING where CARDNUMBER=? and STATUS=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>CardNum</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>Status</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <QueryOutputCachedSchemaColumns>TRANID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <oraObjects/>
+            <oraTables/>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <CardNum>
+                    <xsl:choose>
+                        <xsl:when test="exists($Start/pfx:BookCheckOutReq/pfx:library_card_number)">
+                            <xsl:value-of select="$Start/pfx:BookCheckOutReq/pfx:library_card_number"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </CardNum>
+                <Status>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/status/checkOut"/>
+                </Status>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
     <pd:transition>
         <pd:from>Start</pd:from>
         <pd:to>FetchLibInfo</pd:to>
@@ -284,7 +345,7 @@
     </pd:transition>
     <pd:transition>
         <pd:from>FetchLibInfo</pd:from>
-        <pd:to>SQL Direct</pd:to>
+        <pd:to>FetchBorrowing</pd:to>
         <pd:xpathDescription>recordAvailable</pd:xpathDescription>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
@@ -325,5 +386,21 @@
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBorrowing</pd:from>
+        <pd:to>SQL Direct</pd:to>
+        <pd:xpathDescription>count&gt;3</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($FetchBorrowing/resultSet/Record) &lt; 3</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FetchBorrowing</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
     </pd:transition>
 </pd:ProcessDefinition>
